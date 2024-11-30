@@ -4,9 +4,11 @@ from pages.calendar.calendar_week import CalendarWeek
 from widgets.body import Body
 
 
-class Calendar(Body):
+class Calendar(ft.Container):
     def __init__(self, visible: bool):
         super().__init__(visible=visible)
+
+        self.expand = True
 
         self.options = [f"Jornada {i}" for i in range(30)]
         
@@ -33,5 +35,5 @@ class Calendar(Body):
             label_padding=ft.padding.all(5),
         )
 
-        self.controls = [tabs]
+        self.content = tabs
     

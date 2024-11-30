@@ -23,19 +23,16 @@ class NavigationBar(ft.NavigationBar):
         ]
 
         self.views = [
-            Betting(visible=self.selected_index == 0, page=page),
-            Ranking(visible=self.selected_index == 1),
-            Calendar(visible=self.selected_index == 2),
+            Betting(visible=True, page=page),
+            Ranking(visible=True),
+            Calendar(visible=True),
         ]
-        self.page.add(*self.views)
+        self.page.add(self.views[self.selected_index])
 
         self.on_change = self._page_changer
 
     def _page_changer(self, event: ft.ControlEvent):
-        for i, view in enumerate(self.views):
-            if i == int(event.data):
-                view.visible = True
-            else:
-                view.visible = False
+        self.page.remove_at(0)
+        self.page.add(self.views[int(event.data)])
 
         self.page.update()

@@ -1,3 +1,4 @@
+from typing import Optional
 import flet as ft
 
 
@@ -8,4 +9,4 @@ class Body(ft.Column):
         self.visible = visible
         self.expand = True
         self.alignment = ft.MainAxisAlignment.START
-        self.scroll = ft.ScrollMode.ADAPTIVE
+        self.scroll = ft.ScrollMode.HIDDEN

@@ -38,5 +38,3 @@ class BettingFormWeek(ft.Container):
             expand=True,
             alignment=ft.MainAxisAlignment.CENTER,
         )
-
-        print(match_1.data)

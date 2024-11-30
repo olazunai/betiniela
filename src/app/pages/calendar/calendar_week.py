@@ -6,36 +6,39 @@ from widgets.body import Body
 from pages.calendar.calendar_match import CalendarMatch
 
 
-class CalendarWeek(ft.Container):
+class CalendarWeek(ft.Column):
     def __init__(self, week: str):
         super().__init__()
 
-        self.foreground_decoration = ft.BoxDecoration(bgcolor=ft.colors.AMBER)
-        self.expand = True
+        self.horizontal_alignment = ft.CrossAxisAlignment.CENTER
+        self.alignment = ft.CrossAxisAlignment.START
+        self.scroll = ft.ScrollMode.HIDDEN
 
-        self.content = ft.Column(
-            controls=[
-                self._get_day_text(datetime.now()),
-                CalendarMatch(
-                    local_team="Altuna III - Aranguren",
-                    visitor_team="Jaka - Imaz",
-                    hour=datetime.now().time(),
-                ),
-                CalendarMatch(
-                    local_team="Artola - Mariezkurrena II",
-                    visitor_team="P. Etxeberria - Zabaleta",
-                    hour=datetime.now().time(),
-                ),
-                self._get_day_text(datetime.now()),
-                CalendarMatch(
-                    local_team="Peña II - Albisu",
-                    visitor_team="Laso - Iztueta",
-                    hour=datetime.now().time(),
-                )
-            ],
-            horizontal_alignment=ft.CrossAxisAlignment.CENTER,
-            expand=True,
-        )
+        self.controls = [
+            self._get_day_text(datetime.now()),
+            CalendarMatch(
+                local_team="Altuna III - Aranguren",
+                visitor_team="Jaka - Imaz",
+                hour=datetime.now().time(),
+            ),
+            CalendarMatch(
+                local_team="Artola - Mariezkurrena II",
+                visitor_team="P. Etxeberria - Zabaleta",
+                hour=datetime.now().time(),
+            ),
+            self._get_day_text(datetime.now()),
+            CalendarMatch(
+                local_team="Peña II - Albisu",
+                visitor_team="Laso - Iztueta",
+                hour=datetime.now().time(),
+            ),
+            self._get_day_text(datetime.now()),
+            CalendarMatch(
+                local_team="Peña II - Albisu",
+                visitor_team="Laso - Iztueta",
+                hour=datetime.now().time(),
+            ),
+        ]
 
     @staticmethod
     def _get_day_text(day: datetime) -> ft.Container:
