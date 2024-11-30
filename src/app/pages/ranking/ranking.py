@@ -5,8 +5,8 @@ from pages.ranking.ranking_item import RankingItem
 
 
 class Ranking(Body):
-    def __init__(self, visible: bool):
-        super().__init__(visible=visible)
+    def __init__(self):
+        super().__init__()
 
         self.spacing = 2
 

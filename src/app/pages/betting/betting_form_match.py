@@ -54,6 +54,7 @@ class BettingFormMatch(ft.Container):
                 self.losser
             ],
             expand=True,
+            spacing=20,
         )
 
     def _winner_changer(self, event: ft.ControlEvent):

@@ -7,8 +7,8 @@ from widgets.dropdown import Dropdown
 
 
 class Betting(Body):
-    def __init__(self, visible: bool, page: ft.Page):
-        super().__init__(visible=visible)
+    def __init__(self, page: ft.Page):
+        super().__init__()
 
         self.page = page
 

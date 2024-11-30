@@ -1,12 +1,11 @@
 import flet as ft
 
 from pages.calendar.calendar_week import CalendarWeek
-from widgets.body import Body
 
 
 class Calendar(ft.Container):
-    def __init__(self, visible: bool):
-        super().__init__(visible=visible)
+    def __init__(self):
+        super().__init__()
 
         self.expand = True
 
