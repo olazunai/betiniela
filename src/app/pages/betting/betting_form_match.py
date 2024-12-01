@@ -30,16 +30,22 @@ class BettingFormMatch(ft.Container):
                             ft.Radio(value=local_team, label=local_team, width=180),
                             ft.Radio(value=visitor_team, label=visitor_team, width=180),
                         ],
-                    )
+                    ),
                 ],
                 wrap=True,
                 expand=True,
             ),
-            on_change=self._winner_changer
+            on_change=self._winner_changer,
         )
-    
+
         self.losser = Dropdown(
-            options=["0-6 tantos", "7-11 tantos", "12-15 tantos", "16-18 tantos", "19-21 tantos"],
+            options=[
+                "0-6 tantos",
+                "7-11 tantos",
+                "12-15 tantos",
+                "16-18 tantos",
+                "19-21 tantos",
+            ],
             label="Perdedor",
             label_size=12,
             on_change=self._losser_changer,
@@ -47,12 +53,8 @@ class BettingFormMatch(ft.Container):
             width=150,
         )
 
-
         self.content = ft.Column(
-            controls=[
-                self.winner,
-                self.losser
-            ],
+            controls=[self.winner, self.losser],
             expand=True,
             spacing=20,
         )

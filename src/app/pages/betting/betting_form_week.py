@@ -34,7 +34,16 @@ class BettingFormWeek(ft.Container):
         divider = ft.Divider(thickness=0.5)
 
         self.content = ft.Column(
-            controls=[divider, match_1, divider, match_2, divider, match_3, divider, match_4],
+            controls=[
+                divider,
+                match_1,
+                divider,
+                match_2,
+                divider,
+                match_3,
+                divider,
+                match_4,
+            ],
             expand=True,
             alignment=ft.MainAxisAlignment.CENTER,
         )

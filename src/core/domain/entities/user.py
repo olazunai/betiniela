@@ -1,8 +1,7 @@
-from datetime import date, time
-import datetime
-from typing import Optional
+from datetime import datetime
+from enum import StrEnum
 from uuid import UUID
-from attr import dataclass
+from dataclasses import dataclass
 
 
 @dataclass
@@ -25,6 +24,12 @@ class UserPassword:
     value: str
 
 
+class UserRole(StrEnum):
+    SUPERUSER = "superuser"
+    ADMIN = "admin"
+    USER = "user"
+
+
 @dataclass
 class UserHasAnswered:
     value: bool
@@ -36,5 +41,29 @@ class User:
     name: UserName
     email: UserEmail
     password: UserPassword
+    role: UserRole
     last_login: datetime
     has_answered: UserHasAnswered
+
+    def serialize(self) -> dict:
+        return {
+            "id": self.id.value,
+            "name": self.name.value,
+            "email": self.email.value,
+            "password": self.password.value,
+            "role": self.role.value,
+            "last_login": self.last_login.isoformat(),
+            "has_answered": self.has_answered.value,
+        }
+
+    @classmethod
+    def deserialize(cls, obj: dict) -> "User":
+        return cls(
+            id=UUID(obj["id"]),
+            name=UserName(obj["name"]),
+            email=UserEmail(obj["email"]),
+            password=UserPassword(obj["password"]),
+            role=UserRole(obj["role"]),
+            last_login=datetime.fromisoformat(obj["last_login"]),
+            has_answered=UserHasAnswered(obj["has_answered"]),
+        )

@@ -19,8 +19,11 @@ class Betting(Body):
         self.selected_index = 0
 
         self.options = [f"Jornada {i}" for i in range(30)]
-        self.views = [BettingWeek(week=option, visible=i == self.selected_index) for i, option in enumerate(self.options)]
-        
+        self.views = [
+            BettingWeek(week=option, visible=i == self.selected_index)
+            for i, option in enumerate(self.options)
+        ]
+
         dropdown = Dropdown(
             options=self.options,
             label="Selecciona la jornada",
@@ -30,7 +33,7 @@ class Betting(Body):
 
         self.controls = [form, divider, dropdown] + self.views
 
-    def _betting_week_changer(self, event: ft. ControlEvent):
+    def _betting_week_changer(self, event: ft.ControlEvent):
         for option, view in zip(self.options, self.views):
             if option == event.data:
                 view.visible = True
@@ -38,4 +41,3 @@ class Betting(Body):
                 view.visible = False
 
         self.page.update()
-    

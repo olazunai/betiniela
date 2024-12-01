@@ -42,7 +42,15 @@ class CalendarWeek(ft.Column):
 
     @staticmethod
     def _get_day_text(day: datetime) -> ft.Container:
-        days = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"]
+        days = [
+            "Lunes",
+            "Martes",
+            "Miércoles",
+            "Jueves",
+            "Viernes",
+            "Sábado",
+            "Domingo",
+        ]
         months = [
             "enero",
             "febrero",
@@ -60,10 +68,10 @@ class CalendarWeek(ft.Column):
         value = f"{days[day.weekday()]}, {day.day} de {months[day.month - 1]}"
         return ft.Container(
             content=ft.Text(value, text_align=ft.TextAlign.CENTER, size=20),
-            margin = ft.Margin(
+            margin=ft.Margin(
                 top=20,
                 bottom=20,
                 left=0,
                 right=0,
-            )
+            ),
         )

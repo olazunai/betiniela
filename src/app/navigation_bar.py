@@ -16,10 +16,15 @@ class NavigationBar(ft.NavigationBar):
         self.animation_duration = 300
 
         self.destinations = [
-            ft.NavigationBarDestination(label="Quiniela", icon=ft.icons.QUESTION_ANSWER_ROUNDED),
-            ft.NavigationBarDestination(label="Clasificación", icon=ft.icons.FORMAT_LIST_BULLETED_OUTLINED),
-            ft.NavigationBarDestination(label="Calendario", icon=ft.icons.CALENDAR_MONTH_OUTLINED),
-            
+            ft.NavigationBarDestination(
+                label="Quiniela", icon=ft.icons.QUESTION_ANSWER_ROUNDED
+            ),
+            ft.NavigationBarDestination(
+                label="Clasificación", icon=ft.icons.FORMAT_LIST_BULLETED_OUTLINED
+            ),
+            ft.NavigationBarDestination(
+                label="Calendario", icon=ft.icons.CALENDAR_MONTH_OUTLINED
+            ),
         ]
 
         self.views = [

@@ -1,7 +1,6 @@
 from enum import StrEnum
 
 
-
 class Team(StrEnum):
     ALTUNA_ARANGUREN = "Altuna III - Aranguren"
     EZKURDIA_REZUSTA = "Ezkurdia - Rezusta"

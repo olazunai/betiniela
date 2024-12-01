@@ -42,5 +42,6 @@ class Ranking(Body):
         ]
 
         self.controls = [
-            RankingItem(position=i, name=player["nombre"], points=player["puntos"]) for i, player in enumerate(ranking_data, start=1)
+            RankingItem(position=i, name=player["nombre"], points=player["puntos"])
+            for i, player in enumerate(ranking_data, start=1)
         ]

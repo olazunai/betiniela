@@ -17,4 +17,3 @@ class SupabaseClient(BBDDClient):
 
     def close(self) -> None:
         pass
-        

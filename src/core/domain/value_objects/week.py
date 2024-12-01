@@ -1,5 +1,5 @@
 from enum import StrEnum
-from attr import dataclass
+from dataclasses import dataclass
 
 
 class WeekPhase(StrEnum):
@@ -7,7 +7,6 @@ class WeekPhase(StrEnum):
     PLAYOFF = "playoff"
     SEMIS = "semifinal"
     FINAL = "final"
-
 
 
 @dataclass

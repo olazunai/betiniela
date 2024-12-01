@@ -38,5 +38,5 @@ class RankingItem(ft.Container):
                     text_align=ft.TextAlign.RIGHT,
                 ),
             ],
-            alignment = ft.MainAxisAlignment.SPACE_BETWEEN,
+            alignment=ft.MainAxisAlignment.SPACE_BETWEEN,
         )

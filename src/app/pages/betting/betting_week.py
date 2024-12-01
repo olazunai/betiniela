@@ -34,6 +34,6 @@ class BettingWeek(ft.Container):
                     visitor_team="Laso - Iztueta",
                     winner="Laso - Iztueta",
                     losser="10-15",
-                )
+                ),
             ]
         )

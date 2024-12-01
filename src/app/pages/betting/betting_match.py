@@ -3,7 +3,6 @@ from math import exp
 import flet as ft
 
 
-
 class BettingMatch(ft.Container):
     def __init__(self, local_team: str, visitor_team: str, winner: str, losser: str):
         super().__init__()
@@ -18,7 +17,6 @@ class BettingMatch(ft.Container):
                 ft.Container(content=ft.Divider(thickness=0.5), expand=True),
             ],
             expand=True,
-
         )
 
         response = ft.Container(

@@ -10,7 +10,7 @@ class Calendar(ft.Container):
         self.expand = True
 
         self.options = [f"Jornada {i}" for i in range(30)]
-        
+
         tabs = ft.Tabs(
             selected_index=1,
             animation_duration=300,
@@ -25,7 +25,8 @@ class Calendar(ft.Container):
                         alignment=ft.alignment.center,
                     ),
                     content=CalendarWeek(option),
-                ) for option in self.options
+                )
+                for option in self.options
             ],
             expand=True,
             scrollable=True,
@@ -35,4 +36,3 @@ class Calendar(ft.Container):
         )
 
         self.content = tabs
-    

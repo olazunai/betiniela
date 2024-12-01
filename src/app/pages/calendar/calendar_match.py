@@ -2,7 +2,6 @@ from datetime import datetime, time
 import flet as ft
 
 
-
 class CalendarMatch(ft.Container):
     def __init__(self, hour: time, local_team: str, visitor_team: str):
         super().__init__()
@@ -59,7 +58,7 @@ class CalendarMatch(ft.Container):
                     alignment=ft.alignment.center,
                 ),
             ],
-            horizontal_alignment = ft.MainAxisAlignment.CENTER,
+            horizontal_alignment=ft.MainAxisAlignment.CENTER,
             spacing=2,
             tight=True,
         )
