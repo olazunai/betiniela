@@ -1,6 +1,6 @@
 import flet as ft
 
-from pages.betting.betting_match import BettingMatch
+from app.pages.betting.betting_match import BettingMatch
 
 
 class BettingWeek(ft.Container):

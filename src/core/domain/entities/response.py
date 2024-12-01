@@ -36,7 +36,7 @@ class Response:
 
     def serialize(self) -> dict:
         return {
-            "id": self.id.value,
+            "id": str(self.id.value),
             "week": self.week.name(),
             "match_id": self.match_id.value,
             "user_id": self.user_id.value,
@@ -51,7 +51,7 @@ class Response:
     @classmethod
     def deserialize(cls, obj: dict) -> "Response":
         return cls(
-            id=UUID(obj["id"]),
+            id=ResponseID(UUID(obj["id"])),
             week=Week.deserialize(obj["week"]),
             match_id=MatchID(obj["match_id"]),
             user_id=UserID(obj["user_id"]),

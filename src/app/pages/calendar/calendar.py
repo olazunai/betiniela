@@ -1,6 +1,6 @@
 import flet as ft
 
-from pages.calendar.calendar_week import CalendarWeek
+from app.pages.calendar.calendar_week import CalendarWeek
 
 
 class Calendar(ft.Container):

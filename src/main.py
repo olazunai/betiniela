@@ -1,8 +1,8 @@
 import flet as ft
 
-from login import Login
-from app_bar import AppBar
-from navigation_bar import NavigationBar
+from app.login import Login
+from app.app_bar import AppBar
+from app.navigation_bar import NavigationBar
 
 
 async def main(page: ft.Page):

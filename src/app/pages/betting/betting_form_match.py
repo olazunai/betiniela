@@ -3,7 +3,7 @@ from math import exp
 from typing import Optional
 import flet as ft
 
-from widgets.dropdown import Dropdown
+from app.widgets.dropdown import Dropdown
 
 
 @dataclass

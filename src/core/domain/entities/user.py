@@ -15,11 +15,6 @@ class UserName:
 
 
 @dataclass
-class UserEmail:
-    value: str
-
-
-@dataclass
 class UserPassword:
     value: str
 
@@ -39,7 +34,6 @@ class UserHasAnswered:
 class User:
     id: UserID
     name: UserName
-    email: UserEmail
     password: UserPassword
     role: UserRole
     last_login: datetime
@@ -47,9 +41,8 @@ class User:
 
     def serialize(self) -> dict:
         return {
-            "id": self.id.value,
+            "id": str(self.id.value),
             "name": self.name.value,
-            "email": self.email.value,
             "password": self.password.value,
             "role": self.role.value,
             "last_login": self.last_login.isoformat(),
@@ -59,9 +52,8 @@ class User:
     @classmethod
     def deserialize(cls, obj: dict) -> "User":
         return cls(
-            id=UUID(obj["id"]),
+            id=UserID(UUID(obj["id"])),
             name=UserName(obj["name"]),
-            email=UserEmail(obj["email"]),
             password=UserPassword(obj["password"]),
             role=UserRole(obj["role"]),
             last_login=datetime.fromisoformat(obj["last_login"]),

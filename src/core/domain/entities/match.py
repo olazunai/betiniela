@@ -49,7 +49,7 @@ class Match:
 
     def serialize(self) -> dict:
         return {
-            "id": self.id.value,
+            "id": str(self.id.value),
             "week": self.week.name(),
             "match_day": self.match_day.isoformat(),
             "local_team": self.local_team.value,
@@ -64,7 +64,7 @@ class Match:
     @classmethod
     def deserialize(cls, obj: dict) -> "Match":
         return cls(
-            id=UUID(obj["id"]),
+            id=MatchID(UUID(obj["id"])),
             week=Week.deserialize(obj["week"]),
             match_day=date.fromisoformat(obj["date"]),
             local_team=Team(obj["local_team"]),

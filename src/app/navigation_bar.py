@@ -1,8 +1,8 @@
 import flet as ft
 
-from pages.betting.betting import Betting
-from pages.calendar.calendar import Calendar
-from pages.ranking.ranking import Ranking
+from app.pages.betting.betting import Betting
+from app.pages.calendar.calendar import Calendar
+from app.pages.ranking.ranking import Ranking
 
 
 class NavigationBar(ft.NavigationBar):

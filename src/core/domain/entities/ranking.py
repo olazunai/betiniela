@@ -30,7 +30,7 @@ class Ranking:
 
     def serialize(self) -> dict:
         return {
-            "id": self.id.value,
+            "id": str(self.id.value),
             "week": self.week.name(),
             "user_id": self.user_id.value,
             "position": self.position.value,
@@ -40,7 +40,7 @@ class Ranking:
     @classmethod
     def deserialize(cls, obj: dict) -> "Ranking":
         return cls(
-            id=UUID(obj["id"]),
+            id=RankingID(UUID(obj["id"])),
             week=Week.deserialize(obj["week"]),
             user_id=UserID(obj["user_id"]),
             position=RankingPosition(obj["position"]),

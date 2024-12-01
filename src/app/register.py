@@ -1,16 +1,18 @@
 import email
 import flet as ft
 
-from widgets.login_body import LoginBody
-from navigation_bar import NavigationBar
-from app_bar import AppBar
+from core.application.user.user_creator_service import UserCreatorService
+from app.widgets.login_body import LoginBody
+from app.navigation_bar import NavigationBar
+from app.app_bar import AppBar
 
 
 class Register(LoginBody):
-    def __init__(self, page: ft.Page):
+    def __init__(self, page: ft.Page, user_creator_service: UserCreatorService):
         super().__init__()
 
         self.page = page
+        self.user_creator_service = user_creator_service
 
         self.user = ft.TextField(
             label="Usuario",
@@ -70,6 +72,11 @@ class Register(LoginBody):
         self.page.update()
 
     async def _sign_in(self, event: ft.ControlEvent) -> None:
+        await self.user_creator_service(
+            user_name=self.user.value,
+            password=self.password.value,
+        )
+
         self.page.clean()
 
         self.page.appbar = AppBar(page=self.page)

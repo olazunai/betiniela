@@ -1,7 +1,5 @@
-import flet as ft
-
-from widgets.body import Body
-from pages.ranking.ranking_item import RankingItem
+from app.widgets.body import Body
+from app.pages.ranking.ranking_item import RankingItem
 
 
 class Ranking(Body):

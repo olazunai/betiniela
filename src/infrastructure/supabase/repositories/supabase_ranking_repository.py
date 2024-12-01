@@ -20,14 +20,14 @@ class SupabaseRankingRepository(RankingRepository):
         result = (
             self.client.table(self.table)
             .select("*")
-            .eq("id", ranking_id.value)
+            .eq("id", str(ranking_id.value))
             .execute()
         )
 
-        if not result["data"]:
+        if not result.data:
             return None
 
-        return Ranking.deserialize(result["data"][0])
+        return Ranking.deserialize(result.data[0])
 
     async def get(self, week: Week = None) -> list[Ranking]:
         query = self.client.table(self.table).select("*")
@@ -36,9 +36,9 @@ class SupabaseRankingRepository(RankingRepository):
             query = query.eq("week", week.name())
 
         result = query.execute()
-        return [Ranking.deserialize(data) for data in result["data"]]
+        return [Ranking.deserialize(data) for data in result.data]
 
     async def update_points(self, ranking_id: RankingID, points: RankingPoints) -> None:
-        self.client.table(self.table).update("points", points.value).eq(
-            "id", ranking_id.value
+        self.client.table(self.table).update({"points": points.value}).eq(
+            "id", str(ranking_id.value)
         ).execute()

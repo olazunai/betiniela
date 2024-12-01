@@ -1,9 +1,7 @@
 from datetime import datetime
-import stat
 import flet as ft
 
-from widgets.body import Body
-from pages.calendar.calendar_match import CalendarMatch
+from app.pages.calendar.calendar_match import CalendarMatch
 
 
 class CalendarWeek(ft.Column):

@@ -1,15 +1,28 @@
 import flet as ft
 
-from widgets.logo import Logo
-from widgets.login_body import LoginBody
-from register import Register
-from navigation_bar import NavigationBar
-from app_bar import AppBar
+from core.application.user.user_creator_service import UserCreatorService
+from core.application.user.user_login_service import UserLoginService
+from infrastructure.supabase.repositories.supabase_user_repository import (
+    SupabaseUserRepository,
+)
+from infrastructure.supabase.supabase_client import SupabaseClient
+from app.widgets.logo import Logo
+from app.widgets.login_body import LoginBody
+from app.register import Register
+from app.navigation_bar import NavigationBar
+from app.app_bar import AppBar
 
 
 class Login(LoginBody):
     def __init__(self, page: ft.Page):
         super().__init__()
+
+        self.user_repository = SupabaseUserRepository(
+            client=SupabaseClient.init(
+                url="https://wcyjxnxjwggnsifdidei.supabase.co",
+                key="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndjeWp4bnhqd2dnbnNpZmRpZGVpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzI5NTg4NTAsImV4cCI6MjA0ODUzNDg1MH0.-kTMBKeRLxowOnpOykiV5iwa13Dft6Sx9VqRfY9w4_o",
+            ).client
+        )
 
         self.page = page
 
@@ -82,16 +95,30 @@ class Login(LoginBody):
         self.page.update()
 
     async def _log_in(self, event: ft.ControlEvent) -> None:
-        self.page.clean()
+        login_service = UserLoginService(self.user_repository)
+        is_valid = await login_service(
+            user_name=self.user.value, password=self.password.value
+        )
+        if is_valid:
+            self.page.clean()
 
-        self.page.appbar = AppBar(page=self.page)
-        self.page.navigation_bar = NavigationBar(page=self.page)
+            self.page.appbar = AppBar(page=self.page)
+            self.page.navigation_bar = NavigationBar(page=self.page)
 
-        self.page.update()
+            self.page.update()
+        else:
+            print("ERROR")
 
     async def _sign_in(self, event: ft.ControlEvent) -> None:
         self.page.clean()
 
-        self.page.add(Register(page=self.page))
+        self.page.add(
+            Register(
+                page=self.page,
+                user_creator_service=UserCreatorService(
+                    user_repository=self.user_repository,
+                ),
+            ),
+        )
 
         self.page.update()

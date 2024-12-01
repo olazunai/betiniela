@@ -9,10 +9,12 @@ class SupabaseClient(BBDDClient):
     client: Optional[Client] = None
 
     @classmethod
-    def init(self, url: str, key: str) -> "SupabaseClient":
-        self.client: Client = create_client(
-            supabase_url=url,
-            supabase_key=key,
+    def init(cls, url: str, key: str) -> "SupabaseClient":
+        return cls(
+            client=create_client(
+                supabase_url=url,
+                supabase_key=key,
+            ),
         )
 
     def close(self) -> None:

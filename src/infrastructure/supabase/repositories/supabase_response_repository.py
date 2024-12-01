@@ -21,14 +21,14 @@ class ResponseRepository:
         result = (
             self.client.table(self.table)
             .select("*")
-            .eq("id", response_id.value)
+            .eq("id", str(response_id.value))
             .execute()
         )
 
-        if not result["data"]:
+        if not result.data:
             return None
 
-        return Response.deserialize(result["data"][0])
+        return Response.deserialize(result.data[0])
 
     async def get(
         self, week: Week = None, match_id: MatchID = None, user_id: UserID = None
@@ -39,13 +39,13 @@ class ResponseRepository:
             query = query.eq("week", week.name())
 
         if match_id is not None:
-            query = query.eq("match_id", match_id.value)
+            query = query.eq("match_id", str(match_id.value))
 
         if user_id is not None:
-            query = query.eq("user_id", user_id.value)
+            query = query.eq("user_id", str(user_id.value))
 
         result = query.execute()
-        return [Response.deserialize(data) for data in result["data"]]
+        return [Response.deserialize(data) for data in result.data]
 
     async def update(self, response: Response) -> None:
         self.client.table(self.table).upsert(response.serialize()).execute()

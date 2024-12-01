@@ -1,9 +1,9 @@
 import flet as ft
 
-from pages.betting.betting_form_week import BettingFormWeek
-from pages.betting.betting_week import BettingWeek
-from widgets.body import Body
-from widgets.dropdown import Dropdown
+from app.pages.betting.betting_form_week import BettingFormWeek
+from app.pages.betting.betting_week import BettingWeek
+from app.widgets.body import Body
+from app.widgets.dropdown import Dropdown
 
 
 class Betting(Body):
