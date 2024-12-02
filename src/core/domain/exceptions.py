@@ -12,3 +12,7 @@ class UserAlreadyExistsException(AlreadyExistsException):
 
 class UserDoesNotExistsException(DoesNotExistException):
     pass
+
+
+class ResponseAlreadyExistsException(AlreadyExistsException):
+    pass

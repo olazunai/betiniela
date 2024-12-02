@@ -9,6 +9,7 @@ from core.domain.entities.response import (
     ResponseLosserPoints,
 )
 from core.domain.entities.user import UserID
+from core.domain.exceptions import ResponseAlreadyExistsException
 from core.domain.repositories.response_repository import ResponseRepository
 from core.domain.value_objects.team import Team
 from core.domain.value_objects.week import Week
@@ -26,6 +27,14 @@ class ResponseCreatorService:
         winner_team: str,
         losser_points: str,
     ) -> None:
+        existing_response = await self.response_repository.get(
+            match_id=MatchID(match_id), user_id=UserID(user_id)
+        )
+        if existing_response:
+            raise ResponseAlreadyExistsException(
+                f"There is an existing Response of match {match_id}."
+            )
+
         response = Response(
             id=ResponseID(uuid4()),
             week=Week.deserialize(week_name),
