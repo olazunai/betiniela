@@ -4,22 +4,15 @@ from typing import Optional
 import flet as ft
 
 from app.widgets.dropdown import Dropdown
-
-
-@dataclass
-class BettingFormMatchData:
-    winner: Optional[str] = None
-    losser: Optional[str] = None
+from core.domain.dtos.betting_form_match_data import BettingFormMatchData
+from core.domain.entities.match import MatchID
 
 
 class BettingFormMatch(ft.Container):
-    def __init__(self, local_team: str, visitor_team: str):
+    def __init__(self, match_id: MatchID, local_team: str, visitor_team: str):
         super().__init__()
 
-        self.data = BettingFormMatchData()
-
-        self.expand = True
-        self.alignment = ft.alignment.top_center
+        self.data = BettingFormMatchData(match_id=match_id)
 
         self.winner = ft.RadioGroup(
             content=ft.Row(
@@ -53,14 +46,17 @@ class BettingFormMatch(ft.Container):
             width=150,
         )
 
+        divider = ft.Divider(thickness=0.5)
+
         self.content = ft.Column(
-            controls=[self.winner, self.losser],
-            expand=True,
+            controls=[divider, self.winner, self.losser],
             spacing=20,
+            alignment=ft.MainAxisAlignment.CENTER,
+            horizontal_alignment=ft.CrossAxisAlignment.CENTER,
         )
 
     def _winner_changer(self, event: ft.ControlEvent):
         self.data.winner = event.data
 
     def _losser_changer(self, event: ft.ControlEvent):
-        self.data.losser = event.data
+        self.data.losser = event.data.replace(" tantos", "")

@@ -38,8 +38,8 @@ class Response:
         return {
             "id": str(self.id.value),
             "week": self.week.name(),
-            "match_id": self.match_id.value,
-            "user_id": self.user_id.value,
+            "match_id": str(self.match_id.value),
+            "user_id": str(self.user_id.value),
             "winner": self.winner.value,
             "losser_points": self.losser_points.value,
             "response_time": self.response_time.isoformat(),
@@ -53,8 +53,8 @@ class Response:
         return cls(
             id=ResponseID(UUID(obj["id"])),
             week=Week.deserialize(obj["week"]),
-            match_id=MatchID(obj["match_id"]),
-            user_id=UserID(obj["user_id"]),
+            match_id=MatchID(UUID(obj["match_id"])),
+            user_id=UserID(UUID(obj["user_id"])),
             winner=Team(obj["winner"]),
             losser_points=ResponseLosserPoints(obj["losser_points"]),
             response_time=datetime.fromisoformat(obj["response_time"]),

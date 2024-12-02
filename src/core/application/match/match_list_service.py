@@ -24,15 +24,19 @@ class MatchListService:
     async def _divide_matches_by_week(matches: list[Match]) -> dict[str, list[Match]]:
         matches_by_week = {}
         for match in matches:
-            matches_by_week[match.week.name()] = matches_by_week.get(match.week.name(), []) + [match]
+            matches_by_week[match.week.name()] = matches_by_week.get(
+                match.week.name(), []
+            ) + [match]
 
         return matches_by_week
-    
+
     @staticmethod
     async def _divide_matches_by_date(matches: list[Match]) -> DateMatches:
         matches_by_date = {}
         for match in matches:
-            matches_by_date[match.match_day] = matches_by_date.get(match.match_day, []) + [match]
+            matches_by_date[match.match_day] = matches_by_date.get(
+                match.match_day, []
+            ) + [match]
 
         return sorted(
             [

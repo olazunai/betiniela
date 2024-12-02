@@ -12,13 +12,15 @@ class Betting(Body):
 
         self.page = page
 
-        form = BettingFormWeek()
+        weeks = sorted(page.data.matches_by_week.matches.keys())
+
+        form = BettingFormWeek(week_name=weeks[0], page=page)
 
         divider = ft.Divider()
 
         self.selected_index = 0
 
-        self.options = [f"Jornada {i}" for i in range(30)]
+        self.options = weeks
         self.views = [
             BettingWeek(week=option, visible=i == self.selected_index)
             for i, option in enumerate(self.options)

@@ -73,12 +73,17 @@ class Register(LoginBody):
     async def _sign_in(self, event: ft.ControlEvent) -> None:
         user_creator_service = self.page.container.services.user_creator_service()
 
-        await user_creator_service(
+        user = await user_creator_service(
             user_name=self.user.value,
             password=self.password.value,
         )
 
         self.page.clean()
+
+        self.page.user = user
+
+        fetch_data_service = self.page.container.services.fetch_data_service()
+        self.page.data = await fetch_data_service()
 
         self.page.appbar = AppBar(page=self.page)
         self.page.navigation_bar = NavigationBar(page=self.page)

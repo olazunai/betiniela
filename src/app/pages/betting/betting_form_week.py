@@ -1,11 +1,14 @@
 import flet as ft
 
 from app.pages.betting.betting_form_match import BettingFormMatch
+from core.application.response.response_creator_service import ResponseCreatorService
 
 
 class BettingFormWeek(ft.Container):
-    def __init__(self):
+    def __init__(self, week_name: str, page: ft.Page):
         super().__init__()
+
+        self.week_name = week_name
 
         self.padding = ft.Padding(
             left=50,
@@ -14,36 +17,38 @@ class BettingFormWeek(ft.Container):
             bottom=5,
         )
 
-        match_1 = BettingFormMatch(
-            local_team="Altuna III - Aranguren",
-            visitor_team="Jaka - Imaz",
-        )
-        match_2 = BettingFormMatch(
-            local_team="Peña II - Albisu",
-            visitor_team="Laso - Iztueta",
-        )
-        match_3 = BettingFormMatch(
-            local_team="Artola - Mariezkurrena II",
-            visitor_team="P. Etxeberria - Zabaleta",
-        )
-        match_4 = BettingFormMatch(
-            local_team="Peña II - Albisu",
-            visitor_team="Laso - Iztueta",
-        )
+        self.controls = []
+        for matches in page.data.matches_by_week.matches[week_name].matches:
+            for match in matches.matches:
+                self.controls.append(
+                    BettingFormMatch(
+                        match_id=match.id,
+                        local_team=match.local_team.value,
+                        visitor_team=match.visitor_team.value,
+                    )
+                )
 
-        divider = ft.Divider(thickness=0.5)
+        self.submit_button = ft.ElevatedButton(
+            text="Enviar respuesta", on_click=self._send_response
+        )
 
         self.content = ft.Column(
-            controls=[
-                divider,
-                match_1,
-                divider,
-                match_2,
-                divider,
-                match_3,
-                divider,
-                match_4,
-            ],
+            controls=self.controls + [self.submit_button],
             expand=True,
             alignment=ft.MainAxisAlignment.CENTER,
+            horizontal_alignment=ft.CrossAxisAlignment.CENTER,
         )
+
+    async def _send_response(self, event: ft.ControlEvent):
+        response_creator_service: ResponseCreatorService = (
+            self.page.container.services.response_creator_service()
+        )
+
+        for control in self.controls:
+            await response_creator_service(
+                week_name=self.week_name,
+                match_id=control.data.match_id.value,
+                user_id=self.page.user.id.value,
+                winner_team=control.data.winner,
+                losser_points=control.data.losser,
+            )

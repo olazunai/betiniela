@@ -18,7 +18,7 @@ from core.domain.repositories.user_repository import UserRepository
 class UserCreatorService:
     user_repository: UserRepository
 
-    async def __call__(self, user_name: str, password: str) -> None:
+    async def __call__(self, user_name: str, password: str) -> User:
 
         existing_user = await self.user_repository.get_by_name(UserName(user_name))
         if existing_user:
@@ -36,3 +36,5 @@ class UserCreatorService:
         )
 
         await self.user_repository.add(user)
+
+        return user

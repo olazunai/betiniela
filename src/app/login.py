@@ -90,11 +90,13 @@ class Login(LoginBody):
     async def _log_in(self, event: ft.ControlEvent) -> None:
         user_login_service = self.page.container.services.user_login_service()
 
-        is_valid = await user_login_service(
+        user = await user_login_service(
             user_name=self.user.value, password=self.password.value
         )
-        if is_valid:
+        if user is not None:
             self.page.clean()
+
+            self.page.user = user
 
             fetch_data_service = self.page.container.services.fetch_data_service()
             self.page.data = await fetch_data_service()

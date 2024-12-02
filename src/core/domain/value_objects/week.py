@@ -16,12 +16,13 @@ class Week:
 
     def name(self) -> str:
         return self.phase.capitalize() + f" {self.value}" if self.value != 0 else ""
-    
+
     def serialize(self) -> str:
-        return self.name()
-    
+        return self.name().lower()
+
     @classmethod
     def deserialize(cls, obj: str) -> "Week":
+        obj = obj.lower()
         return cls(
             value=int(obj.split()[-1]),
             phase=WeekPhase(obj.split()[0]),
