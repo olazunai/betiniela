@@ -1,18 +1,13 @@
 from uuid import UUID
 from dataclasses import dataclass
 
-from core.domain.entities.user import UserID
+from core.domain.entities.user import UserID, UserName
 from core.domain.value_objects.week import Week
 
 
 @dataclass
 class RankingID:
     value: UUID
-
-
-@dataclass
-class RankingPosition:
-    value: int
 
 
 @dataclass
@@ -23,17 +18,15 @@ class RankingPoints:
 @dataclass
 class Ranking:
     id: RankingID
+    user_name: UserName
     week: Week
-    user_id: UserID
-    position: RankingPosition
     points: RankingPoints
 
     def serialize(self) -> dict:
         return {
             "id": str(self.id.value),
             "week": self.week.name(),
-            "user_id": self.user_id.value,
-            "position": self.position.value,
+            "user_name": self.user_name.value,
             "points": self.points.value,
         }
 
@@ -42,7 +35,6 @@ class Ranking:
         return cls(
             id=RankingID(UUID(obj["id"])),
             week=Week.deserialize(obj["week"]),
-            user_id=UserID(obj["user_id"]),
-            position=RankingPosition(obj["position"]),
+            user_name=UserName(obj["user_name"]),
             points=RankingPoints(obj["points"]),
         )

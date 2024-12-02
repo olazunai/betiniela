@@ -33,9 +33,9 @@ class SupabaseRankingRepository(RankingRepository):
         query = self.client.table(self.table).select("*")
 
         if week is not None:
-            query = query.eq("week", week.name())
+            query = query.eq("week", week.serialize())
 
-        result = query.execute()
+        result = query.order("points", desc=True).execute()
         return [Ranking.deserialize(data) for data in result.data]
 
     async def update_points(self, ranking_id: RankingID, points: RankingPoints) -> None:

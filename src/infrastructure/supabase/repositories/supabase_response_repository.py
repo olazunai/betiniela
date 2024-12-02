@@ -37,7 +37,7 @@ class SupabaseResponseRepository:
         query = self.client.table(self.table).select("*")
 
         if week is not None:
-            query = query.eq("week", week.name())
+            query = query.eq("week", week.serialize())
 
         if match_id is not None:
             query = query.eq("match_id", str(match_id.value))

@@ -11,38 +11,9 @@ class Ranking(Body):
         self.page = page
         self.spacing = 2
 
-        ranking_data = [
-            {"nombre": "Juan", "puntos": 2500},
-            {"nombre": "Ana", "puntos": 2300},
-            {"nombre": "Luis", "puntos": 2100},
-            {"nombre": "Marta", "puntos": 1800},
-            {"nombre": "Carlos", "puntos": 1700},
-            {"nombre": "Pedro", "puntos": 1500},
-            {"nombre": "Sofía", "puntos": 1400},
-            {"nombre": "Juan", "puntos": 2500},
-            {"nombre": "Ana", "puntos": 2300},
-            {"nombre": "Luis", "puntos": 2100},
-            {"nombre": "Marta", "puntos": 1800},
-            {"nombre": "Carlos", "puntos": 1700},
-            {"nombre": "Pedro", "puntos": 1500},
-            {"nombre": "Sofía", "puntos": 1400},
-            {"nombre": "Juan", "puntos": 2500},
-            {"nombre": "Ana", "puntos": 2300},
-            {"nombre": "Luis", "puntos": 2100},
-            {"nombre": "Marta", "puntos": 1800},
-            {"nombre": "Carlos", "puntos": 1700},
-            {"nombre": "Pedro", "puntos": 1500},
-            {"nombre": "Sofía", "puntos": 1400},
-            {"nombre": "Juan", "puntos": 2500},
-            {"nombre": "Ana", "puntos": 2300},
-            {"nombre": "Luis", "puntos": 2100},
-            {"nombre": "Marta", "puntos": 1800},
-            {"nombre": "Carlos", "puntos": 1700},
-            {"nombre": "Pedro", "puntos": 1500},
-            {"nombre": "Sofía", "puntos": 1400},
-        ]
-
         self.controls = [
-            RankingItem(position=i, name=player["nombre"], points=player["puntos"])
-            for i, player in enumerate(ranking_data, start=1)
+            RankingItem(
+                position=i, name=ranking.user_name.value, points=ranking.points.value
+            )
+            for i, ranking in enumerate(self.page.data.rankings, start=1)
         ]

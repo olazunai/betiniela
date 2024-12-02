@@ -33,7 +33,7 @@ class SupabaseMatchRepository(MatchRepository):
         query = self.client.table(self.table).select("*")
 
         if week is not None:
-            query = query.eq("week", week.name())
+            query = query.eq("week", week.serialize())
 
         result = query.execute()
         return [Match.deserialize(data) for data in result.data]

@@ -27,7 +27,7 @@ class RankingItem(ft.Container):
                         ),
                         ft.Text(
                             value=name,
-                            width=50,
+                            width=80,
                             text_align=ft.TextAlign.START,
                         ),
                     ],
