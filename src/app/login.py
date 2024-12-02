@@ -17,13 +17,6 @@ class Login(LoginBody):
     def __init__(self, page: ft.Page):
         super().__init__()
 
-        self.user_repository = SupabaseUserRepository(
-            client=SupabaseClient.init(
-                url="https://wcyjxnxjwggnsifdidei.supabase.co",
-                key="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndjeWp4bnhqd2dnbnNpZmRpZGVpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzI5NTg4NTAsImV4cCI6MjA0ODUzNDg1MH0.-kTMBKeRLxowOnpOykiV5iwa13Dft6Sx9VqRfY9w4_o",
-            ).client
-        )
-
         self.page = page
 
         self.user = ft.TextField(
@@ -95,8 +88,9 @@ class Login(LoginBody):
         self.page.update()
 
     async def _log_in(self, event: ft.ControlEvent) -> None:
-        login_service = UserLoginService(self.user_repository)
-        is_valid = await login_service(
+        user_login_service = self.page.container.services.user_login_service()
+
+        is_valid = await user_login_service(
             user_name=self.user.value, password=self.password.value
         )
         if is_valid:
@@ -113,12 +107,7 @@ class Login(LoginBody):
         self.page.clean()
 
         self.page.add(
-            Register(
-                page=self.page,
-                user_creator_service=UserCreatorService(
-                    user_repository=self.user_repository,
-                ),
-            ),
+            Register(page=self.page),
         )
 
         self.page.update()

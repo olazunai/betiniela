@@ -10,7 +10,7 @@ from core.domain.value_objects.week import Week
 
 
 @dataclass
-class ResponseRepository:
+class SupabaseResponseRepository:
     client: Client
     table: str = "responses"
 

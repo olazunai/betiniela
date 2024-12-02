@@ -8,11 +8,10 @@ from app.app_bar import AppBar
 
 
 class Register(LoginBody):
-    def __init__(self, page: ft.Page, user_creator_service: UserCreatorService):
+    def __init__(self, page: ft.Page):
         super().__init__()
 
         self.page = page
-        self.user_creator_service = user_creator_service
 
         self.user = ft.TextField(
             label="Usuario",
@@ -72,7 +71,9 @@ class Register(LoginBody):
         self.page.update()
 
     async def _sign_in(self, event: ft.ControlEvent) -> None:
-        await self.user_creator_service(
+        user_creator_service = self.page.container.services.user_creator_service()
+
+        await user_creator_service(
             user_name=self.user.value,
             password=self.password.value,
         )
