@@ -1,11 +1,14 @@
+import flet as ft
+
 from app.widgets.body import Body
 from app.pages.ranking.ranking_item import RankingItem
 
 
 class Ranking(Body):
-    def __init__(self):
+    def __init__(self, page: ft.Page):
         super().__init__()
 
+        self.page = page
         self.spacing = 2
 
         ranking_data = [

@@ -1,9 +1,12 @@
 from datetime import datetime, time
+from typing import Optional
 import flet as ft
+
+from core.domain.entities.match import MatchResult
 
 
 class CalendarMatch(ft.Container):
-    def __init__(self, hour: time, local_team: str, visitor_team: str):
+    def __init__(self, hour: time, local_team: str, visitor_team: str, result: Optional[MatchResult] = None):
         super().__init__()
 
         self.margin = ft.Margin(
@@ -39,7 +42,7 @@ class CalendarMatch(ft.Container):
                 ),
                 ft.Container(
                     content=ft.Text(
-                        value=hour.strftime("%H:%mh"),
+                        value=hour.strftime("%H:%Mh") if result is None else f"{result.local_team} - {result.visitor_team}",
                         text_align=ft.TextAlign.CENTER,
                         color=ft.colors.BLACK,
                         weight=ft.FontWeight.BOLD,

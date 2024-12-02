@@ -29,8 +29,8 @@ class NavigationBar(ft.NavigationBar):
 
         self.views = [
             Betting(page=page),
-            Ranking(),
-            Calendar(),
+            Ranking(page=page),
+            Calendar(page=page),
         ]
         self.page.add(self.views[self.selected_index])
 

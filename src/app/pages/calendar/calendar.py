@@ -1,15 +1,17 @@
+import asyncio
 import flet as ft
 
 from app.pages.calendar.calendar_week import CalendarWeek
+from core.domain.entities.match import Match
 
 
 class Calendar(ft.Container):
-    def __init__(self):
+    def __init__(self, page: ft.Page):
         super().__init__()
 
-        self.expand = True
+        self.page = page
 
-        self.options = [f"Jornada {i}" for i in range(30)]
+        self.expand = True
 
         tabs = ft.Tabs(
             selected_index=1,
@@ -17,16 +19,16 @@ class Calendar(ft.Container):
             tabs=[
                 ft.Tab(
                     tab_content=ft.Container(
-                        content=ft.Text(option[0] + option.split()[-1]),
+                        content=ft.Text(option[0].capitalize() + option.split()[-1]),
                         shape=ft.BoxShape.CIRCLE,
                         bgcolor=ft.colors.BLACK54,
                         width=50,
                         height=50,
                         alignment=ft.alignment.center,
                     ),
-                    content=CalendarWeek(option),
+                    content=CalendarWeek(matches),
                 )
-                for option in self.options
+                for option, matches in self.page.data.matches_by_week.matches.items()
             ],
             expand=True,
             scrollable=True,

@@ -96,6 +96,9 @@ class Login(LoginBody):
         if is_valid:
             self.page.clean()
 
+            fetch_data_service = self.page.container.services.fetch_data_service()
+            self.page.data = await fetch_data_service()
+
             self.page.appbar = AppBar(page=self.page)
             self.page.navigation_bar = NavigationBar(page=self.page)
 

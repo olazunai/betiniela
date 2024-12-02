@@ -1,42 +1,31 @@
-from datetime import datetime
+from datetime import date, datetime
 import flet as ft
 
 from app.pages.calendar.calendar_match import CalendarMatch
+from core.domain.dtos.matches_by_week import MatchesByDate
+from core.domain.entities.match import Match
 
 
 class CalendarWeek(ft.Column):
-    def __init__(self, week: str):
+    def __init__(self, matches_by_date: MatchesByDate):
         super().__init__()
 
         self.horizontal_alignment = ft.CrossAxisAlignment.CENTER
         self.alignment = ft.CrossAxisAlignment.START
         self.scroll = ft.ScrollMode.HIDDEN
 
-        self.controls = [
-            self._get_day_text(datetime.now()),
-            CalendarMatch(
-                local_team="Altuna III - Aranguren",
-                visitor_team="Jaka - Imaz",
-                hour=datetime.now().time(),
-            ),
-            CalendarMatch(
-                local_team="Artola - Mariezkurrena II",
-                visitor_team="P. Etxeberria - Zabaleta",
-                hour=datetime.now().time(),
-            ),
-            self._get_day_text(datetime.now()),
-            CalendarMatch(
-                local_team="Peña II - Albisu",
-                visitor_team="Laso - Iztueta",
-                hour=datetime.now().time(),
-            ),
-            self._get_day_text(datetime.now()),
-            CalendarMatch(
-                local_team="Peña II - Albisu",
-                visitor_team="Laso - Iztueta",
-                hour=datetime.now().time(),
-            ),
-        ]
+        self.controls = []
+        for matches in matches_by_date.matches:
+            self.controls.append(self._get_day_text(matches.day))
+            for match in matches.matches:
+                self.controls.append(
+                    CalendarMatch(
+                        local_team=match.local_team.value,
+                        visitor_team=match.visitor_team.value,
+                        hour=match.match_time,
+                        result=match.result,
+                    )
+                )
 
     @staticmethod
     def _get_day_text(day: datetime) -> ft.Container:

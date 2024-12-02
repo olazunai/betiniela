@@ -44,7 +44,7 @@ class Match:
     local_team: Team
     visitor_team: Team
     location: MatchLocation
-    match_time: Optional[time] = None
+    match_time: time = None
     result: Optional[MatchResult] = None
 
     def serialize(self) -> dict:
@@ -55,9 +55,7 @@ class Match:
             "local_team": self.local_team.value,
             "visitor_team": self.visitor_team.value,
             "location": self.location.value,
-            "match_time": (
-                self.match_time.isoformat() if self.match_time is not None else None
-            ),
+            "match_time": self.match_time.isoformat(),
             "result": self.result.serialize() if self.result is not None else None,
         }
 
@@ -66,7 +64,7 @@ class Match:
         return cls(
             id=MatchID(UUID(obj["id"])),
             week=Week.deserialize(obj["week"]),
-            match_day=date.fromisoformat(obj["date"]),
+            match_day=date.fromisoformat(obj["match_day"]),
             local_team=Team(obj["local_team"]),
             visitor_team=Team(obj["visitor_team"]),
             location=MatchLocation(obj["location"]),
