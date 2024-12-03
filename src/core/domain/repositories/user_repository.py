@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 from datetime import datetime
 from typing import Optional
 
-from core.domain.entities.user import User, UserID, UserName
+from core.domain.entities.user import User, UserHasAnswered, UserID, UserName
 
 
 class UserRepository(ABC):
@@ -24,4 +24,8 @@ class UserRepository(ABC):
 
     @abstractmethod
     async def update_last_login(self, user_id: UserID, last_login: datetime) -> None:
+        pass
+
+    @abstractmethod
+    async def update_has_answered(self, user_id: UserID, has_answered: UserHasAnswered) -> None:
         pass

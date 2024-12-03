@@ -4,7 +4,7 @@ from typing import Optional
 
 from supabase import Client
 
-from core.domain.entities.user import User, UserID, UserName
+from core.domain.entities.user import User, UserHasAnswered, UserID, UserName
 from core.domain.repositories.user_repository import UserRepository
 
 
@@ -50,5 +50,10 @@ class SupabaseUserRepository(UserRepository):
 
     async def update_last_login(self, user_id: UserID, last_login: datetime) -> None:
         self.client.table(self.table).update({"last_login": last_login.isoformat()}).eq(
+            "id", str(user_id.value)
+        ).execute()
+
+    async def update_has_answered(self, user_id: UserID, has_answered: UserHasAnswered) -> None:
+        self.client.table(self.table).update({"has_answered": has_answered.value}).eq(
             "id", str(user_id.value)
         ).execute()

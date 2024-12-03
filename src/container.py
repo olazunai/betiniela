@@ -6,12 +6,12 @@ from dependency_injector.providers import (
     Container,
 )
 
-from app.pages.ranking.ranking_item import RankingItem
 from core.application.app.fetch_data_service import FetchDataService
 from core.application.match.match_list_service import MatchListService
 from core.application.ranking.ranking_list_service import RankingListService
 from core.application.response.response_creator_service import ResponseCreatorService
 from core.application.user.user_creator_service import UserCreatorService
+from core.application.user.user_has_answered_updater_service import UserHasNasweredUpdaterService
 from core.application.user.user_login_service import UserLoginService
 from infrastructure.supabase.container import SupabaseContainer
 
@@ -25,6 +25,10 @@ class Services(DeclarativeContainer):
     )
     user_login_service: Provider[UserLoginService] = Factory(
         UserLoginService,
+        user_repository=database_container.user_repository,
+    )
+    user_has_answered_updater_service: Provider[UserHasNasweredUpdaterService] = Factory(
+        UserHasNasweredUpdaterService,
         user_repository=database_container.user_repository,
     )
 

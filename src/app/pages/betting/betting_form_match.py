@@ -9,8 +9,10 @@ from core.domain.entities.match import MatchID
 
 
 class BettingFormMatch(ft.Container):
-    def __init__(self, match_id: MatchID, local_team: str, visitor_team: str):
+    def __init__(self, match_id: MatchID, local_team: str, visitor_team: str, visible: bool):
         super().__init__()
+
+        self.visible = visible
 
         self.data = BettingFormMatchData(match_id=match_id)
 

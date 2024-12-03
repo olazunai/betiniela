@@ -15,7 +15,6 @@ class SupabaseResponseRepository:
     table: str = "responses"
 
     async def add(self, response: Response) -> None:
-        print(response.serialize())
         self.client.table(self.table).insert(response.serialize()).execute()
 
     async def get_by_id(self, response_id: ResponseID) -> Optional[Response]:

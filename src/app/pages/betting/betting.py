@@ -14,7 +14,7 @@ class Betting(Body):
 
         weeks = sorted(page.data.matches_by_week.matches.keys())
 
-        form = BettingFormWeek(week_name=weeks[0], page=page)
+        form = BettingFormWeek(week_name=weeks[0], page=page, show_form=not self.page.user.has_answered.value)
 
         divider = ft.Divider()
 
