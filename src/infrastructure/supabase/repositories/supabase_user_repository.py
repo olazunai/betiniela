@@ -53,7 +53,9 @@ class SupabaseUserRepository(UserRepository):
             "id", str(user_id.value)
         ).execute()
 
-    async def update_has_answered(self, user_id: UserID, has_answered: UserHasAnswered) -> None:
+    async def update_has_answered(
+        self, user_id: UserID, has_answered: UserHasAnswered
+    ) -> None:
         self.client.table(self.table).update({"has_answered": has_answered.value}).eq(
             "id", str(user_id.value)
         ).execute()

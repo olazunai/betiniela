@@ -1,15 +1,12 @@
-import asyncio
 import flet as ft
 
 from app.pages.calendar.calendar_week import CalendarWeek
-from core.domain.entities.match import Match
+from core.domain.dtos.data import Data
 
 
 class Calendar(ft.Container):
-    def __init__(self, page: ft.Page):
+    def __init__(self, data: Data):
         super().__init__()
-
-        self.page = page
 
         self.expand = True
 
@@ -28,7 +25,7 @@ class Calendar(ft.Container):
                     ),
                     content=CalendarWeek(matches),
                 )
-                for option, matches in self.page.data.matches_by_week.matches.items()
+                for option, matches in data.matches_by_week.matches.items()
             ],
             expand=True,
             scrollable=True,

@@ -27,5 +27,7 @@ class UserRepository(ABC):
         pass
 
     @abstractmethod
-    async def update_has_answered(self, user_id: UserID, has_answered: UserHasAnswered) -> None:
+    async def update_has_answered(
+        self, user_id: UserID, has_answered: UserHasAnswered
+    ) -> None:
         pass

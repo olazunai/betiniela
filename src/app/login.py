@@ -1,26 +1,24 @@
 import flet as ft
 
-from core.application.user.user_creator_service import UserCreatorService
-from core.application.user.user_login_service import UserLoginService
-from infrastructure.supabase.repositories.supabase_user_repository import (
-    SupabaseUserRepository,
-)
-from infrastructure.supabase.supabase_client import SupabaseClient
 from app.widgets.logo import Logo
 from app.widgets.login_body import LoginBody
 from app.register import Register
 from app.navigation_bar import NavigationBar
 from app.app_bar import AppBar
+from core.application.app.fetch_data_service import FetchDataService
+from core.application.user.user_login_service import UserLoginService
 
 
 class Login(LoginBody):
-    def __init__(self, page: ft.Page):
+    def __init__(self):
         super().__init__()
 
-        self.page = page
+    def build(self):
+        return self._build_function()
 
+    def _build_function(self):
         self.user = ft.TextField(
-            label="Usuario",
+            label=f"Usuario",
             border=ft.InputBorder.UNDERLINE,
             icon=ft.icons.PERSON,
             on_change=self._validate,
@@ -77,18 +75,19 @@ class Login(LoginBody):
             ],
         )
 
-        self.logged = False
-
     async def _validate(self, event: ft.ControlEvent) -> None:
         if all([self.user.value, self.password.value]):
             self.log_in_button.disabled = False
         else:
             self.log_in_button.disabled = True
 
+        self.update()
         self.page.update()
 
     async def _log_in(self, event: ft.ControlEvent) -> None:
-        user_login_service = self.page.container.services.user_login_service()
+        user_login_service: UserLoginService = (
+            self.page.container.services.user_login_service()
+        )
 
         user = await user_login_service(
             user_name=self.user.value, password=self.password.value
@@ -96,13 +95,14 @@ class Login(LoginBody):
         if user is not None:
             self.page.clean()
 
-            self.page.user = user
+            fetch_data_service: FetchDataService = (
+                self.page.container.services.fetch_data_service()
+            )
+            data = await fetch_data_service()
+            data.user = user
 
-            fetch_data_service = self.page.container.services.fetch_data_service()
-            self.page.data = await fetch_data_service()
-
-            self.page.appbar = AppBar(page=self.page)
-            self.page.navigation_bar = NavigationBar(page=self.page)
+            self.page.appbar = AppBar()
+            self.page.navigation_bar = NavigationBar(data=data)
 
             self.page.update()
         else:
@@ -111,8 +111,6 @@ class Login(LoginBody):
     async def _sign_in(self, event: ft.ControlEvent) -> None:
         self.page.clean()
 
-        self.page.add(
-            Register(page=self.page),
-        )
+        self.page.add(Register())
 
         self.page.update()

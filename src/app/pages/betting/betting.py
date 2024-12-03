@@ -4,17 +4,18 @@ from app.pages.betting.betting_form_week import BettingFormWeek
 from app.pages.betting.betting_week import BettingWeek
 from app.widgets.body import Body
 from app.widgets.dropdown import Dropdown
+from core.domain.dtos.data import Data
 
 
 class Betting(Body):
-    def __init__(self, page: ft.Page):
+    def __init__(self, data: Data):
         super().__init__()
 
-        self.page = page
+        weeks = sorted(data.matches_by_week.matches.keys())
 
-        weeks = sorted(page.data.matches_by_week.matches.keys())
-
-        form = BettingFormWeek(week_name=weeks[0], page=page, show_form=not self.page.user.has_answered.value)
+        form = BettingFormWeek(
+            week_name=weeks[0], data=data, show_form=not data.user.has_answered.value
+        )
 
         divider = ft.Divider()
 

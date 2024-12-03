@@ -1,7 +1,7 @@
 from uuid import UUID
 from dataclasses import dataclass
 
-from core.domain.entities.user import UserID, UserName
+from core.domain.entities.user import UserName
 from core.domain.value_objects.week import Week
 
 

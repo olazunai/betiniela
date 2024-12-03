@@ -2,10 +2,8 @@ import flet as ft
 
 
 class AppBar(ft.AppBar):
-    def __init__(self, page: ft.Page):
+    def __init__(self):
         super().__init__()
-
-        self.page = page
 
         self.adaptive = True
         self.leading = ft.Icon(ft.icons.PALETTE)

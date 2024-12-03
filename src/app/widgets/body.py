@@ -1,4 +1,3 @@
-from typing import Optional
 import flet as ft
 
 

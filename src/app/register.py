@@ -1,6 +1,6 @@
-import email
 import flet as ft
 
+from core.application.app.fetch_data_service import FetchDataService
 from core.application.user.user_creator_service import UserCreatorService
 from app.widgets.login_body import LoginBody
 from app.navigation_bar import NavigationBar
@@ -8,11 +8,13 @@ from app.app_bar import AppBar
 
 
 class Register(LoginBody):
-    def __init__(self, page: ft.Page):
+    def __init__(self):
         super().__init__()
 
-        self.page = page
+    def build(self):
+        return self._build_function()
 
+    def _build_function(self):
         self.user = ft.TextField(
             label="Usuario",
             border=ft.InputBorder.UNDERLINE,
@@ -59,8 +61,7 @@ class Register(LoginBody):
                 ),
             ],
         )
-
-        self.logged = False
+        return self.content
 
     async def _validate(self, event: ft.ControlEvent) -> None:
         if all([self.user.value, self.password.value, self.confirm_password.value]):
@@ -71,7 +72,9 @@ class Register(LoginBody):
         self.page.update()
 
     async def _sign_in(self, event: ft.ControlEvent) -> None:
-        user_creator_service = self.page.container.services.user_creator_service()
+        user_creator_service: UserCreatorService = (
+            self.page.container.services.user_creator_service()
+        )
 
         user = await user_creator_service(
             user_name=self.user.value,
@@ -80,12 +83,13 @@ class Register(LoginBody):
 
         self.page.clean()
 
-        self.page.user = user
+        fetch_data_service: FetchDataService = (
+            self.page.container.services.fetch_data_service()
+        )
+        data = await fetch_data_service()
+        data.user = user
 
-        fetch_data_service = self.page.container.services.fetch_data_service()
-        self.page.data = await fetch_data_service()
-
-        self.page.appbar = AppBar(page=self.page)
-        self.page.navigation_bar = NavigationBar(page=self.page)
+        self.page.appbar = AppBar()
+        self.page.navigation_bar = NavigationBar(data=data)
 
         self.page.update()

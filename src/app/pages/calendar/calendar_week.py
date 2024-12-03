@@ -1,9 +1,8 @@
-from datetime import date, datetime
+from datetime import datetime
 import flet as ft
 
 from app.pages.calendar.calendar_match import CalendarMatch
 from core.domain.dtos.matches_by_week import MatchesByDate
-from core.domain.entities.match import Match
 
 
 class CalendarWeek(ft.Column):

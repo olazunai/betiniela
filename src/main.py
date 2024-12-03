@@ -12,9 +12,7 @@ async def main(page: ft.Page, container: MainContainer):
 
     page.container = container
 
-    login = Login(page=page)
-
-    page.add(login)
+    page.add(Login())
 
     page.update()
 
