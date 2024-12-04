@@ -14,10 +14,10 @@ class SupabaseResponseRepository:
     client: Client
     table: str = "responses"
 
-    async def add(self, response: Response) -> None:
+    def add(self, response: Response) -> None:
         self.client.table(self.table).insert(response.serialize()).execute()
 
-    async def get_by_id(self, response_id: ResponseID) -> Optional[Response]:
+    def get_by_id(self, response_id: ResponseID) -> Optional[Response]:
         result = (
             self.client.table(self.table)
             .select("*")
@@ -30,7 +30,7 @@ class SupabaseResponseRepository:
 
         return Response.deserialize(result.data[0])
 
-    async def get(
+    def get(
         self, week: Week = None, match_id: MatchID = None, user_id: UserID = None
     ) -> list[Response]:
         query = self.client.table(self.table).select("*")
@@ -47,5 +47,5 @@ class SupabaseResponseRepository:
         result = query.execute()
         return [Response.deserialize(data) for data in result.data]
 
-    async def update(self, response: Response) -> None:
+    def update(self, response: Response) -> None:
         self.client.table(self.table).upsert(response.serialize()).execute()

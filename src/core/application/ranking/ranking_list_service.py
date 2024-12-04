@@ -9,7 +9,7 @@ from core.domain.value_objects.week import Week
 class RankingListService:
     ranking_repository: RankingRepository
 
-    async def __call__(self, week_name: str) -> list[Ranking]:
-        rankings = await self.ranking_repository.get(Week.deserialize(week_name))
+    def __call__(self, week_name: str) -> list[Ranking]:
+        rankings = self.ranking_repository.get(Week.deserialize(week_name))
 
         return rankings

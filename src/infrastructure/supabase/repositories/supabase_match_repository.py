@@ -13,10 +13,10 @@ class SupabaseMatchRepository(MatchRepository):
     client: Client
     table: str = "matches"
 
-    async def add(self, match: Match) -> None:
+    def add(self, match: Match) -> None:
         self.client.table(self.table).insert(match.serialize()).execute()
 
-    async def get_by_id(self, match_id: MatchID) -> Optional[Match]:
+    def get_by_id(self, match_id: MatchID) -> Optional[Match]:
         result = (
             self.client.table(self.table)
             .select("*")
@@ -29,7 +29,7 @@ class SupabaseMatchRepository(MatchRepository):
 
         return Match.deserialize(result.data[0])
 
-    async def get(self, week: Week = None) -> list[Match]:
+    def get(self, week: Week = None) -> list[Match]:
         query = self.client.table(self.table).select("*")
 
         if week is not None:
@@ -38,7 +38,7 @@ class SupabaseMatchRepository(MatchRepository):
         result = query.execute()
         return [Match.deserialize(data) for data in result.data]
 
-    async def update_result(self, match_id: MatchID, result: MatchResult) -> None:
+    def update_result(self, match_id: MatchID, result: MatchResult) -> None:
         self.client.table(self.table).update({"result": result.serialize()}).eq(
             "id", str(match_id.value)
         ).execute()

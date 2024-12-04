@@ -18,9 +18,9 @@ from core.domain.repositories.user_repository import UserRepository
 class UserCreatorService:
     user_repository: UserRepository
 
-    async def __call__(self, user_name: str, password: str) -> User:
+    def __call__(self, user_name: str, password: str) -> User:
 
-        existing_user = await self.user_repository.get_by_name(UserName(user_name))
+        existing_user = self.user_repository.get_by_name(UserName(user_name))
         if existing_user:
             raise UserAlreadyExistsException(
                 "Trying to create user with already existing user name."
@@ -35,6 +35,6 @@ class UserCreatorService:
             has_answered=UserHasAnswered(False),
         )
 
-        await self.user_repository.add(user)
+        self.user_repository.add(user)
 
         return user

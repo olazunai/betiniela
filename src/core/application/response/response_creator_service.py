@@ -19,7 +19,7 @@ from core.domain.value_objects.week import Week
 class ResponseCreatorService:
     response_repository: ResponseRepository
 
-    async def __call__(
+    def __call__(
         self,
         week_name: str,
         match_id: UUID,
@@ -27,7 +27,7 @@ class ResponseCreatorService:
         winner_team: str,
         losser_points: str,
     ) -> None:
-        existing_response = await self.response_repository.get(
+        existing_response = self.response_repository.get(
             match_id=MatchID(match_id), user_id=UserID(user_id)
         )
         if existing_response:
@@ -45,4 +45,4 @@ class ResponseCreatorService:
             response_time=datetime.now(),
         )
 
-        await self.response_repository.add(response)
+        self.response_repository.add(response)

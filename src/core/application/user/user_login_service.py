@@ -11,9 +11,9 @@ from core.domain.repositories.user_repository import UserRepository
 class UserLoginService:
     user_repository: UserRepository
 
-    async def __call__(self, user_name: str, password: str) -> Optional[User]:
+    def __call__(self, user_name: str, password: str) -> Optional[User]:
 
-        user = await self.user_repository.get_by_name(UserName(user_name))
+        user = self.user_repository.get_by_name(UserName(user_name))
         if not user:
             raise UserDoesNotExistsException(
                 f"Non existing user with {user_name} name."
@@ -22,7 +22,7 @@ class UserLoginService:
         is_valid = user.name.value == user_name and user.password.value == password
 
         if is_valid:
-            await self.user_repository.update_last_login(
+            self.user_repository.update_last_login(
                 user_id=user.id,
                 last_login=datetime.now(),
             )

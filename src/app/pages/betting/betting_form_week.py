@@ -37,7 +37,7 @@ class BettingFormWeek(ft.Container):
                 text_align=ft.TextAlign.CENTER,
             ),
             alignment=ft.alignment.center,
-            padding=ft.padding.only(bottom=30)
+            padding=ft.padding.only(bottom=30),
         )
         self.pending_form = ft.Text(
             "Tienes pendiente una quiniela para rellenar",
@@ -80,7 +80,7 @@ class BettingFormWeek(ft.Container):
             horizontal_alignment=ft.CrossAxisAlignment.CENTER,
         )
 
-    async def _send_response(self, event: ft.ControlEvent):
+    def _send_response(self, event: ft.ControlEvent):
         response_creator_service: ResponseCreatorService = (
             self.page.container.services.response_creator_service()
         )
@@ -89,7 +89,7 @@ class BettingFormWeek(ft.Container):
         )
 
         for form_match in self.form_matches:
-            await response_creator_service(
+            response_creator_service(
                 week_name=self.week_name,
                 match_id=form_match.data.match_id.value,
                 user_id=self.data.user.id.value,
@@ -97,7 +97,7 @@ class BettingFormWeek(ft.Container):
                 losser_points=form_match.data.losser,
             )
 
-        await user_has_answered_updater_service(
+        user_has_answered_updater_service(
             user_id=self.data.user.id.value,
             has_answered=True,
         )
@@ -111,7 +111,7 @@ class BettingFormWeek(ft.Container):
 
         self.update()
 
-    async def _form(self, event: ft.ControlEvent):
+    def _form(self, event: ft.ControlEvent):
         self.pending_form.visible = False
         self.form_button.visible = False
 

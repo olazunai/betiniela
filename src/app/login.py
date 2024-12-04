@@ -75,7 +75,7 @@ class Login(LoginBody):
             ],
         )
 
-    async def _validate(self, event: ft.ControlEvent) -> None:
+    def _validate(self, event: ft.ControlEvent) -> None:
         if all([self.user.value, self.password.value]):
             self.log_in_button.disabled = False
         else:
@@ -84,12 +84,12 @@ class Login(LoginBody):
         self.update()
         self.page.update()
 
-    async def _log_in(self, event: ft.ControlEvent) -> None:
+    def _log_in(self, event: ft.ControlEvent) -> None:
         user_login_service: UserLoginService = (
             self.page.container.services.user_login_service()
         )
 
-        user = await user_login_service(
+        user = user_login_service(
             user_name=self.user.value, password=self.password.value
         )
         if user is not None:
@@ -98,7 +98,7 @@ class Login(LoginBody):
             fetch_data_service: FetchDataService = (
                 self.page.container.services.fetch_data_service()
             )
-            data = await fetch_data_service()
+            data = fetch_data_service()
             data.user = user
 
             self.page.appbar = AppBar()
@@ -108,7 +108,7 @@ class Login(LoginBody):
         else:
             print("ERROR")
 
-    async def _sign_in(self, event: ft.ControlEvent) -> None:
+    def _sign_in(self, event: ft.ControlEvent) -> None:
         self.page.clean()
 
         self.page.add(Register())

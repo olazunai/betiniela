@@ -45,13 +45,13 @@ class Betting(Body):
             margin=ft.margin.only(left=20, bottom=20),
         )
 
-        self.selected_index = 0 if self.data.user.has_answered.value else None
-
         self.options = self.weeks
         self.views = [
-            BettingWeek(week=Week.deserialize(option), data=self.data, visible=i == self.selected_index)
-            for i, option in enumerate(self.options)
+            BettingWeek(week=Week.deserialize(option), data=self.data, visible=True)
+            for option in self.options
         ]
+
+        self.selected_index = 0 if self.data.user.has_answered.value else None
 
         dropdown = Dropdown(
             options=self.options,
@@ -66,13 +66,15 @@ class Betting(Body):
             alignment=ft.MainAxisAlignment.SPACE_BETWEEN,
         )
 
-        self.controls = [betting_title, form, divider, responses_header] + self.views
+        self.controls = [betting_title, form, divider, responses_header]
+
+        if self.selected_index is not None:
+            self.controls.append(self.views[self.selected_index])
 
     def _betting_week_changer(self, event: ft.ControlEvent):
+        self.controls.pop()
         for option, view in zip(self.options, self.views):
             if option == event.data:
-                view.visible = True
-            else:
-                view.visible = False
+                self.controls.append(view)
 
         self.update()

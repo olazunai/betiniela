@@ -13,10 +13,10 @@ class SupabaseUserRepository(UserRepository):
     client: Client
     table: str = "users"
 
-    async def add(self, user: User) -> None:
+    def add(self, user: User) -> None:
         self.client.table(self.table).insert(user.serialize()).execute()
 
-    async def get_by_id(self, user_id: UserID) -> Optional[User]:
+    def get_by_id(self, user_id: UserID) -> Optional[User]:
         result = (
             self.client.table(self.table)
             .select("*")
@@ -29,7 +29,7 @@ class SupabaseUserRepository(UserRepository):
 
         return User.deserialize(result.data[0])
 
-    async def get_by_name(self, name: UserName) -> Optional[User]:
+    def get_by_name(self, name: UserName) -> Optional[User]:
         result = (
             self.client.table(self.table).select("*").eq("name", name.value).execute()
         )
@@ -39,7 +39,7 @@ class SupabaseUserRepository(UserRepository):
 
         return User.deserialize(result.data[0])
 
-    async def get(self, name: UserName) -> list[User]:
+    def get(self, name: UserName) -> list[User]:
         query = self.client.table(self.table).select("*")
 
         if name is not None:
@@ -48,12 +48,12 @@ class SupabaseUserRepository(UserRepository):
         result = query.execute()
         return [User.deserialize(data) for data in result.data]
 
-    async def update_last_login(self, user_id: UserID, last_login: datetime) -> None:
+    def update_last_login(self, user_id: UserID, last_login: datetime) -> None:
         self.client.table(self.table).update({"last_login": last_login.isoformat()}).eq(
             "id", str(user_id.value)
         ).execute()
 
-    async def update_has_answered(
+    def update_has_answered(
         self, user_id: UserID, has_answered: UserHasAnswered
     ) -> None:
         self.client.table(self.table).update({"has_answered": has_answered.value}).eq(

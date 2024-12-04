@@ -12,10 +12,10 @@ class FetchDataService:
     ranking_list_service: RankingListService
     response_list_service: ResponseListService
 
-    async def __call__(self) -> Data:
-        matches_by_week = await self.match_list_service()
-        rankings = await self.ranking_list_service(week_name="jornada 1")
-        responses_by_week = await self.response_list_service()
+    def __call__(self) -> Data:
+        matches_by_week = self.match_list_service()
+        rankings = self.ranking_list_service(week_name="jornada 1")
+        responses_by_week = self.response_list_service()
 
         return Data(
             matches_by_week=matches_by_week,

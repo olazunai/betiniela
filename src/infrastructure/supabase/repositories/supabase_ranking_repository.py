@@ -13,10 +13,10 @@ class SupabaseRankingRepository(RankingRepository):
     client: Client
     table: str = "rankings"
 
-    async def add(self, ranking: Ranking) -> None:
+    def add(self, ranking: Ranking) -> None:
         self.client.table(self.table).insert(ranking.serialize()).execute()
 
-    async def get_by_id(self, ranking_id: RankingID) -> Optional[Ranking]:
+    def get_by_id(self, ranking_id: RankingID) -> Optional[Ranking]:
         result = (
             self.client.table(self.table)
             .select("*")
@@ -29,7 +29,7 @@ class SupabaseRankingRepository(RankingRepository):
 
         return Ranking.deserialize(result.data[0])
 
-    async def get(self, week: Week = None) -> list[Ranking]:
+    def get(self, week: Week = None) -> list[Ranking]:
         query = self.client.table(self.table).select("*")
 
         if week is not None:
@@ -38,7 +38,7 @@ class SupabaseRankingRepository(RankingRepository):
         result = query.order("points", desc=True).execute()
         return [Ranking.deserialize(data) for data in result.data]
 
-    async def update_points(self, ranking_id: RankingID, points: RankingPoints) -> None:
+    def update_points(self, ranking_id: RankingID, points: RankingPoints) -> None:
         self.client.table(self.table).update({"points": points.value}).eq(
             "id", str(ranking_id.value)
         ).execute()

@@ -63,7 +63,7 @@ class Register(LoginBody):
         )
         return self.content
 
-    async def _validate(self, event: ft.ControlEvent) -> None:
+    def _validate(self, event: ft.ControlEvent) -> None:
         if all([self.user.value, self.password.value, self.confirm_password.value]):
             self.sign_in_button.disabled = False
         else:
@@ -71,12 +71,12 @@ class Register(LoginBody):
 
         self.page.update()
 
-    async def _sign_in(self, event: ft.ControlEvent) -> None:
+    def _sign_in(self, event: ft.ControlEvent) -> None:
         user_creator_service: UserCreatorService = (
             self.page.container.services.user_creator_service()
         )
 
-        user = await user_creator_service(
+        user = user_creator_service(
             user_name=self.user.value,
             password=self.password.value,
         )
@@ -86,7 +86,7 @@ class Register(LoginBody):
         fetch_data_service: FetchDataService = (
             self.page.container.services.fetch_data_service()
         )
-        data = await fetch_data_service()
+        data = fetch_data_service()
         data.user = user
 
         self.page.appbar = AppBar()

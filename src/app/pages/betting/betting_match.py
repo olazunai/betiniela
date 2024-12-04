@@ -3,6 +3,7 @@ import flet as ft
 
 class BettingMatch(ft.Container):
     def __init__(self, local_team: str, visitor_team: str, winner: str, losser: str):
+        self.losser = losser
         super().__init__()
 
         header = ft.Row(

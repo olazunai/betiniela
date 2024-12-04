@@ -1,22 +1,26 @@
 from dataclasses import dataclass
+from typing import Optional
 
 from core.domain.dtos.responses_by_week import ResponsesByWeek
 from core.domain.entities.response import Response
 from core.domain.repositories.response_repository import ResponseRepository
+from core.domain.value_objects.week import Week
 
 
 @dataclass
 class ResponseListService:
     response_repository: ResponseRepository
 
-    async def __call__(self) -> ResponsesByWeek:
-        responses = await self.response_repository.get()
+    def __call__(self, week: Optional[Week] = None) -> ResponsesByWeek:
+        responses = self.response_repository.get(week=week)
 
-        responses_by_week = await self._divide_responses_by_week(responses)
+        responses_by_week = self._divide_responses_by_week(responses)
         return ResponsesByWeek(responses=responses_by_week)
 
     @staticmethod
-    async def _divide_responses_by_week(responses: list[Response]) -> dict[str, list[Response]]:
+    def _divide_responses_by_week(
+        responses: list[Response],
+    ) -> dict[str, list[Response]]:
         responses_by_week = {}
         for response in responses:
             responses_by_week[response.week.name()] = responses_by_week.get(

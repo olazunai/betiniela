@@ -5,7 +5,7 @@ from app.login import Login
 from container import MainContainer
 
 
-async def main(page: ft.Page, container: MainContainer):
+def main(page: ft.Page, container: MainContainer):
     page.title = "Betiniela"
     page.vertical_alignment = "center"
     page.horizontal_alignment = "center"
