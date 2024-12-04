@@ -9,12 +9,20 @@ from core.domain.dtos.data import Data
 
 
 class BettingFormWeek(ft.Container):
-    def __init__(self, week_name: str, data: Data, show_form: bool):
+    def __init__(self, week_name: str, data: Data):
         super().__init__()
 
         self.week_name = week_name
-        self.data = data
+        self.data: Data = data
 
+    def build(self):
+        self._build_function()
+
+    def before_update(self):
+        has_answered = self.data.user.has_answered.value
+        self.no_form.visible = has_answered
+
+    def _build_function(self):
         self.padding = ft.Padding(
             left=50,
             right=50,
@@ -24,15 +32,30 @@ class BettingFormWeek(ft.Container):
 
         self.no_form = ft.Text(
             "Ya has rellenado la quiniela de esta semana. Puedes editarla desde las respuestas.",
-            visible=not show_form,
+            visible=self.data.user.has_answered.value,
+            text_align=ft.TextAlign.CENTER,
+            expand=True,
         )
-        self.to_answer = ft.Text("Tienes pendiente una quiniela para rellenar")
-        self.form_button = ft.ElevatedButton(text="Rellenar", on_click=self._form)
+        self.pending_form = ft.Text(
+            "Tienes pendiente una quiniela para rellenar",
+            text_align=ft.TextAlign.CENTER,
+            visible=not self.data.user.has_answered.value,
+        )
 
-        self.controls = []
-        for matches in data.matches_by_week.matches[week_name].matches:
+        self.form_button = ft.Container(
+            content=ft.ElevatedButton(
+                text="Rellenar",
+                on_click=self._form,
+                visible=not self.data.user.has_answered.value,
+            ),
+            alignment=ft.alignment.center,
+            padding=ft.padding.only(top=20, bottom=30),
+        )
+
+        self.form_matches = []
+        for matches in self.data.matches_by_week.matches[self.week_name].matches:
             for match in matches.matches:
-                self.controls.append(
+                self.form_matches.append(
                     BettingFormMatch(
                         match_id=match.id,
                         local_team=match.local_team.value,
@@ -46,8 +69,8 @@ class BettingFormWeek(ft.Container):
         )
 
         self.content = ft.Column(
-            controls=[self.no_form, self.to_answer, self.form_button]
-            + self.controls
+            controls=[self.no_form, self.pending_form, self.form_button]
+            + self.form_matches
             + [self.submit_button],
             expand=True,
             alignment=ft.MainAxisAlignment.CENTER,
@@ -62,13 +85,13 @@ class BettingFormWeek(ft.Container):
             self.page.container.services.user_has_answered_updater_service()
         )
 
-        for control in self.controls:
+        for form_match in self.form_matches:
             await response_creator_service(
                 week_name=self.week_name,
-                match_id=control.data.match_id.value,
+                match_id=form_match.data.match_id.value,
                 user_id=self.data.user.id.value,
-                winner_team=control.data.winner,
-                losser_points=control.data.losser,
+                winner_team=form_match.data.winner,
+                losser_points=form_match.data.losser,
             )
 
         await user_has_answered_updater_service(
@@ -78,22 +101,20 @@ class BettingFormWeek(ft.Container):
 
         self.data.user.has_answered.value = True
 
-        self.no_form.visible = True
-
-        for control in self.controls:
-            control.visible = False
+        for form_match in self.form_matches:
+            form_match.visible = False
 
         self.submit_button.visible = False
 
-        self.page.update()
+        self.update()
 
     async def _form(self, event: ft.ControlEvent):
-        self.to_answer.visible = False
+        self.pending_form.visible = False
         self.form_button.visible = False
 
-        for control in self.controls:
-            control.visible = True
+        for form_match in self.form_matches:
+            form_match.visible = True
 
         self.submit_button.visible = True
 
-        self.page.update()
+        self.update()
