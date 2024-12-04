@@ -11,6 +11,7 @@ from core.application.match.match_list_service import MatchListService
 from core.application.ranking.ranking_list_service import RankingListService
 from core.application.response.response_creator_service import ResponseCreatorService
 from core.application.response.response_list_service import ResponseListService
+from core.application.response.response_updater_service import ResponseUpdaterService
 from core.application.user.user_creator_service import UserCreatorService
 from core.application.user.user_has_answered_updater_service import (
     UserHasNasweredUpdaterService,
@@ -48,6 +49,10 @@ class Services(DeclarativeContainer):
     )
     response_list_service: Provider[ResponseListService] = Factory(
         ResponseListService,
+        response_repository=database_container.response_repository,
+    )
+    response_updater_service: Provider[ResponseUpdaterService] = Factory(
+        ResponseUpdaterService,
         response_repository=database_container.response_repository,
     )
 

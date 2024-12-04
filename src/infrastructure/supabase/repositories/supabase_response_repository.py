@@ -1,11 +1,13 @@
 from dataclasses import dataclass
+from datetime import datetime
 from typing import Optional
 
 from supabase import Client
 
 from core.domain.entities.match import MatchID
-from core.domain.entities.response import Response, ResponseID
+from core.domain.entities.response import Response, ResponseID, ResponseLosserPoints
 from core.domain.entities.user import UserID
+from core.domain.value_objects.team import Team
 from core.domain.value_objects.week import Week
 
 
@@ -47,5 +49,13 @@ class SupabaseResponseRepository:
         result = query.execute()
         return [Response.deserialize(data) for data in result.data]
 
-    def update(self, response: Response) -> None:
-        self.client.table(self.table).upsert(response.serialize()).execute()
+    def update_data(
+        self, response_id: ResponseID, winner: Team, losser_points: ResponseLosserPoints
+    ) -> None:
+        self.client.table(self.table).update(
+            {
+                "losser_points": losser_points.value,
+                "winner": winner.value,
+                "updated_time": datetime.now().isoformat(),
+            }
+        ).eq("id", str(response_id.value)).execute()

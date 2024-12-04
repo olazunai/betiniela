@@ -72,9 +72,10 @@ class Betting(Body):
             self.controls.append(self.views[self.selected_index])
 
     def _betting_week_changer(self, event: ft.ControlEvent):
-        self.controls.pop()
-        for option, view in zip(self.options, self.views):
+        self.controls = self.controls[:4]
+        for i, (option, view) in enumerate(zip(self.options, self.views)):
             if option == event.data:
                 self.controls.append(view)
+                self.selected_index = i
 
         self.update()

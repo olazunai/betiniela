@@ -45,14 +45,7 @@ class BettingWeek(ft.Container):
                     if match.id.value != match_id:
                         continue
 
-                    self.responses.append(
-                        BettingMatch(
-                            local_team=match.local_team.value,
-                            visitor_team=match.visitor_team.value,
-                            winner=response.winner.value,
-                            losser=response.losser_points.value,
-                        )
-                    )
+                    self.responses.append(BettingMatch(match=match, response=response))
 
         self.no_response = ft.Container(
             content=ft.Text(

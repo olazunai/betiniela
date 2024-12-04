@@ -16,3 +16,7 @@ class UserDoesNotExistsException(DoesNotExistException):
 
 class ResponseAlreadyExistsException(AlreadyExistsException):
     pass
+
+
+class ResponseDoesNotExistsException(DoesNotExistException):
+    pass

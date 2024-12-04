@@ -50,7 +50,7 @@ class BettingFormMatch(ft.Container):
         divider = ft.Divider(thickness=0.5)
 
         self.content = ft.Column(
-            controls=[divider, self.winner, self.losser],
+            controls=[divider, self.winner, self.losser, divider],
             spacing=20,
             alignment=ft.MainAxisAlignment.CENTER,
             horizontal_alignment=ft.CrossAxisAlignment.CENTER,

@@ -2,8 +2,9 @@ from abc import ABC, abstractmethod
 from typing import Optional
 
 from core.domain.entities.match import MatchID
-from core.domain.entities.response import Response, ResponseID
+from core.domain.entities.response import Response, ResponseID, ResponseLosserPoints
 from core.domain.entities.user import UserID
+from core.domain.value_objects.team import Team
 from core.domain.value_objects.week import Week
 
 
@@ -23,5 +24,7 @@ class ResponseRepository(ABC):
         pass
 
     @abstractmethod
-    def update(self, response: Response) -> None:
+    def update_data(
+        self, response_id: ResponseID, winner: Team, losser_points: ResponseLosserPoints
+    ) -> None:
         pass
