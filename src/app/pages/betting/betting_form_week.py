@@ -62,14 +62,7 @@ class BettingFormWeek(ft.Container):
         self.form_matches = []
         for matches in self.data.matches_by_week.matches[self.week_name].matches:
             for match in matches.matches:
-                self.form_matches.append(
-                    BettingFormMatch(
-                        match_id=match.id,
-                        local_team=match.local_team.value,
-                        visitor_team=match.visitor_team.value,
-                        visible=False,
-                    )
-                )
+                self.form_matches.append(BettingFormMatch(match=match, visible=False))
 
         self.submit_button = ft.ElevatedButton(
             text="Enviar respuesta", on_click=self._send_response, visible=False

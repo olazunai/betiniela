@@ -2,18 +2,16 @@ import flet as ft
 
 from app.widgets.dropdown import Dropdown
 from core.domain.dtos.betting_form_match_data import BettingFormMatchData
-from core.domain.entities.match import MatchID
+from core.domain.entities.match import Match
 
 
 class BettingFormMatch(ft.Container):
-    def __init__(
-        self, match_id: MatchID, local_team: str, visitor_team: str, visible: bool
-    ):
+    def __init__(self, match: Match, visible: bool):
         super().__init__()
 
         self.visible = visible
 
-        self.data = BettingFormMatchData(match_id=match_id)
+        self.data = BettingFormMatchData(match_id=match.id)
 
         self.winner = ft.RadioGroup(
             content=ft.Row(
@@ -21,8 +19,16 @@ class BettingFormMatch(ft.Container):
                     ft.Text("Ganador:"),
                     ft.Column(
                         controls=[
-                            ft.Radio(value=local_team, label=local_team, width=180),
-                            ft.Radio(value=visitor_team, label=visitor_team, width=180),
+                            ft.Radio(
+                                value=match.local_team.value,
+                                label=match.local_team.value,
+                                width=180,
+                            ),
+                            ft.Radio(
+                                value=match.visitor_team.value,
+                                label=match.visitor_team.value,
+                                width=180,
+                            ),
                         ],
                     ),
                 ],

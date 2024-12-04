@@ -1,5 +1,6 @@
 import flet as ft
 
+from app.pages.betting.betting_edit_match import BettingEditMatch
 from core.application.response.response_updater_service import ResponseUpdaterService
 from core.domain.entities.match import Match
 from core.domain.entities.response import Response
@@ -64,23 +65,17 @@ class BettingMatch(ft.Container):
             width=500,
         )
 
-        self.content = ft.Column(
+        self.betting_match = ft.Column(
             controls=[self.header, self.response_container],
             alignment=ft.MainAxisAlignment.CENTER,
             horizontal_alignment=ft.CrossAxisAlignment.CENTER,
         )
 
+        self.edit_match = BettingEditMatch(response=self.response, match=self.match)
+
+        self.content = ft.Stack(
+            controls=[self.betting_match],
+        )
+
     def _edit(self, event: ft.ControlEvent):
-        response_updater_service: ResponseUpdaterService = (
-            self.page.container.services.response_updater_service()
-        )
-
-        new_response = response_updater_service(
-            response_id=self.response.id.value,
-            winner_team=self.response.winner.value,
-            losser_points=self.response.losser_points.value,
-        )
-
-        self.response = new_response
-
-        self.page.update()
+        self.page.open(self.edit_match)

@@ -20,8 +20,7 @@ class ResponseUpdaterService:
         response_id: UUID,
         winner_team: str,
         losser_points: str,
-    ) -> Optional[Response]:
-        losser_points = "0-6"
+    ) -> None:
         response = self.response_repository.get_by_id(
             response_id=ResponseID(response_id),
         )
@@ -35,5 +34,3 @@ class ResponseUpdaterService:
             winner=Team(winner_team),
             losser_points=ResponseLosserPoints(losser_points),
         )
-        response.losser_points = ResponseLosserPoints(losser_points)
-        return response
