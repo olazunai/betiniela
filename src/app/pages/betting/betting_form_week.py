@@ -30,11 +30,14 @@ class BettingFormWeek(ft.Container):
             bottom=5,
         )
 
-        self.no_form = ft.Text(
-            "Ya has rellenado la quiniela de esta semana. Puedes editarla desde las respuestas.",
-            visible=self.data.user.has_answered.value,
-            text_align=ft.TextAlign.CENTER,
-            expand=True,
+        self.no_form = ft.Container(
+            content=ft.Text(
+                "Ya has rellenado la quiniela de esta semana. Puedes editarla desde las respuestas.",
+                visible=self.data.user.has_answered.value,
+                text_align=ft.TextAlign.CENTER,
+            ),
+            alignment=ft.alignment.center,
+            padding=ft.padding.only(bottom=30)
         )
         self.pending_form = ft.Text(
             "Tienes pendiente una quiniela para rellenar",
@@ -46,10 +49,10 @@ class BettingFormWeek(ft.Container):
             content=ft.ElevatedButton(
                 text="Rellenar",
                 on_click=self._form,
-                visible=not self.data.user.has_answered.value,
             ),
             alignment=ft.alignment.center,
             padding=ft.padding.only(top=20, bottom=30),
+            visible=not self.data.user.has_answered.value,
         )
 
         self.form_matches = []

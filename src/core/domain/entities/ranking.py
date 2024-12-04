@@ -25,7 +25,7 @@ class Ranking:
     def serialize(self) -> dict:
         return {
             "id": str(self.id.value),
-            "week": self.week.name(),
+            "week": self.week.serialize(),
             "user_name": self.user_name.value,
             "points": self.points.value,
         }

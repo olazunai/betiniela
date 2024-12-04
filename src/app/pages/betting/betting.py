@@ -5,6 +5,7 @@ from app.pages.betting.betting_week import BettingWeek
 from app.widgets.body import Body
 from app.widgets.dropdown import Dropdown
 from core.domain.dtos.data import Data
+from core.domain.value_objects.week import Week
 
 
 class Betting(Body):
@@ -12,9 +13,12 @@ class Betting(Body):
         super().__init__()
 
         self.data: Data = data
+        self.weeks = sorted(data.matches_by_week.matches.keys())
 
-        weeks = sorted(data.matches_by_week.matches.keys())
+    def build(self):
+        self._build_function()
 
+    def _build_function(self):
         betting_title = ft.Container(
             ft.Text(
                 "Quiniela",
@@ -26,7 +30,7 @@ class Betting(Body):
             margin=ft.margin.only(left=20, bottom=20),
         )
 
-        form = BettingFormWeek(week_name=weeks[0], data=data)
+        form = BettingFormWeek(week_name=self.weeks[0], data=self.data)
 
         divider = ft.Divider()
 
@@ -43,9 +47,9 @@ class Betting(Body):
 
         self.selected_index = 0 if self.data.user.has_answered.value else None
 
-        self.options = weeks
+        self.options = self.weeks
         self.views = [
-            BettingWeek(week=option, visible=i == self.selected_index)
+            BettingWeek(week=Week.deserialize(option), data=self.data, visible=i == self.selected_index)
             for i, option in enumerate(self.options)
         ]
 
@@ -54,6 +58,7 @@ class Betting(Body):
             label="Selecciona la jornada",
             on_change=self._betting_week_changer,
             selected_index=self.selected_index,
+            width=180,
         )
 
         responses_header = ft.Row(
@@ -70,4 +75,4 @@ class Betting(Body):
             else:
                 view.visible = False
 
-        self.page.update()
+        self.update()

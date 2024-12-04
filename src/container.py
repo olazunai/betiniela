@@ -10,6 +10,7 @@ from core.application.app.fetch_data_service import FetchDataService
 from core.application.match.match_list_service import MatchListService
 from core.application.ranking.ranking_list_service import RankingListService
 from core.application.response.response_creator_service import ResponseCreatorService
+from core.application.response.response_list_service import ResponseListService
 from core.application.user.user_creator_service import UserCreatorService
 from core.application.user.user_has_answered_updater_service import (
     UserHasNasweredUpdaterService,
@@ -45,6 +46,10 @@ class Services(DeclarativeContainer):
         ResponseCreatorService,
         response_repository=database_container.response_repository,
     )
+    response_list_service: Provider[ResponseListService] = Factory(
+        ResponseListService,
+        response_repository=database_container.response_repository,
+    )
 
     ranking_list_service: Provider[RankingListService] = Factory(
         RankingListService,
@@ -55,6 +60,7 @@ class Services(DeclarativeContainer):
         FetchDataService,
         match_list_service=match_list_service,
         ranking_list_service=ranking_list_service,
+        response_list_service=response_list_service,
     )
 
 

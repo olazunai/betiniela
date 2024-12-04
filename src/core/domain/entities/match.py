@@ -50,7 +50,7 @@ class Match:
     def serialize(self) -> dict:
         return {
             "id": str(self.id.value),
-            "week": self.week.name(),
+            "week": self.week.serialize(),
             "match_day": self.match_day.isoformat(),
             "local_team": self.local_team.value,
             "visitor_team": self.visitor_team.value,

@@ -37,7 +37,7 @@ class Response:
     def serialize(self) -> dict:
         return {
             "id": str(self.id.value),
-            "week": self.week.name(),
+            "week": self.week.serialize(),
             "match_id": str(self.match_id.value),
             "user_id": str(self.user_id.value),
             "winner": self.winner.value,
