@@ -1,5 +1,6 @@
 import flet as ft
 
+from app.app import App
 from core.application.app.fetch_data_service import FetchDataService
 from core.application.user.user_creator_service import UserCreatorService
 from app.widgets.login_body import LoginBody
@@ -83,13 +84,6 @@ class Register(LoginBody):
 
         self.page.clean()
 
-        fetch_data_service: FetchDataService = (
-            self.page.container.services.fetch_data_service()
-        )
-        data = fetch_data_service()
-        data.user = user
-
-        self.page.appbar = AppBar()
-        self.page.navigation_bar = NavigationBar(data=data)
+        self.page.add(App(user=user))
 
         self.page.update()

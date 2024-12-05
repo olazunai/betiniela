@@ -4,8 +4,10 @@ from dependency_injector.providers import (
     Provider,
     Factory,
     Container,
+    Configuration,
 )
 
+from core.application.app.auth_service import AuthService
 from core.application.app.fetch_data_service import FetchDataService
 from core.application.match.match_list_service import MatchListService
 from core.application.ranking.ranking_list_service import RankingListService
@@ -21,6 +23,9 @@ from infrastructure.supabase.container import SupabaseContainer
 
 
 class Services(DeclarativeContainer):
+    config = Configuration()
+    config.secret_key.from_env("SECRET_KEY", "")
+
     database_container = DependenciesContainer()
 
     user_creator_service: Provider[UserCreatorService] = Factory(
@@ -66,6 +71,11 @@ class Services(DeclarativeContainer):
         match_list_service=match_list_service,
         ranking_list_service=ranking_list_service,
         response_list_service=response_list_service,
+    )
+    auth_service: Provider[AuthService] = Factory(
+        AuthService,
+        user_login_service=user_login_service,
+        secret_key=config.secret_key,
     )
 
 

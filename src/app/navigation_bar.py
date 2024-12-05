@@ -26,11 +26,11 @@ class NavigationBar(ft.NavigationBar):
             ),
         ]
 
-        self.views = [
-            Betting(data=data),
-            Ranking(data=data),
-            Calendar(data=data),
-        ]
+        self.betting = Betting(data=data)
+        self.ranking = Ranking(data=data)
+        self.calendar = Calendar(data=data)
+
+        self.views = [self.betting, self.ranking, self.calendar]
 
         self.on_change = self._page_changer
 
@@ -41,7 +41,7 @@ class NavigationBar(ft.NavigationBar):
         self.page.update()
 
     def _page_changer(self, event: ft.ControlEvent):
-        self.page.remove_at(0)
+        self.page.remove_at(1)
         self.page.add(self.views[int(event.data)])
 
         self.page.update()

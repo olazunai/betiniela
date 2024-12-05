@@ -1,11 +1,9 @@
 import flet as ft
 
+from app.app import App
 from app.widgets.logo import Logo
 from app.widgets.login_body import LoginBody
 from app.register import Register
-from app.navigation_bar import NavigationBar
-from app.app_bar import AppBar
-from core.application.app.fetch_data_service import FetchDataService
 from core.application.user.user_login_service import UserLoginService
 
 
@@ -94,16 +92,7 @@ class Login(LoginBody):
         )
         if user is not None:
             self.page.clean()
-
-            fetch_data_service: FetchDataService = (
-                self.page.container.services.fetch_data_service()
-            )
-            data = fetch_data_service()
-            data.user = user
-
-            self.page.appbar = AppBar()
-            self.page.navigation_bar = NavigationBar(data=data)
-
+            self.page.add(App(user=user))
             self.page.update()
         else:
             print("ERROR")
