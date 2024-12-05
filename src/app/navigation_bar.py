@@ -41,7 +41,7 @@ class NavigationBar(ft.NavigationBar):
         self.page.update()
 
     def _page_changer(self, event: ft.ControlEvent):
-        self.page.remove_at(1)
+        self.page.remove_at(-1)
         self.page.add(self.views[int(event.data)])
 
         self.page.update()
