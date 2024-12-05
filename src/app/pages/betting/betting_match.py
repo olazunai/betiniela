@@ -1,7 +1,6 @@
 import flet as ft
 
 from app.pages.betting.betting_edit_match import BettingEditMatch
-from core.application.response.response_updater_service import ResponseUpdaterService
 from core.domain.entities.match import Match
 from core.domain.entities.response import Response
 
@@ -47,6 +46,7 @@ class BettingMatch(ft.Container):
                 on_click=self._edit,
             ),
             alignment=ft.alignment.center,
+            padding=ft.padding.only(right=20)
         )
 
         self.response_container = ft.Container(
@@ -57,7 +57,7 @@ class BettingMatch(ft.Container):
             ),
             alignment=ft.alignment.center,
             margin=ft.Margin(
-                left=5,
+                left=15,
                 right=5,
                 top=20,
                 bottom=20,
@@ -73,9 +73,7 @@ class BettingMatch(ft.Container):
 
         self.edit_match = BettingEditMatch(response=self.response, match=self.match)
 
-        self.content = ft.Stack(
-            controls=[self.betting_match],
-        )
+        self.content = self.betting_match
 
     def _edit(self, event: ft.ControlEvent):
         self.page.open(self.edit_match)

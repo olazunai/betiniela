@@ -8,8 +8,13 @@ class Calendar(ft.Container):
     def __init__(self, data: Data):
         super().__init__()
 
+        self.data = data
         self.expand = True
 
+    def build(self):
+        self._build_function()
+
+    def _build_function(self):
         tabs = ft.Tabs(
             selected_index=1,
             animation_duration=300,
@@ -25,7 +30,7 @@ class Calendar(ft.Container):
                     ),
                     content=CalendarWeek(matches),
                 )
-                for option, matches in data.matches_by_week.matches.items()
+                for option, matches in self.data.matches_by_week.matches.items()
             ],
             expand=True,
             scrollable=True,
