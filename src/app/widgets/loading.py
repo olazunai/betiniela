@@ -9,7 +9,7 @@ class Loading(ft.Container):
         self.expand = True
 
         self.content = ft.ProgressRing(
-            width = 25,
-            height = 25,
-            stroke_width = 3,
+            width=25,
+            height=25,
+            stroke_width=3,
         )

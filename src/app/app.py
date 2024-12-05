@@ -2,16 +2,21 @@ import flet as ft
 
 from app.app_bar import AppBar
 from app.navigation_bar import NavigationBar
+from app.pages.betting.betting import Betting
+from app.pages.calendar.calendar import Calendar
+from app.pages.ranking.ranking import Ranking
+from core.domain.dtos.data import Data
 from core.application.app.auth_service import AuthService
 from core.application.app.fetch_data_service import FetchDataService
 from core.domain.entities.user import User
 
 
-class App(ft.Container):
+class App(ft.Stack):
     def __init__(self, user: User):
         super().__init__()
 
         self.user = user
+        self.expand = True
 
     def build(self):
         self._build_function()
@@ -22,11 +27,26 @@ class App(ft.Container):
         )
         auth_service: AuthService = self.page.container.services.auth_service()
 
-        data = fetch_data_service()
+        data: Data = fetch_data_service()
         data.user = self.user
 
         token = auth_service.generate_token(user=self.user)
         self.page.client_storage.set(key="betiniela.user_token", value=token)
 
         self.page.appbar = AppBar()
-        self.page.navigation_bar = NavigationBar(data=data)
+        self.page.navigation_bar = NavigationBar(page_changer=self._page_changer)
+
+        self.betting = Betting(data=data)
+        self.ranking = Ranking(data=data)
+        self.calendar = Calendar(data=data)
+
+        self.views = [self.betting, self.ranking, self.calendar]
+
+        self.controls = [self.views[0]]
+
+    def _page_changer(self, n_page: int):
+        if self.controls:
+            self.controls.pop(-1)
+        self.controls.append(self.views[n_page])
+
+        self.update()

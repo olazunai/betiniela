@@ -46,7 +46,7 @@ class BettingMatch(ft.Container):
                 on_click=self._edit,
             ),
             alignment=ft.alignment.center,
-            padding=ft.padding.only(right=20)
+            padding=ft.padding.only(right=20),
         )
 
         self.response_container = ft.Container(
