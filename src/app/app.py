@@ -22,6 +22,9 @@ class App(ft.Stack):
     def build(self):
         self._build_function()
 
+    def did_mount(self):
+        self.loading.visible = False
+
     def _build_function(self):
         fetch_data_service: FetchDataService = (
             self.page.container.services.fetch_data_service()
@@ -50,10 +53,8 @@ class App(ft.Stack):
         if len(self.controls) > 1:
             self.controls.pop(-1)
 
-        self.update()
-
         self.loading.visible = True
-        self.loading.update()
+        self.update()
 
         self.controls.append(self.views[n_page])
 
