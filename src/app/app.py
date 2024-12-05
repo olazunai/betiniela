@@ -5,6 +5,7 @@ from app.navigation_bar import NavigationBar
 from app.pages.betting.betting import Betting
 from app.pages.calendar.calendar import Calendar
 from app.pages.ranking.ranking import Ranking
+from app.widgets.loading import Loading
 from core.domain.dtos.data import Data
 from core.application.app.auth_service import AuthService
 from core.application.app.fetch_data_service import FetchDataService
@@ -41,12 +42,22 @@ class App(ft.Stack):
         self.calendar = Calendar(data=data)
 
         self.views = [self.betting, self.ranking, self.calendar]
+        self.loading = Loading()
 
-        self.controls = [self.views[0]]
+        self.controls = [self.loading, self.views[0]]
 
     def _page_changer(self, n_page: int):
-        if self.controls:
+        if len(self.controls) > 1:
             self.controls.pop(-1)
+
+        self.update()
+
+        self.loading.visible = True
+        self.loading.update()
+
         self.controls.append(self.views[n_page])
 
         self.update()
+
+        self.loading.visible = False
+        self.loading.update()
