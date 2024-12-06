@@ -20,6 +20,7 @@ class Login(LoginBody):
             border=ft.InputBorder.UNDERLINE,
             icon=ft.icons.PERSON,
             on_change=self._validate,
+            autofill_hints=ft.AutofillHint.NAME,
         )
         self.password = ft.TextField(
             label="Contraseña",
@@ -28,6 +29,7 @@ class Login(LoginBody):
             password=True,
             can_reveal_password=True,
             on_change=self._validate,
+            autofill_hints=ft.AutofillHint.PASSWORD,
         )
 
         self.save_login = ft.Checkbox(label="Recordar usuario")
@@ -41,36 +43,38 @@ class Login(LoginBody):
 
         self.sign_in_button = ft.TextButton(text="Crear cuenta", on_click=self._sign_in)
 
-        self.content = ft.Column(
-            controls=[
-                ft.Container(
-                    content=Logo(size=30),
-                    alignment=ft.alignment.center,
-                    padding=ft.padding.only(bottom=30),
-                ),
-                ft.Container(
-                    content=ft.Column(
-                        controls=[self.user, self.password],
-                    )
-                ),
-                ft.Container(
-                    content=self.save_login,
-                    padding=ft.padding.only(top=20, bottom=30),
-                ),
-                ft.Container(
-                    content=self.log_in_button,
-                    alignment=ft.alignment.center,
-                ),
-                ft.Container(
-                    content=ft.Row(
-                        controls=[
-                            ft.Text("¿No tienes una cuenta?"),
-                            self.sign_in_button,
-                        ],
+        self.content = ft.AutofillGroup(
+            content=ft.Column(
+                controls=[
+                    ft.Container(
+                        content=Logo(size=30),
+                        alignment=ft.alignment.center,
+                        padding=ft.padding.only(bottom=30),
                     ),
-                    padding=ft.padding.only(top=30, bottom=10),
-                ),
-            ],
+                    ft.Container(
+                        content=ft.Column(
+                            controls=[self.user, self.password],
+                        )
+                    ),
+                    ft.Container(
+                        content=self.save_login,
+                        padding=ft.padding.only(top=20, bottom=30),
+                    ),
+                    ft.Container(
+                        content=self.log_in_button,
+                        alignment=ft.alignment.center,
+                    ),
+                    ft.Container(
+                        content=ft.Row(
+                            controls=[
+                                ft.Text("¿No tienes una cuenta?"),
+                                self.sign_in_button,
+                            ],
+                        ),
+                        padding=ft.padding.only(top=30, bottom=10),
+                    ),
+                ],
+            ),
         )
 
     def _validate(self, event: ft.ControlEvent) -> None:

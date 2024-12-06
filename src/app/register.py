@@ -40,6 +40,11 @@ class Register(LoginBody):
         self.content = ft.Column(
             controls=[
                 ft.Container(
+                    content=ft.IconButton(
+                        icon=ft.icons.ARROW_BACK, on_click=self._go_login
+                    ),
+                ),
+                ft.Container(
                     content=ft.Column(
                         controls=[
                             self.user,
@@ -50,7 +55,7 @@ class Register(LoginBody):
                             ),
                         ],
                     ),
-                    padding=ft.padding.only(top=80),
+                    padding=ft.padding.only(top=60),
                 ),
                 ft.Container(
                     content=self.sign_in_button,
@@ -84,3 +89,6 @@ class Register(LoginBody):
         self.page.add(MainPage(user=user))
 
         self.page.update()
+
+    def _go_login(self, e: ft.ControlEvent):
+        self.page.logout(e)
