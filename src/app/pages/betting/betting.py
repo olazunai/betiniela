@@ -30,7 +30,9 @@ class Betting(Body):
             margin=ft.margin.only(left=20, bottom=20),
         )
 
-        form = BettingFormWeek(week_name=self.weeks[0], data=self.data)
+        form = BettingFormWeek(
+            week_name=self.data.config.current_week.name(), data=self.data
+        )
 
         divider = ft.Divider()
 
@@ -51,7 +53,12 @@ class Betting(Body):
             for option in self.options
         ]
 
-        self.selected_index = 0 if self.data.user.has_answered.value else None
+        selected_index = sorted(self.data.matches_by_week.matches.keys()).index(
+            self.data.config.current_week.name()
+        )
+        self.selected_index = (
+            selected_index if self.data.user.has_answered.value else None
+        )
 
         dropdown = Dropdown(
             options=self.options,

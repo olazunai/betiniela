@@ -8,15 +8,18 @@ class Calendar(ft.Container):
     def __init__(self, data: Data):
         super().__init__()
 
-        self.data = data
+        self.data: Data = data
         self.expand = True
 
     def build(self):
         self._build_function()
 
     def _build_function(self):
+        selected_index = sorted(self.data.matches_by_week.matches.keys()).index(
+            self.data.config.current_week.name()
+        )
         tabs = ft.Tabs(
-            selected_index=1,
+            selected_index=selected_index,
             animation_duration=300,
             tabs=[
                 ft.Tab(

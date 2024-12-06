@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-import datetime
+from datetime import datetime
 
 from core.domain.value_objects.week import Week
 

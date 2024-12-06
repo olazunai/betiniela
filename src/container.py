@@ -82,6 +82,7 @@ class Services(DeclarativeContainer):
         match_list_service=match_list_service,
         ranking_list_service=ranking_list_service,
         response_list_service=response_list_service,
+        config_retriever_service=config_retriever_service,
     )
     auth_service: Provider[AuthService] = Factory(
         AuthService,
