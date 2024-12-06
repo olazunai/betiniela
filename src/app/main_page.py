@@ -1,3 +1,4 @@
+from typing import Callable
 import flet as ft
 
 from app.app_bar import AppBar
@@ -12,7 +13,7 @@ from core.application.app.fetch_data_service import FetchDataService
 from core.domain.entities.user import User
 
 
-class App(ft.Stack):
+class MainPage(ft.Stack):
     def __init__(self, user: User):
         super().__init__()
 
@@ -37,7 +38,7 @@ class App(ft.Stack):
         token = auth_service.generate_token(user=self.user)
         self.page.client_storage.set(key="betiniela.user_token", value=token)
 
-        self.page.appbar = AppBar()
+        self.page.appbar = AppBar(data=data)
         self.page.navigation_bar = NavigationBar(page_changer=self._page_changer)
 
         self.betting = Betting(data=data)

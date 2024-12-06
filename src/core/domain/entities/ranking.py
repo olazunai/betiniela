@@ -21,6 +21,7 @@ class Ranking:
     user_name: UserName
     week: Week
     points: RankingPoints
+    total_points: RankingPoints
 
     def serialize(self) -> dict:
         return {
@@ -28,6 +29,7 @@ class Ranking:
             "week": self.week.serialize(),
             "user_name": self.user_name.value,
             "points": self.points.value,
+            "total_points": self.total_points.value,
         }
 
     @classmethod
@@ -37,4 +39,5 @@ class Ranking:
             week=Week.deserialize(obj["week"]),
             user_name=UserName(obj["user_name"]),
             points=RankingPoints(obj["points"]),
+            total_points=RankingPoints(obj["total_points"]),
         )

@@ -26,6 +26,10 @@ class SupabaseConfigRepository(ConfigRepository):
         right_winner_points: Optional[int] = None,
         right_losser_points: Optional[int] = None,
     ) -> None:
+        result = self.client.table(self.table).select("id").execute()
+
+        config_id = result.data[0]["id"]
+
         values = {}
 
         if current_week is not None:
@@ -41,4 +45,4 @@ class SupabaseConfigRepository(ConfigRepository):
             values["right_losser_points"] = right_losser_points
 
         if values:
-            self.client.table(self.table).update(values).execute()
+            self.client.table(self.table).update(values).eq("id", config_id).execute()

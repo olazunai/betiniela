@@ -4,6 +4,7 @@ from typing import Optional
 from supabase import Client
 
 from core.domain.entities.ranking import Ranking, RankingID, RankingPoints
+from core.domain.entities.user import UserID
 from core.domain.repositories.ranking_repository import RankingRepository
 from core.domain.value_objects.week import Week
 
@@ -15,6 +16,9 @@ class SupabaseRankingRepository(RankingRepository):
 
     def add(self, ranking: Ranking) -> None:
         self.client.table(self.table).insert(ranking.serialize()).execute()
+
+    def add_or_update(self, ranking: Ranking) -> None:
+        self.client.table(self.table).upsert(ranking.serialize()).execute()
 
     def get_by_id(self, ranking_id: RankingID) -> Optional[Ranking]:
         result = (
@@ -29,11 +33,14 @@ class SupabaseRankingRepository(RankingRepository):
 
         return Ranking.deserialize(result.data[0])
 
-    def get(self, week: Week = None) -> list[Ranking]:
+    def get(self, week: Week = None, user_id: UserID = None) -> list[Ranking]:
         query = self.client.table(self.table).select("*")
 
         if week is not None:
             query = query.eq("week", week.serialize())
+
+        if user_id is not None:
+            query = query.eq("user_id", str(user_id.value))
 
         result = query.order("points", desc=True).execute()
         return [Ranking.deserialize(data) for data in result.data]

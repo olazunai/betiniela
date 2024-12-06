@@ -22,6 +22,10 @@ class ResponseLosserPoints(StrEnum):
     MANY = "16-18"
     VERY_MANY = "19-21"
 
+    def contains(self, value: int) -> bool:
+        interval = self.value.split("-")
+        return value >= int(interval[0]) and value <= int(interval[1])
+
 
 @dataclass
 class Response:

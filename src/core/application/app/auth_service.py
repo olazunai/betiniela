@@ -6,6 +6,7 @@ from cryptography.fernet import Fernet, InvalidToken
 
 from core.application.user.user_login_service import UserLoginService
 from core.domain.entities.user import User
+from core.domain.exceptions import UserDoesNotExistsException
 
 
 @dataclass
@@ -20,10 +21,14 @@ class AuthService:
         except InvalidToken:
             return None
 
-        user = self.user_login_service(
-            user_name=user_data["user"],
-            password=user_data["password"],
-        )
+        try:
+            user = self.user_login_service(
+                user_name=user_data["user"],
+                password=user_data["password"],
+            )
+        except UserDoesNotExistsException:
+            return None
+
         return user
 
     def generate_token(self, user: User) -> str:

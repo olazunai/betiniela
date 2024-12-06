@@ -53,11 +53,8 @@ class Betting(Body):
             for option in self.options
         ]
 
-        selected_index = sorted(self.data.matches_by_week.matches.keys()).index(
+        self.selected_index = sorted(self.data.matches_by_week.matches.keys()).index(
             self.data.config.current_week.name()
-        )
-        self.selected_index = (
-            selected_index if self.data.user.has_answered.value else None
         )
 
         dropdown = Dropdown(

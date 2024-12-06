@@ -8,10 +8,14 @@ from dependency_injector.providers import (
 )
 
 from core.application.app.auth_service import AuthService
+from core.application.app.calculate_points_service import CalculatePointService
 from core.application.app.fetch_data_service import FetchDataService
 from core.application.config.config_retriever_service import ConfigRetrieverService
 from core.application.config.config_updater_service import ConfigUpdaterService
 from core.application.match.match_list_service import MatchListService
+from core.application.match.match_result_updater_service import (
+    MatchResultUpdaterService,
+)
 from core.application.ranking.ranking_list_service import RankingListService
 from core.application.response.response_creator_service import ResponseCreatorService
 from core.application.response.response_list_service import ResponseListService
@@ -47,6 +51,10 @@ class Services(DeclarativeContainer):
 
     match_list_service: Provider[MatchListService] = Factory(
         MatchListService,
+        match_repository=database_container.match_repository,
+    )
+    match_result_updater_service: Provider[MatchResultUpdaterService] = Factory(
+        MatchResultUpdaterService,
         match_repository=database_container.match_repository,
     )
 
@@ -88,6 +96,14 @@ class Services(DeclarativeContainer):
         AuthService,
         user_login_service=user_login_service,
         secret_key=config.secret_key,
+    )
+    calculate_points_service: Provider[CalculatePointService] = Factory(
+        CalculatePointService,
+        config_repository=database_container.config_repository,
+        response_repository=database_container.response_repository,
+        ranking_repository=database_container.ranking_repository,
+        match_repository=database_container.match_repository,
+        user_repository=database_container.user_repository,
     )
 
 

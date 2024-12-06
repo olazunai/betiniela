@@ -35,7 +35,11 @@ class SupabaseMatchRepository(MatchRepository):
         if week is not None:
             query = query.eq("week", week.serialize())
 
-        result = query.execute()
+        result = (
+            query.order("match_day", desc=False)
+            .order("match_time", desc=False)
+            .execute()
+        )
         return [Match.deserialize(data) for data in result.data]
 
     def update_result(self, match_id: MatchID, result: MatchResult) -> None:

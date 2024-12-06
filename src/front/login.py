@@ -1,6 +1,6 @@
 import flet as ft
 
-from app.main_page import MainPage
+from app.main_page import App
 from app.widgets.logo import Logo
 from app.widgets.login_body import LoginBody
 from app.register import Register
@@ -92,7 +92,7 @@ class Login(LoginBody):
         )
         if user is not None:
             self.page.clean()
-            self.page.add(MainPage(user=user))
+            self.page.add(App(user=user))
             self.page.update()
         else:
             print("ERROR")

@@ -18,8 +18,8 @@ class ConfigUpdaterService:
         right_losser_points: Optional[int] = None,
     ) -> None:
         self.config_repository.update(
-            current_week=Week.deserialize(current_week),
-            betting_limiy=betting_limit,
+            current_week=Week.deserialize(current_week) if current_week else None,
+            betting_limit=betting_limit,
             right_winner_points=right_winner_points,
             right_losser_points=right_losser_points,
         )
