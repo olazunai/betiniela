@@ -9,6 +9,8 @@ from dependency_injector.providers import (
 
 from core.application.app.auth_service import AuthService
 from core.application.app.fetch_data_service import FetchDataService
+from core.application.config.config_retriever_service import ConfigRetrieverService
+from core.application.config.config_updater_service import ConfigUpdaterService
 from core.application.match.match_list_service import MatchListService
 from core.application.ranking.ranking_list_service import RankingListService
 from core.application.response.response_creator_service import ResponseCreatorService
@@ -64,6 +66,15 @@ class Services(DeclarativeContainer):
     ranking_list_service: Provider[RankingListService] = Factory(
         RankingListService,
         ranking_repository=database_container.ranking_repository,
+    )
+
+    config_retriever_service: Provider[ConfigRetrieverService] = Factory(
+        ConfigRetrieverService,
+        config_repository=database_container.config_repository,
+    )
+    config_updater_service: Provider[ConfigUpdaterService] = Factory(
+        ConfigUpdaterService,
+        config_repository=database_container.config_repository,
     )
 
     fetch_data_service: Provider[FetchDataService] = Factory(

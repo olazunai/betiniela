@@ -3,10 +3,14 @@ from dependency_injector.providers import Singleton, Provider, Configuration, Re
 from dependency_injector import resources
 from supabase import Client, create_client
 
+from core.domain.repositories.config_repository import ConfigRepository
 from core.domain.repositories.match_repository import MatchRepository
 from core.domain.repositories.ranking_repository import RankingRepository
 from core.domain.repositories.response_repository import ResponseRepository
 from core.domain.repositories.user_repository import UserRepository
+from infrastructure.supabase.repositories.supabase_config_repository import (
+    SupabaseConfigRepository,
+)
 from infrastructure.supabase.repositories.supabase_match_repository import (
     SupabaseMatchRepository,
 )
@@ -57,5 +61,9 @@ class SupabaseContainer(DeclarativeContainer):
     )
     response_repository: Provider[ResponseRepository] = Singleton(
         SupabaseResponseRepository,
+        client=client,
+    )
+    config_repository: Provider[ConfigRepository] = Singleton(
+        SupabaseConfigRepository,
         client=client,
     )
