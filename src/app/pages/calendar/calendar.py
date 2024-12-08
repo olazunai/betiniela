@@ -31,7 +31,7 @@ class Calendar(ft.Container):
                         height=50,
                         alignment=ft.alignment.center,
                     ),
-                    content=CalendarWeek(matches),
+                    content=CalendarWeek(matches_by_date=matches, user=self.data.user),
                 )
                 for option, matches in self.data.matches_by_week.matches.items()
             ],

@@ -13,7 +13,11 @@ class NavigationBar(ft.NavigationBar):
 
         self.destinations = [
             ft.NavigationBarDestination(
-                label="Quiniela", icon=ft.icons.QUESTION_ANSWER_ROUNDED
+                label="Quiniela",
+                icon=ft.icons.QUESTION_MARK,
+            ),
+            ft.NavigationBarDestination(
+                label="Respuestas", icon=ft.icons.QUESTION_ANSWER_ROUNDED
             ),
             ft.NavigationBarDestination(
                 label="Clasificación", icon=ft.icons.FORMAT_LIST_BULLETED_OUTLINED

@@ -18,5 +18,9 @@ class ResponseAlreadyExistsException(AlreadyExistsException):
     pass
 
 
-class ResponseDoesNotExistsException(DoesNotExistException):
+class ResponseDoesNotExistException(DoesNotExistException):
+    pass
+
+
+class MatchDoesNotExistException(DoesNotExistException):
     pass

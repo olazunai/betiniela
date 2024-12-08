@@ -1,6 +1,6 @@
 import flet as ft
 
-from app.pages.betting.betting_edit_match import BettingEditMatch
+from app.pages.betting.betting_edit_match_modal import BettingEditMatchModal
 from core.domain.entities.match import Match
 from core.domain.entities.response import Response
 
@@ -43,7 +43,7 @@ class BettingMatch(ft.Container):
         self.edit_button = ft.Container(
             content=ft.IconButton(
                 icon=ft.icons.EDIT,
-                on_click=self._edit,
+                on_click=self._edit_match_modal,
             ),
             alignment=ft.alignment.center,
             padding=ft.padding.only(right=20),
@@ -71,9 +71,11 @@ class BettingMatch(ft.Container):
             horizontal_alignment=ft.CrossAxisAlignment.CENTER,
         )
 
-        self.edit_match = BettingEditMatch(response=self.response, match=self.match)
+        self.edit_match = BettingEditMatchModal(
+            response=self.response, match=self.match
+        )
 
         self.content = self.betting_match
 
-    def _edit(self, event: ft.ControlEvent):
+    def _edit_match_modal(self, event: ft.ControlEvent):
         self.page.open(self.edit_match)

@@ -38,7 +38,7 @@ class Betting(Body):
 
         responses_title = ft.Container(
             ft.Text(
-                "Respuestas",
+                "Tus respuestas",
                 text_align=ft.TextAlign.LEFT,
                 size=20,
                 theme_style=ft.TextThemeStyle.TITLE_SMALL,

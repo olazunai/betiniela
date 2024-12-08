@@ -1,12 +1,10 @@
 from dataclasses import dataclass
-from typing import Optional
 from uuid import UUID
 from core.domain.entities.response import (
-    Response,
     ResponseID,
     ResponseLosserPoints,
 )
-from core.domain.exceptions import ResponseDoesNotExistsException
+from core.domain.exceptions import ResponseDoesNotExistException
 from core.domain.repositories.response_repository import ResponseRepository
 from core.domain.value_objects.team import Team
 
@@ -25,7 +23,7 @@ class ResponseUpdaterService:
             response_id=ResponseID(response_id),
         )
         if response is None:
-            raise ResponseDoesNotExistsException(
+            raise ResponseDoesNotExistException(
                 f"Trying to update a non existing response with {response_id} ID."
             )
 

@@ -12,9 +12,10 @@ from core.application.app.calculate_points_service import CalculatePointService
 from core.application.app.fetch_data_service import FetchDataService
 from core.application.config.config_retriever_service import ConfigRetrieverService
 from core.application.config.config_updater_service import ConfigUpdaterService
+from core.application.match.match_deleter_service import MatchDeleterService
 from core.application.match.match_list_service import MatchListService
-from core.application.match.match_result_updater_service import (
-    MatchResultUpdaterService,
+from core.application.match.match_updater_service import (
+    MatchUpdaterService,
 )
 from core.application.ranking.ranking_list_service import RankingListService
 from core.application.response.response_creator_service import ResponseCreatorService
@@ -53,8 +54,12 @@ class Services(DeclarativeContainer):
         MatchListService,
         match_repository=database_container.match_repository,
     )
-    match_result_updater_service: Provider[MatchResultUpdaterService] = Factory(
-        MatchResultUpdaterService,
+    match_updater_service: Provider[MatchUpdaterService] = Factory(
+        MatchUpdaterService,
+        match_repository=database_container.match_repository,
+    )
+    match_deleter_service: Provider[MatchDeleterService] = Factory(
+        MatchDeleterService,
         match_repository=database_container.match_repository,
     )
 

@@ -6,6 +6,7 @@ from app.navigation_bar import NavigationBar
 from app.pages.betting.betting import Betting
 from app.pages.calendar.calendar import Calendar
 from app.pages.ranking.ranking import Ranking
+from app.pages.responses.responses import Responses
 from app.widgets.loading import Loading
 from core.domain.dtos.data import Data
 from core.application.app.auth_service import AuthService
@@ -42,10 +43,11 @@ class MainPage(ft.Stack):
         self.page.navigation_bar = NavigationBar(page_changer=self._page_changer)
 
         self.betting = Betting(data=data)
+        self.responses = Responses(data=data)
         self.ranking = Ranking(data=data)
         self.calendar = Calendar(data=data)
 
-        self.views = [self.betting, self.ranking, self.calendar]
+        self.views = [self.betting, self.responses, self.ranking, self.calendar]
         self.loading = Loading()
 
         self.controls = [self.loading, self.views[0]]

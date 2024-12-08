@@ -6,7 +6,7 @@ from core.domain.entities.match import Match
 from core.domain.entities.response import Response
 
 
-class BettingEditMatch(ft.AlertDialog):
+class BettingEditMatchModal(ft.AlertDialog):
     def __init__(self, match: Match, response: Response):
         super().__init__()
 

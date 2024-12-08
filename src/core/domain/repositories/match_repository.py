@@ -1,7 +1,9 @@
 from abc import ABC, abstractmethod
+from datetime import time
 from typing import Optional
 
 from core.domain.entities.match import Match, MatchID, MatchResult
+from core.domain.value_objects.team import Team
 from core.domain.value_objects.week import Week
 
 
@@ -15,9 +17,20 @@ class MatchRepository(ABC):
         pass
 
     @abstractmethod
+    def delete(self, match_id: MatchID) -> None:
+        pass
+
+    @abstractmethod
     def get(self, week: Week = None) -> list[Match]:
         pass
 
     @abstractmethod
-    def update_result(self, match_id: MatchID, result: MatchResult) -> None:
+    def update(
+        self,
+        match_id: MatchID,
+        match_time: time,
+        local_team: Team,
+        visitor_team: Team,
+        result: MatchResult,
+    ) -> None:
         pass
