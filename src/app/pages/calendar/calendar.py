@@ -1,7 +1,9 @@
 import flet as ft
 
+from app.pages.calendar.calendar_create_match_modal import CalendarCreateMatchModal
 from app.pages.calendar.calendar_week import CalendarWeek
 from core.domain.dtos.data import Data
+from core.domain.entities.user import UserRole
 
 
 class Calendar(ft.Container):
@@ -13,6 +15,9 @@ class Calendar(ft.Container):
 
     def build(self):
         self._build_function()
+
+    def did_mount(self):
+        self.page.update()
 
     def _build_function(self):
         selected_index = sorted(self.data.matches_by_week.matches.keys()).index(
@@ -42,4 +47,24 @@ class Calendar(ft.Container):
             label_padding=ft.padding.all(5),
         )
 
-        self.content = tabs
+        self.content = ft.Stack(
+            controls=[tabs],
+            alignment=ft.alignment.bottom_left,
+        )
+
+        if self.data.user.role == UserRole.SUPERUSER:
+            self.create_match = CalendarCreateMatchModal()
+            self.content.controls.append(
+                ft.Container(
+                    ft.FloatingActionButton(
+                        icon=ft.icons.ADD,
+                        on_click=self._create_match_modal,
+                    ),
+                    alignment=ft.alignment.bottom_right,
+                    height=50,
+                    width=50,
+                )
+            )
+
+    def _create_match_modal(self, e: ft.ControlEvent):
+        self.page.open(self.create_match)

@@ -12,6 +12,7 @@ from core.application.app.calculate_points_service import CalculatePointService
 from core.application.app.fetch_data_service import FetchDataService
 from core.application.config.config_retriever_service import ConfigRetrieverService
 from core.application.config.config_updater_service import ConfigUpdaterService
+from core.application.match.match_creator_service import MatchCreatorService
 from core.application.match.match_deleter_service import MatchDeleterService
 from core.application.match.match_list_service import MatchListService
 from core.application.match.match_updater_service import (
@@ -60,6 +61,10 @@ class Services(DeclarativeContainer):
     )
     match_deleter_service: Provider[MatchDeleterService] = Factory(
         MatchDeleterService,
+        match_repository=database_container.match_repository,
+    )
+    match_creator_service: Provider[MatchCreatorService] = Factory(
+        MatchCreatorService,
         match_repository=database_container.match_repository,
     )
 
