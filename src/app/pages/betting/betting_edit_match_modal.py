@@ -19,7 +19,7 @@ class BettingEditMatchModal(ft.AlertDialog):
     def _build_function(self):
         self.modal = False
 
-        self.form_match = BettingFormMatch(match=self.match, visible=True)
+        self.form_match = BettingFormMatch(match=self.match, visible=True, response=self.response)
 
         self.content = ft.Container(
             content=self.form_match,
@@ -43,4 +43,6 @@ class BettingEditMatchModal(ft.AlertDialog):
         )
 
         self.page.close(self)
+
+        self.page.overlay.append(ft.SnackBar(content=ft.Text("GOOD"), open=True, action="ALRIGHT"))
         self.page.update()
