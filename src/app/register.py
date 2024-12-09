@@ -1,6 +1,7 @@
 import flet as ft
 
 from app.main_page import MainPage
+from app.widgets.snack_bar import SnackBar
 from core.application.user.user_creator_service import UserCreatorService
 from app.widgets.login_body import LoginBody
 
@@ -10,7 +11,7 @@ class Register(LoginBody):
         super().__init__()
 
     def build(self):
-        return self._build_function()
+        self._build_function()
 
     def _build_function(self):
         self.user = ft.TextField(
@@ -75,6 +76,17 @@ class Register(LoginBody):
         self.page.update()
 
     def _sign_in(self, event: ft.ControlEvent) -> None:
+        if self.password.value != self.confirm_password.value:
+            self.page.overlay.append(
+                SnackBar(
+                    text="Las contraseñas deben ser iguales. Intentelo de nuevo.",
+                    success=False,
+                    open=True,
+                ),
+            )
+            self.page.update()
+            return
+
         user_creator_service: UserCreatorService = (
             self.page.container.services.user_creator_service()
         )

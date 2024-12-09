@@ -1,4 +1,3 @@
-from typing import Callable
 import flet as ft
 
 from app.app_bar import AppBar
@@ -8,11 +7,7 @@ from app.pages.calendar.calendar import Calendar
 from app.pages.ranking.ranking import Ranking
 from app.pages.responses.responses import Responses
 from app.widgets.loading import Loading
-from app.widgets.snack_bar import SnackBar
 from core.domain.dtos.data import Data
-from core.application.app.auth_service import AuthService
-from core.application.app.fetch_data_service import FetchDataService
-from core.domain.entities.user import User
 
 
 class MainPage(ft.Stack):
@@ -30,8 +25,6 @@ class MainPage(ft.Stack):
         self.loading.update()
 
     def _build_function(self):
-        self.page.save_token(user=self.data.user)
-
         self.page.appbar = AppBar(data=self.data)
         self.page.navigation_bar = NavigationBar(page_changer=self._page_changer)
 

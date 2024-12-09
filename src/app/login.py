@@ -1,9 +1,9 @@
 import flet as ft
 
-from app.main_page import MainPage
 from app.widgets.logo import Logo
 from app.widgets.login_body import LoginBody
 from app.register import Register
+from app.widgets.snack_bar import SnackBar
 from core.application.user.user_login_service import UserLoginService
 
 
@@ -12,7 +12,7 @@ class Login(LoginBody):
         super().__init__()
 
     def build(self):
-        return self._build_function()
+        self._build_function()
 
     def _build_function(self):
         self.user = ft.TextField(
@@ -49,7 +49,7 @@ class Login(LoginBody):
                     ft.Container(
                         content=Logo(size=30),
                         alignment=ft.alignment.center,
-                        padding=ft.padding.only(bottom=30),
+                        padding=ft.padding.only(bottom=20),
                     ),
                     ft.Container(
                         content=ft.Column(
@@ -71,7 +71,8 @@ class Login(LoginBody):
                                 self.sign_in_button,
                             ],
                         ),
-                        padding=ft.padding.only(top=30, bottom=10),
+                        padding=ft.padding.only(bottom=10),
+                        alignment=ft.alignment.center,
                     ),
                 ],
             ),
@@ -95,11 +96,21 @@ class Login(LoginBody):
             user_name=self.user.value, password=self.password.value
         )
         if user is not None:
+            if self.save_login.value:
+                self.page.save_token(user=user)
+
             self.page.clean()
             self.page.add(self.page.init_main_page(user=user))
             self.page.update()
         else:
-            print("ERROR")
+            self.page.overlay.append(
+                SnackBar(
+                    text="Error al intentar inicar sesión. Usuario y/o contraseña desconocidos.",
+                    success=False,
+                    open=True,
+                ),
+            )
+            self.page.update()
 
     def _sign_in(self, event: ft.ControlEvent) -> None:
         self.page.clean()
