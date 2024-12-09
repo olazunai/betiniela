@@ -2,7 +2,7 @@ from dataclasses import dataclass
 import json
 from random import random
 from typing import Optional
-from cryptography.fernet import Fernet, InvalidToken
+from flet.security import encrypt, decrypt
 
 from core.application.user.user_login_service import UserLoginService
 from core.domain.entities.user import User
@@ -15,10 +15,9 @@ class AuthService:
     secret_key: str
 
     def validate_token(self, token: str) -> Optional[User]:
-        encrypter = Fernet(self.secret_key)
         try:
-            user_data = json.loads(encrypter.decrypt(token).decode())
-        except InvalidToken:
+            user_data = json.loads(decrypt(token, self.secret_key))
+        except:
             return None
 
         try:
@@ -32,10 +31,9 @@ class AuthService:
         return user
 
     def generate_token(self, user: User) -> str:
-        encrypter = Fernet(self.secret_key)
         user_data = {
             "user": user.name.value,
             "password": user.password.value,
             "random": random(),
         }
-        return encrypter.encrypt(json.dumps(user_data).encode()).decode()
+        return encrypt(json.dumps(user_data), self.secret_key)

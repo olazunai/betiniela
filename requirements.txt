@@ -2,4 +2,3 @@ flet==0.24.1
 black==24.10.0
 supabase==2.10.0
 dependency-injector==4.43.0
-cryptography==44.0.0
