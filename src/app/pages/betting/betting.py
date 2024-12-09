@@ -16,9 +16,16 @@ class Betting(Body):
         self.weeks = sorted(data.matches_by_week.matches.keys())
 
     def build(self):
-        self._build_function()
+        self.selected_index = sorted(self.data.matches_by_week.matches.keys()).index(
+            self.data.config.current_week.name()
+        )
+        self._build_function(self.selected_index)
 
-    def _build_function(self):
+    def before_update(self):
+        self.data = self.page.data
+        self._build_function(self.selected_index)
+
+    def _build_function(self, selected_index: int):
         betting_title = ft.Container(
             ft.Text(
                 "Quiniela",
@@ -53,27 +60,22 @@ class Betting(Body):
             for option in self.options
         ]
 
-        self.selected_index = sorted(self.data.matches_by_week.matches.keys()).index(
-            self.data.config.current_week.name()
-        )
-
-        dropdown = Dropdown(
+        self.dropdown = Dropdown(
             options=self.options,
             label="Selecciona la jornada",
             on_change=self._betting_week_changer,
-            selected_index=self.selected_index,
+            selected_index=selected_index,
             width=180,
         )
 
         responses_header = ft.Row(
-            controls=[responses_title, dropdown],
+            controls=[responses_title, self.dropdown],
             alignment=ft.MainAxisAlignment.SPACE_BETWEEN,
         )
 
         self.controls = [betting_title, form, divider, responses_header]
 
-        if self.selected_index is not None:
-            self.controls.append(self.views[self.selected_index])
+        self.controls.append(self.views[selected_index])
 
     def _betting_week_changer(self, event: ft.ControlEvent):
         self.controls = self.controls[:4]

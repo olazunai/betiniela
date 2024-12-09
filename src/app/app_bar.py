@@ -40,6 +40,7 @@ class AppBar(ft.AppBar):
         )
 
         self.actions = [
+            ft.IconButton(icon=ft.icons.REFRESH, on_click=self._refresh),
             ft.PopupMenuButton(
                 items=items,
                 menu_position=ft.PopupMenuPosition.UNDER,
@@ -51,3 +52,17 @@ class AppBar(ft.AppBar):
 
     def _settings(self, e: ft.ControlEvent):
         self.page.open(Configuration())
+
+    def _refresh(self, e: ft.ControlEvent):
+        if self.page.controls:
+            if self.page.controls[0].loading is not None:
+                self.page.controls[0].loading.visible = True
+                self.page.controls[0].loading.update()
+        self.page.data = self.page.get_data(self.data.user)
+        self.page.data.user = self.data.user
+        self.page.update()
+
+        if self.page.controls:
+            if self.page.controls[0].loading is not None:
+                self.page.controls[0].loading.visible = False
+                self.page.controls[0].loading.update()

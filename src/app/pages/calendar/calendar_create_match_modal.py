@@ -21,11 +21,11 @@ class CalendarCreateMatchModal(ft.AlertDialog):
 
         self.local_team = ft.Dropdown(
             options=[ft.dropdown.Option(team) for team in teams],
-            label="Local team",
+            label="Local",
         )
         self.visitor_team = ft.Dropdown(
             options=[ft.dropdown.Option(team) for team in teams],
-            label="Visitor team",
+            label="Visitante",
         )
 
         self.content = ft.Container(

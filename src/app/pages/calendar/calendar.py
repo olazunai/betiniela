@@ -14,16 +14,21 @@ class Calendar(ft.Container):
         self.expand = True
 
     def build(self):
-        self._build_function()
+        self.selected_index = sorted(self.data.matches_by_week.matches.keys()).index(
+            self.data.config.current_week.name()
+        )
+        self._build_function(self.selected_index)
 
     def did_mount(self):
         self.page.update()
 
-    def _build_function(self):
-        selected_index = sorted(self.data.matches_by_week.matches.keys()).index(
-            self.data.config.current_week.name()
-        )
-        tabs = ft.Tabs(
+    def before_update(self):
+        self.data = self.page.data
+        self._build_function(self.tabs.selected_index)
+
+    def _build_function(self, selected_index: int):
+
+        self.tabs = ft.Tabs(
             selected_index=selected_index,
             animation_duration=300,
             tabs=[
@@ -48,7 +53,7 @@ class Calendar(ft.Container):
         )
 
         self.content = ft.Stack(
-            controls=[tabs],
+            controls=[self.tabs],
             alignment=ft.alignment.bottom_left,
         )
 

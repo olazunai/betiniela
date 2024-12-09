@@ -86,7 +86,7 @@ class Register(LoginBody):
 
         self.page.clean()
 
-        self.page.add(MainPage(user=user))
+        self.page.add(self.page.init_main_page(user=user))
 
         self.page.update()
 

@@ -8,10 +8,19 @@ class Ranking(Body):
         super().__init__()
 
         self.spacing = 2
+        self.data = data
 
+    def build(self):
+        self._build_function()
+
+    def before_update(self):
+        self.data = self.page.data
+        self._build_function()
+
+    def _build_function(self):
         self.controls = [
             RankingItem(
                 position=i, name=ranking.user_name.value, points=ranking.points.value
             )
-            for i, ranking in enumerate(data.rankings, start=1)
+            for i, ranking in enumerate(self.data.rankings, start=1)
         ]

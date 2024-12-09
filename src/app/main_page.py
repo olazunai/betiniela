@@ -15,51 +15,43 @@ from core.domain.entities.user import User
 
 
 class MainPage(ft.Stack):
-    def __init__(self, user: User):
+    def __init__(self, data: Data):
         super().__init__()
 
-        self.user = user
         self.expand = True
+        self.data = data
 
     def build(self):
         self._build_function()
 
     def did_mount(self):
         self.loading.visible = False
+        self.loading.update()
 
     def _build_function(self):
-        fetch_data_service: FetchDataService = (
-            self.page.container.services.fetch_data_service()
-        )
-        auth_service: AuthService = self.page.container.services.auth_service()
+        self.page.save_token(user=self.data.user)
 
-        data: Data = fetch_data_service()
-        data.user = self.user
-
-        token = auth_service.generate_token(user=self.user)
-        self.page.client_storage.set(key="betiniela.user_token", value=token)
-
-        self.page.appbar = AppBar(data=data)
+        self.page.appbar = AppBar(data=self.data)
         self.page.navigation_bar = NavigationBar(page_changer=self._page_changer)
 
-        self.betting = Betting(data=data)
-        self.responses = Responses(data=data)
-        self.ranking = Ranking(data=data)
-        self.calendar = Calendar(data=data)
+        self.betting = Betting(data=self.data)
+        self.responses = Responses(data=self.data)
+        self.ranking = Ranking(data=self.data)
+        self.calendar = Calendar(data=self.data)
 
         self.views = [self.betting, self.responses, self.ranking, self.calendar]
         self.loading = Loading()
 
-        self.controls = [self.loading, self.views[0]]
+        self.controls = [self.views[0], self.loading]
 
     def _page_changer(self, n_page: int):
         if len(self.controls) > 1:
-            self.controls.pop(-1)
+            self.controls.pop(0)
 
         self.loading.visible = True
         self.update()
 
-        self.controls.append(self.views[n_page])
+        self.controls.insert(0, self.views[n_page])
 
         self.update()
 

@@ -30,12 +30,12 @@ class CalendarEditMatchModal(ft.AlertDialog):
 
         self.local_team = ft.Dropdown(
             options=[ft.dropdown.Option(team) for team in teams],
-            label="Local team",
+            label="Local",
             value=local_team,
         )
         self.visitor_team = ft.Dropdown(
             options=[ft.dropdown.Option(team) for team in teams],
-            label="Visitor team",
+            label="Visitante",
             value=visitor_team,
         )
         self.local_team_result = ft.TextField(
