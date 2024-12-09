@@ -76,7 +76,7 @@ class CalendarCreateMatchModal(ft.AlertDialog):
         week = self.week.value
 
         match_creator_service: MatchCreatorService = (
-            self.page.container.services.match_creator_service()
+            self.page.container.services.match_creator_service
         )
         try:
             match_creator_service(

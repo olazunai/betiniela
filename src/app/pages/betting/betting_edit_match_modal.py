@@ -36,7 +36,7 @@ class BettingEditMatchModal(ft.AlertDialog):
 
     def _update_response(self, event: ft.ControlEvent):
         response_updater_service: ResponseUpdaterService = (
-            self.page.container.services.response_updater_service()
+            self.page.container.services.response_updater_service
         )
 
         try:

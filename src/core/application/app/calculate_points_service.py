@@ -19,7 +19,7 @@ from core.domain.value_objects.week import Week
 class CalculatePointService:
     match_repository: MatchRepository
     response_repository: ResponseRepository
-    user_respository: UserRepository
+    user_repository: UserRepository
     ranking_repository: RankingRepository
     config_repository: ConfigRepository
 

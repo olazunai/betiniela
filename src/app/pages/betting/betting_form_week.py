@@ -80,10 +80,10 @@ class BettingFormWeek(ft.Container):
 
     def _send_response(self, event: ft.ControlEvent):
         response_creator_service: ResponseCreatorService = (
-            self.page.container.services.response_creator_service()
+            self.page.container.services.response_creator_service
         )
         user_has_answered_updater_service: UserHasNasweredUpdaterService = (
-            self.page.container.services.user_has_answered_updater_service()
+            self.page.container.services.user_has_answered_updater_service
         )
 
         try:

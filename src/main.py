@@ -12,7 +12,7 @@ from core.domain.entities.user import User
 
 
 def check_token(page: ft.Page) -> Optional[User]:
-    auth_service: AuthService = page.container.services.auth_service()
+    auth_service: AuthService = page.container.services.auth_service
 
     token = page.client_storage.get("betiniela.user_token")
     if token is None:
@@ -23,7 +23,7 @@ def check_token(page: ft.Page) -> Optional[User]:
 
 
 def save_token(user: User, page: ft.Page) -> None:
-    auth_service: AuthService = page.container.services.auth_service()
+    auth_service: AuthService = page.container.services.auth_service
     token = auth_service.generate_token(user=user)
     page.client_storage.set(key="betiniela.user_token", value=token)
 
@@ -38,7 +38,7 @@ def logout(page: ft.Page):
 
 
 def get_data(user: User, page: ft.Page) -> Data:
-    fetch_data_service: FetchDataService = page.container.services.fetch_data_service()
+    fetch_data_service: FetchDataService = page.container.services.fetch_data_service
 
     data: Data = fetch_data_service()
     page.data = data
@@ -73,8 +73,6 @@ def main(page: ft.Page, container: MainContainer):
 
 if __name__ == "__main__":
     container = MainContainer()
-    container.check_dependencies()
-    container.init_resources()
 
     ft.app(partial(main, container=container))
 

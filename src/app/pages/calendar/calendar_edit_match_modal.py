@@ -107,7 +107,7 @@ class CalendarEditMatchModal(ft.AlertDialog):
         visitor_team_result = self.visitor_team_result.value
 
         match_updater_service: MatchUpdaterService = (
-            self.page.container.services.match_updater_service()
+            self.page.container.services.match_updater_service
         )
         try:
             match_updater_service(

@@ -88,7 +88,7 @@ class Register(LoginBody):
             return
 
         user_creator_service: UserCreatorService = (
-            self.page.container.services.user_creator_service()
+            self.page.container.services.user_creator_service
         )
 
         user = user_creator_service(

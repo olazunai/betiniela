@@ -1,11 +1,4 @@
-from dependency_injector.containers import DeclarativeContainer
-from dependency_injector.providers import (
-    DependenciesContainer,
-    Provider,
-    Factory,
-    Container,
-    Configuration,
-)
+import os
 
 from core.application.app.auth_service import AuthService
 from core.application.app.calculate_points_service import CalculatePointService
@@ -30,97 +23,80 @@ from core.application.user.user_login_service import UserLoginService
 from infrastructure.supabase.container import SupabaseContainer
 
 
-class Services(DeclarativeContainer):
-    config = Configuration()
-    config.secret_key.from_env("SECRET_KEY", "")
+class Services:
+    def __init__(self, database_container: SupabaseContainer):
+        self.secret_key = os.getenv("SECRET_KEY", "")
 
-    database_container = DependenciesContainer()
-
-    user_creator_service: Provider[UserCreatorService] = Factory(
-        UserCreatorService,
-        user_repository=database_container.user_repository,
-    )
-    user_login_service: Provider[UserLoginService] = Factory(
-        UserLoginService,
-        user_repository=database_container.user_repository,
-    )
-    user_has_answered_updater_service: Provider[UserHasNasweredUpdaterService] = (
-        Factory(
-            UserHasNasweredUpdaterService,
+        self.user_creator_service = UserCreatorService(
             user_repository=database_container.user_repository,
         )
-    )
+        self.user_login_service = UserLoginService(
+            user_repository=database_container.user_repository,
+        )
+        self.user_has_answered_updater_service = UserHasNasweredUpdaterService(
+            user_repository=database_container.user_repository,
+        )
 
-    match_list_service: Provider[MatchListService] = Factory(
-        MatchListService,
-        match_repository=database_container.match_repository,
-    )
-    match_updater_service: Provider[MatchUpdaterService] = Factory(
-        MatchUpdaterService,
-        match_repository=database_container.match_repository,
-    )
-    match_deleter_service: Provider[MatchDeleterService] = Factory(
-        MatchDeleterService,
-        match_repository=database_container.match_repository,
-    )
-    match_creator_service: Provider[MatchCreatorService] = Factory(
-        MatchCreatorService,
-        match_repository=database_container.match_repository,
-    )
+        self.match_list_service = MatchListService(
+            match_repository=database_container.match_repository,
+        )
+        self.match_updater_service = MatchUpdaterService(
+            match_repository=database_container.match_repository,
+        )
+        self.match_deleter_service = MatchDeleterService(
+            match_repository=database_container.match_repository,
+        )
+        self.match_creator_service = MatchCreatorService(
+            match_repository=database_container.match_repository,
+        )
 
-    response_creator_service: Provider[ResponseCreatorService] = Factory(
-        ResponseCreatorService,
-        response_repository=database_container.response_repository,
-    )
-    response_list_service: Provider[ResponseListService] = Factory(
-        ResponseListService,
-        response_repository=database_container.response_repository,
-    )
-    response_updater_service: Provider[ResponseUpdaterService] = Factory(
-        ResponseUpdaterService,
-        response_repository=database_container.response_repository,
-    )
+        self.response_creator_service = ResponseCreatorService(
+            response_repository=database_container.response_repository,
+        )
+        self.response_list_service = ResponseListService(
+            response_repository=database_container.response_repository,
+        )
+        self.response_updater_service = ResponseUpdaterService(
+            response_repository=database_container.response_repository,
+        )
 
-    ranking_list_service: Provider[RankingListService] = Factory(
-        RankingListService,
-        ranking_repository=database_container.ranking_repository,
-    )
+        self.ranking_list_service = RankingListService(
+            ranking_repository=database_container.ranking_repository,
+        )
 
-    config_retriever_service: Provider[ConfigRetrieverService] = Factory(
-        ConfigRetrieverService,
-        config_repository=database_container.config_repository,
-    )
-    config_updater_service: Provider[ConfigUpdaterService] = Factory(
-        ConfigUpdaterService,
-        config_repository=database_container.config_repository,
-    )
+        self.config_retriever_service = ConfigRetrieverService(
+            config_repository=database_container.config_repository,
+        )
+        self.config_updater_service = ConfigUpdaterService(
+            config_repository=database_container.config_repository,
+        )
 
-    fetch_data_service: Provider[FetchDataService] = Factory(
-        FetchDataService,
-        match_list_service=match_list_service,
-        ranking_list_service=ranking_list_service,
-        response_list_service=response_list_service,
-        config_retriever_service=config_retriever_service,
-    )
-    auth_service: Provider[AuthService] = Factory(
-        AuthService,
-        user_login_service=user_login_service,
-        secret_key=config.secret_key,
-    )
-    calculate_points_service: Provider[CalculatePointService] = Factory(
-        CalculatePointService,
-        config_repository=database_container.config_repository,
-        response_repository=database_container.response_repository,
-        ranking_repository=database_container.ranking_repository,
-        match_repository=database_container.match_repository,
-        user_repository=database_container.user_repository,
-    )
+        self.fetch_data_service = FetchDataService(
+            match_list_service=self.match_list_service,
+            ranking_list_service=self.ranking_list_service,
+            response_list_service=self.response_list_service,
+            config_retriever_service=self.config_retriever_service,
+        )
+        self.auth_service = AuthService(
+            user_login_service=self.user_login_service,
+            secret_key=self.secret_key,
+        )
+        self.calculate_points_service = CalculatePointService(
+            config_repository=database_container.config_repository,
+            response_repository=database_container.response_repository,
+            ranking_repository=database_container.ranking_repository,
+            match_repository=database_container.match_repository,
+            user_repository=database_container.user_repository,
+        )
 
 
-class MainContainer(DeclarativeContainer):
-    database_container = Container(SupabaseContainer)
+class MainContainer:
+    def __init__(self):
+        self.database_container = SupabaseContainer()
 
-    services = Container(
-        Services,
-        database_container=database_container,
-    )
+        self.services = Services(
+            database_container=self.database_container,
+        )
+
+    def shutdown_resources(self):
+        self.database_container.shutdown()

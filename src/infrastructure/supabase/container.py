@@ -1,6 +1,4 @@
-from dependency_injector.containers import DeclarativeContainer
-from dependency_injector.providers import Singleton, Provider, Configuration, Resource
-from dependency_injector import resources
+import os
 from supabase import Client, create_client
 
 from core.domain.repositories.config_repository import ConfigRepository
@@ -25,45 +23,44 @@ from infrastructure.supabase.repositories.supabase_user_repository import (
 )
 
 
-class ConfigureSupabaseClient(resources.Resource):
-    def init(self, url: str, key: str) -> Client:
+class ConfigureSupabaseClient:
+    @staticmethod
+    def init(url: str, key: str) -> Client:
         return create_client(
             supabase_url=url,
             supabase_key=key,
         )
 
-    def shutdown(self, client: Client) -> None:
+    @staticmethod
+    def shutdown(client: Client) -> None:
         pass
 
 
-class SupabaseContainer(DeclarativeContainer):
-    config = Configuration()
-    config.url.from_env("SUPABASE_URL", "")
-    config.key.from_env("SUPABASE_KEY", "")
+class SupabaseContainer:
+    def __init__(self):
+        self.url = os.getenv("SUPABASE_URL", "")
+        self.key = os.getenv("SUPABASE_KEY", "")
 
-    client = Resource(
-        ConfigureSupabaseClient,
-        url=config.url,
-        key=config.key,
-    )
+        self.client: Client = ConfigureSupabaseClient.init(
+            url=self.url,
+            key=self.key,
+        )
 
-    user_repository: Provider[UserRepository] = Singleton(
-        SupabaseUserRepository,
-        client=client,
-    )
-    match_repository: Provider[MatchRepository] = Singleton(
-        SupabaseMatchRepository,
-        client=client,
-    )
-    ranking_repository: Provider[RankingRepository] = Singleton(
-        SupabaseRankingRepository,
-        client=client,
-    )
-    response_repository: Provider[ResponseRepository] = Singleton(
-        SupabaseResponseRepository,
-        client=client,
-    )
-    config_repository: Provider[ConfigRepository] = Singleton(
-        SupabaseConfigRepository,
-        client=client,
-    )
+        self.user_repository: UserRepository = SupabaseUserRepository(
+            client=self.client,
+        )
+        self.match_repository: MatchRepository = SupabaseMatchRepository(
+            client=self.client,
+        )
+        self.ranking_repository: RankingRepository = SupabaseRankingRepository(
+            client=self.client,
+        )
+        self.response_repository: ResponseRepository = SupabaseResponseRepository(
+            client=self.client,
+        )
+        self.config_repository: ConfigRepository = SupabaseConfigRepository(
+            client=self.client,
+        )
+
+    def shutdown(self) -> None:
+        ConfigureSupabaseClient.shutdown(self.client)

@@ -83,13 +83,13 @@ class Configuration(ft.AlertDialog):
 
     def _change_current_week(self, e: ft.ControlEvent) -> None:
         config_updater_service: ConfigUpdaterService = (
-            self.page.container.services.config_updater_service()
+            self.page.container.services.config_updater_service
         )
         config_updater_service(current_week=self.current_week.value)
 
     def _change_betting_limit(self, e: ft.ControlEvent) -> None:
         config_updater_service: ConfigUpdaterService = (
-            self.page.container.services.config_updater_service()
+            self.page.container.services.config_updater_service
         )
         config_updater_service(
             betting_limit=datetime.strptime(
@@ -99,12 +99,12 @@ class Configuration(ft.AlertDialog):
 
     def _change_right_winner_points(self, e: ft.ControlEvent) -> None:
         config_updater_service: ConfigUpdaterService = (
-            self.page.container.services.config_updater_service()
+            self.page.container.services.config_updater_service
         )
         config_updater_service(right_winner_points=int(self.right_winner_points.value))
 
     def _change_right_losser_points(self, e: ft.ControlEvent) -> None:
         config_updater_service: ConfigUpdaterService = (
-            self.page.container.services.config_updater_service()
+            self.page.container.services.config_updater_service
         )
         config_updater_service(right_losser_points=int(self.right_losser_points.value))

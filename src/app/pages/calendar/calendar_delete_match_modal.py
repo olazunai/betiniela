@@ -21,7 +21,7 @@ class CalendarDeleteMatchModal(ft.AlertDialog):
 
     def _delete_match(self, e: ft.ControlEvent):
         match_deleter_service: MatchDeleterService = (
-            self.page.container.services.match_deleter_service()
+            self.page.container.services.match_deleter_service
         )
         try:
             match_deleter_service(match_id=self.match_id.value)

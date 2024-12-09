@@ -89,7 +89,7 @@ class Login(LoginBody):
 
     def _log_in(self, event: ft.ControlEvent) -> None:
         user_login_service: UserLoginService = (
-            self.page.container.services.user_login_service()
+            self.page.container.services.user_login_service
         )
 
         user = user_login_service(

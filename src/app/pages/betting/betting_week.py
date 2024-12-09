@@ -21,7 +21,7 @@ class BettingWeek(ft.Container):
 
     def before_update(self):
         response_list_service: ResponseListService = (
-            self.page.container.services.response_list_service()
+            self.page.container.services.response_list_service
         )
 
         responses = response_list_service(week=self.week)
