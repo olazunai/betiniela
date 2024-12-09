@@ -3,27 +3,22 @@ from typing import Optional
 import flet as ft
 
 from core.application.match.match_updater_service import MatchUpdaterService
-from core.domain.entities.match import MatchID, MatchResult
+from core.domain.entities.match import Match
 from core.domain.value_objects.team import Team
 
 
 class CalendarEditMatchModal(ft.AlertDialog):
-    def __init__(
-        self,
-        hour: time,
-        match_id: MatchID,
-        local_team: str,
-        visitor_team: str,
-        result: Optional[MatchResult] = None,
-    ):
+    def __init__(self, match: Match):
         super().__init__()
 
         self.expand = True
 
-        self.match_id = match_id
+        self.match = match
 
         self.match_time = ft.TextField(
-            label="Hora ('HH:MM:SS')", value=hour.isoformat(), width=150
+            label="Hora ('HH:MM:SS')",
+            value=self.match.match_time.isoformat(),
+            width=150,
         )
 
         teams = [team.value for team in Team]
@@ -31,18 +26,26 @@ class CalendarEditMatchModal(ft.AlertDialog):
         self.local_team = ft.Dropdown(
             options=[ft.dropdown.Option(team) for team in teams],
             label="Local",
-            value=local_team,
+            value=self.match.local_team.value,
         )
         self.visitor_team = ft.Dropdown(
             options=[ft.dropdown.Option(team) for team in teams],
             label="Visitante",
-            value=visitor_team,
+            value=self.match.visitor_team.value,
         )
         self.local_team_result = ft.TextField(
-            width=50, value=result.local_team if result is not None else None
+            width=50,
+            value=(
+                self.match.result.local_team if self.match.result is not None else None
+            ),
         )
         self.visitor_team_result = ft.TextField(
-            width=50, value=result.visitor_team if result is not None else None
+            width=50,
+            value=(
+                self.match.result.visitor_team
+                if self.match.result is not None
+                else None
+            ),
         )
 
         self.content = ft.Container(
@@ -106,7 +109,7 @@ class CalendarEditMatchModal(ft.AlertDialog):
             self.page.container.services.match_updater_service()
         )
         match_updater_service(
-            match_id=self.match_id.value,
+            match_id=self.match.id.value,
             match_time=match_time,
             local_team=local_team,
             visitor_team=visitor_team,

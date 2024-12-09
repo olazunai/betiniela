@@ -4,23 +4,15 @@ import flet as ft
 
 from app.pages.calendar.calendar_delete_match_modal import CalendarDeleteMatchModal
 from app.pages.calendar.calendar_edit_match_modal import CalendarEditMatchModal
-from core.domain.entities.match import MatchID, MatchResult
+from core.domain.entities.match import Match
 from core.domain.entities.user import User, UserRole
 
 
 class CalendarMatch(ft.Container):
-    def __init__(
-        self,
-        hour: time,
-        match_id: MatchID,
-        local_team: str,
-        visitor_team: str,
-        user: User,
-        result: Optional[MatchResult] = None,
-    ):
+    def __init__(self, match: Match, user: User):
         super().__init__()
 
-        self.match_id = match_id
+        self.match = match
 
         self.margin = ft.Margin(
             left=10,
@@ -45,7 +37,7 @@ class CalendarMatch(ft.Container):
             controls=[
                 ft.Container(
                     content=ft.Text(
-                        value=local_team,
+                        value=self.match.local_team.value,
                         text_align=ft.TextAlign.CENTER,
                         color=ft.colors.BLACK,
                         weight=ft.FontWeight.BOLD,
@@ -56,9 +48,9 @@ class CalendarMatch(ft.Container):
                 ft.Container(
                     content=ft.Text(
                         value=(
-                            hour.strftime("%H:%Mh")
-                            if result is None
-                            else f"{result.local_team} - {result.visitor_team}"
+                            self.match.match_time.strftime("%H:%Mh")
+                            if self.match.result is None
+                            else f"{self.match.local_team} - {self.match.result.visitor_team}"
                         ),
                         text_align=ft.TextAlign.CENTER,
                         color=ft.colors.BLACK,
@@ -69,7 +61,7 @@ class CalendarMatch(ft.Container):
                 ),
                 ft.Container(
                     content=ft.Text(
-                        value=visitor_team,
+                        value=self.match.visitor_team.value,
                         text_align=ft.TextAlign.CENTER,
                         color=ft.colors.BLACK,
                         weight=ft.FontWeight.BOLD,
@@ -91,13 +83,7 @@ class CalendarMatch(ft.Container):
             alignment=ft.MainAxisAlignment.CENTER,
         )
         if user.role == UserRole.SUPERUSER:
-            self.edit_match = CalendarEditMatchModal(
-                match_id=self.match_id,
-                hour=hour,
-                local_team=local_team,
-                visitor_team=visitor_team,
-                result=result,
-            )
+            self.edit_match = CalendarEditMatchModal(match=self.match)
             self.content.controls.append(
                 ft.Container(
                     content=ft.IconButton(
@@ -108,7 +94,7 @@ class CalendarMatch(ft.Container):
                 )
             )
 
-            self.delete_match = CalendarDeleteMatchModal(match_id=self.match_id)
+            self.delete_match = CalendarDeleteMatchModal(match_id=self.match.id)
             self.content.controls.append(
                 ft.Container(
                     content=ft.IconButton(

@@ -2,7 +2,6 @@ from datetime import date, time
 import flet as ft
 
 from core.application.match.match_creator_service import MatchCreatorService
-from core.application.match.match_updater_service import MatchUpdaterService
 from core.domain.value_objects.team import Team
 
 
