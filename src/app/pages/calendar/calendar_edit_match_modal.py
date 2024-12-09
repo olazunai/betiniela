@@ -2,6 +2,7 @@ from datetime import time
 from typing import Optional
 import flet as ft
 
+from app.widgets.snack_bar import SnackBar
 from core.application.match.match_updater_service import MatchUpdaterService
 from core.domain.entities.match import Match
 from core.domain.value_objects.team import Team
@@ -108,11 +109,19 @@ class CalendarEditMatchModal(ft.AlertDialog):
         match_updater_service: MatchUpdaterService = (
             self.page.container.services.match_updater_service()
         )
-        match_updater_service(
-            match_id=self.match.id.value,
-            match_time=match_time,
-            local_team=local_team,
-            visitor_team=visitor_team,
-            local_team_result=local_team_result,
-            visitor_team_result=visitor_team_result,
-        )
+        try:
+            match_updater_service(
+                match_id=self.match.id.value,
+                match_time=match_time,
+                local_team=local_team,
+                visitor_team=visitor_team,
+                local_team_result=local_team_result,
+                visitor_team_result=visitor_team_result,
+            )
+            success = True
+            text = "Partido editado correctamente"
+        except Exception as e:
+            success = False
+            text = f"Ha ocurrido un error al editar el partido: {e}"
+
+        self.page.overlay.append(SnackBar(text=text, success=success, open=True))

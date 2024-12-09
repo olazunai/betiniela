@@ -1,5 +1,6 @@
 import flet as ft
 
+from app.widgets.snack_bar import SnackBar
 from core.application.match.match_deleter_service import MatchDeleterService
 from core.domain.entities.match import MatchID
 
@@ -22,7 +23,15 @@ class CalendarDeleteMatchModal(ft.AlertDialog):
         match_deleter_service: MatchDeleterService = (
             self.page.container.services.match_deleter_service()
         )
-        match_deleter_service(match_id=self.match_id.value)
+        try:
+            match_deleter_service(match_id=self.match_id.value)
+            success = True
+            text = "Partido eliminado correctamente"
+        except Exception as e:
+            success = False
+            text = f"Ha ocurrido un error al eliminar el partido: {e}"
+
+        self.page.overlay.append(SnackBar(text=text, success=success, open=True))
 
     def _close(self, e: ft.ControlEvent):
         self.page.close(self)

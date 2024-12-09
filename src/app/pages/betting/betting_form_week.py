@@ -1,6 +1,7 @@
 import flet as ft
 
 from app.pages.betting.betting_form_match import BettingFormMatch
+from app.widgets.snack_bar import SnackBar
 from core.application.response.response_creator_service import ResponseCreatorService
 from core.application.user.user_has_answered_updater_service import (
     UserHasNasweredUpdaterService,
@@ -85,28 +86,35 @@ class BettingFormWeek(ft.Container):
             self.page.container.services.user_has_answered_updater_service()
         )
 
-        for form_match in self.form_matches:
-            response_creator_service(
-                week_name=self.week_name,
-                match_id=form_match.data.match_id.value,
+        try:
+            for form_match in self.form_matches:
+                response_creator_service(
+                    week_name=self.week_name,
+                    match_id=form_match.data.match_id.value,
+                    user_id=self.data.user.id.value,
+                    winner_team=form_match.data.winner,
+                    losser_points=form_match.data.losser,
+                )
+
+            user_has_answered_updater_service(
                 user_id=self.data.user.id.value,
-                winner_team=form_match.data.winner,
-                losser_points=form_match.data.losser,
+                has_answered=True,
             )
 
-        user_has_answered_updater_service(
-            user_id=self.data.user.id.value,
-            has_answered=True,
-        )
+            self.data.user.has_answered.value = True
 
-        self.data.user.has_answered.value = True
+            success = True
+            text = "Quiniela enviada correctamente"
+        except Exception as e:
+            success = False
+            text = f"Ha ocurrido un error enviando la quiniela: {e}"
 
         for form_match in self.form_matches:
             form_match.visible = False
 
         self.submit_button.visible = False
 
-        self.update()
+        self.page.overlay.append(SnackBar(text=text, success=success, open=True))
 
     def _form(self, event: ft.ControlEvent):
         self.pending_form.visible = False

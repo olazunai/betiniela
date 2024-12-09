@@ -8,6 +8,7 @@ from app.pages.calendar.calendar import Calendar
 from app.pages.ranking.ranking import Ranking
 from app.pages.responses.responses import Responses
 from app.widgets.loading import Loading
+from app.widgets.snack_bar import SnackBar
 from core.domain.dtos.data import Data
 from core.application.app.auth_service import AuthService
 from core.application.app.fetch_data_service import FetchDataService

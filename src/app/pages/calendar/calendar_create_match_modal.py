@@ -1,6 +1,7 @@
 from datetime import date, time
 import flet as ft
 
+from app.widgets.snack_bar import SnackBar
 from core.application.match.match_creator_service import MatchCreatorService
 from core.domain.value_objects.team import Team
 
@@ -77,11 +78,19 @@ class CalendarCreateMatchModal(ft.AlertDialog):
         match_creator_service: MatchCreatorService = (
             self.page.container.services.match_creator_service()
         )
-        match_creator_service(
-            week=week,
-            match_day=match_day,
-            match_time=match_time,
-            local_team=local_team,
-            visitor_team=visitor_team,
-            location=location,
-        )
+        try:
+            match_creator_service(
+                week=week,
+                match_day=match_day,
+                match_time=match_time,
+                local_team=local_team,
+                visitor_team=visitor_team,
+                location=location,
+            )
+            success = True
+            text = "Partido creado correctamente"
+        except Exception as e:
+            success = False
+            text = f"Ha ocurrido un error al crear el partido: {e}"
+
+        self.page.overlay.append(SnackBar(text=text, success=success, open=True))

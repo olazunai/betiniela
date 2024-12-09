@@ -21,11 +21,7 @@ class CalendarWeek(ft.Column):
             for match in matches.matches:
                 self.controls.append(
                     CalendarMatch(
-                        match_id=match.id,
-                        local_team=match.local_team.value,
-                        visitor_team=match.visitor_team.value,
-                        hour=match.match_time,
-                        result=match.result,
+                        match=match,
                         user=user,
                     )
                 )

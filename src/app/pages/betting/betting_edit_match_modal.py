@@ -1,6 +1,7 @@
 import flet as ft
 
 from app.pages.betting.betting_form_match import BettingFormMatch
+from app.widgets.snack_bar import SnackBar
 from core.application.response.response_updater_service import ResponseUpdaterService
 from core.domain.entities.match import Match
 from core.domain.entities.response import Response
@@ -19,7 +20,9 @@ class BettingEditMatchModal(ft.AlertDialog):
     def _build_function(self):
         self.modal = False
 
-        self.form_match = BettingFormMatch(match=self.match, visible=True, response=self.response)
+        self.form_match = BettingFormMatch(
+            match=self.match, visible=True, response=self.response
+        )
 
         self.content = ft.Container(
             content=self.form_match,
@@ -36,13 +39,20 @@ class BettingEditMatchModal(ft.AlertDialog):
             self.page.container.services.response_updater_service()
         )
 
-        response_updater_service(
-            response_id=self.response.id.value,
-            winner_team=self.form_match.data.winner,
-            losser_points=self.form_match.data.losser,
-        )
+        try:
+            response_updater_service(
+                response_id=self.response.id.value,
+                winner_team=self.form_match.data.winner,
+                losser_points=self.form_match.data.losser,
+            )
+            success = True
+            text = "Respuesta actualizada correctamente"
+        except Exception as e:
+            success = False
+            text = f"Ha ocurrido un error actualizando la respuesta: {e}"
 
         self.page.close(self)
 
-        self.page.overlay.append(ft.SnackBar(content=ft.Text("GOOD"), open=True, action="ALRIGHT"))
+        self.page.overlay.append(SnackBar(text=text, success=success, open=True))
+
         self.page.update()
