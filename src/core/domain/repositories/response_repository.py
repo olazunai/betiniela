@@ -1,11 +1,11 @@
 from abc import ABC, abstractmethod
 from typing import Optional
 
-from core.domain.entities.match import MatchID
-from core.domain.entities.response import Response, ResponseID, ResponseLosserPoints
-from core.domain.entities.user import UserID
-from core.domain.value_objects.team import Team
-from core.domain.value_objects.week import Week
+from src.core.domain.entities.match import MatchID
+from src.core.domain.entities.response import Response, ResponseID, ResponseLosserPoints
+from src.core.domain.entities.user import UserID
+from src.core.domain.value_objects.team import Team
+from src.core.domain.value_objects.week import Week
 
 
 class ResponseRepository(ABC):

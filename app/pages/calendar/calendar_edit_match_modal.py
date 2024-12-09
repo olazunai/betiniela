@@ -3,9 +3,9 @@ from typing import Optional
 import flet as ft
 
 from app.widgets.snack_bar import SnackBar
-from core.application.match.match_updater_service import MatchUpdaterService
-from core.domain.entities.match import Match
-from core.domain.value_objects.team import Team
+from src.core.application.match.match_updater_service import MatchUpdaterService
+from src.core.domain.entities.match import Match
+from src.core.domain.value_objects.team import Team
 
 
 class CalendarEditMatchModal(ft.AlertDialog):

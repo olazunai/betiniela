@@ -4,7 +4,7 @@ from app.widgets.logo import Logo
 from app.widgets.login_body import LoginBody
 from app.register import Register
 from app.widgets.snack_bar import SnackBar
-from core.application.user.user_login_service import UserLoginService
+from src.core.application.user.user_login_service import UserLoginService
 
 
 class Login(LoginBody):

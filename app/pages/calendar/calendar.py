@@ -2,8 +2,8 @@ import flet as ft
 
 from app.pages.calendar.calendar_create_match_modal import CalendarCreateMatchModal
 from app.pages.calendar.calendar_week import CalendarWeek
-from core.domain.dtos.data import Data
-from core.domain.entities.user import UserRole
+from src.core.domain.dtos.data import Data
+from src.core.domain.entities.user import UserRole
 
 
 class Calendar(ft.Container):

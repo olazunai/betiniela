@@ -1,8 +1,8 @@
 from uuid import UUID
 from dataclasses import dataclass
 
-from core.domain.entities.user import UserName
-from core.domain.value_objects.week import Week
+from src.core.domain.entities.user import UserName
+from src.core.domain.value_objects.week import Week
 
 
 @dataclass

@@ -3,8 +3,8 @@ from typing import Optional
 from uuid import UUID
 from dataclasses import dataclass
 
-from core.domain.value_objects.team import Team
-from core.domain.value_objects.week import Week
+from src.core.domain.value_objects.team import Team
+from src.core.domain.value_objects.week import Week
 
 
 @dataclass

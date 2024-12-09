@@ -4,9 +4,9 @@ from typing import Optional
 
 from supabase import Client
 
-from core.domain.entities.config import Config
-from core.domain.repositories.config_repository import ConfigRepository
-from core.domain.value_objects.week import Week
+from src.core.domain.entities.config import Config
+from src.core.domain.repositories.config_repository import ConfigRepository
+from src.core.domain.value_objects.week import Week
 
 
 @dataclass

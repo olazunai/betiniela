@@ -1,6 +1,6 @@
 import flet as ft
 
-from core.domain.dtos.data import Data
+from src.core.domain.dtos.data import Data
 
 
 class Responses(ft.Container):

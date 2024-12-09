@@ -2,9 +2,9 @@ from dataclasses import dataclass
 from datetime import datetime
 from typing import Optional
 
-from core.domain.entities.user import User, UserName
-from core.domain.exceptions import UserDoesNotExistsException
-from core.domain.repositories.user_repository import UserRepository
+from src.core.domain.entities.user import User, UserName
+from src.core.domain.exceptions import UserDoesNotExistsException
+from src.core.domain.repositories.user_repository import UserRepository
 
 
 @dataclass

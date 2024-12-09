@@ -2,8 +2,8 @@ from datetime import date, time
 import flet as ft
 
 from app.widgets.snack_bar import SnackBar
-from core.application.match.match_creator_service import MatchCreatorService
-from core.domain.value_objects.team import Team
+from src.core.application.match.match_creator_service import MatchCreatorService
+from src.core.domain.value_objects.team import Team
 
 
 class CalendarCreateMatchModal(ft.AlertDialog):

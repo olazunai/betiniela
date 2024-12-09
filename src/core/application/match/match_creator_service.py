@@ -2,10 +2,10 @@ from dataclasses import dataclass
 from datetime import time
 from uuid import uuid4
 
-from core.domain.entities.match import MatchID, MatchLocation, Match
-from core.domain.repositories.match_repository import MatchRepository
-from core.domain.value_objects.team import Team
-from core.domain.value_objects.week import Week
+from src.core.domain.entities.match import MatchID, MatchLocation, Match
+from src.core.domain.repositories.match_repository import MatchRepository
+from src.core.domain.value_objects.team import Team
+from src.core.domain.value_objects.week import Week
 
 
 @dataclass

@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 
 from uvicorn import Config
-from core.domain.repositories.config_repository import ConfigRepository
+from src.core.domain.repositories.config_repository import ConfigRepository
 
 
 @dataclass

@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from datetime import date
 
-from core.domain.entities.match import Match
+from src.core.domain.entities.match import Match
 
 
 @dataclass

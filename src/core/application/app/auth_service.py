@@ -4,9 +4,9 @@ from random import random
 from typing import Optional
 from flet.security import encrypt, decrypt
 
-from core.application.user.user_login_service import UserLoginService
-from core.domain.entities.user import User
-from core.domain.exceptions import UserDoesNotExistsException
+from src.core.application.user.user_login_service import UserLoginService
+from src.core.domain.entities.user import User
+from src.core.domain.exceptions import UserDoesNotExistsException
 
 
 @dataclass

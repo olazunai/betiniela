@@ -1,8 +1,8 @@
 import flet as ft
 
 from app.widgets.snack_bar import SnackBar
-from core.application.match.match_deleter_service import MatchDeleterService
-from core.domain.entities.match import MatchID
+from src.core.application.match.match_deleter_service import MatchDeleterService
+from src.core.domain.entities.match import MatchID
 
 
 class CalendarDeleteMatchModal(ft.AlertDialog):

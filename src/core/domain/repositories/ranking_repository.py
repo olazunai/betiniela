@@ -1,9 +1,9 @@
 from abc import ABC, abstractmethod
 from typing import Optional
 
-from core.domain.entities.ranking import Ranking, RankingID, RankingPoints
-from core.domain.entities.user import UserID
-from core.domain.value_objects.week import Week
+from src.core.domain.entities.ranking import Ranking, RankingID, RankingPoints
+from src.core.domain.entities.user import UserID
+from src.core.domain.value_objects.week import Week
 
 
 class RankingRepository(ABC):

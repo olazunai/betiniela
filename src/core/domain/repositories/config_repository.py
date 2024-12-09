@@ -2,8 +2,8 @@ from abc import ABC, abstractmethod
 from datetime import datetime
 from typing import Optional
 
-from core.domain.entities.config import Config
-from core.domain.value_objects.week import Week
+from src.core.domain.entities.config import Config
+from src.core.domain.value_objects.week import Week
 
 
 class ConfigRepository(ABC):

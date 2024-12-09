@@ -1,11 +1,11 @@
 import flet as ft
 
 from app.pages.betting.betting_match import BettingMatch
-from core.application.response.response_list_service import ResponseListService
-from core.domain.dtos.data import Data
-from core.domain.dtos.matches_by_week import MatchesByDate
-from core.domain.entities.response import Response
-from core.domain.value_objects.week import Week
+from src.core.application.response.response_list_service import ResponseListService
+from src.core.domain.dtos.data import Data
+from src.core.domain.dtos.matches_by_week import MatchesByDate
+from src.core.domain.entities.response import Response
+from src.core.domain.value_objects.week import Week
 
 
 class BettingWeek(ft.Container):

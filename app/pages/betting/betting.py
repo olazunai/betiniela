@@ -4,8 +4,8 @@ from app.pages.betting.betting_form_week import BettingFormWeek
 from app.pages.betting.betting_week import BettingWeek
 from app.widgets.body import Body
 from app.widgets.dropdown import Dropdown
-from core.domain.dtos.data import Data
-from core.domain.value_objects.week import Week
+from src.core.domain.dtos.data import Data
+from src.core.domain.value_objects.week import Week
 
 
 class Betting(Body):

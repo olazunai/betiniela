@@ -1,6 +1,6 @@
 from app.widgets.body import Body
 from app.pages.ranking.ranking_item import RankingItem
-from core.domain.dtos.data import Data
+from src.core.domain.dtos.data import Data
 
 
 class Ranking(Body):

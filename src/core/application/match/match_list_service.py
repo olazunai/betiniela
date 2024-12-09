@@ -1,8 +1,8 @@
 from dataclasses import dataclass
 
-from core.domain.dtos.matches_by_week import DateMatches, MatchesByDate, MatchesByWeek
-from core.domain.entities.match import Match
-from core.domain.repositories.match_repository import MatchRepository
+from src.core.domain.dtos.matches_by_week import DateMatches, MatchesByDate, MatchesByWeek
+from src.core.domain.entities.match import Match
+from src.core.domain.repositories.match_repository import MatchRepository
 
 
 @dataclass

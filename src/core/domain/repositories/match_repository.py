@@ -2,9 +2,9 @@ from abc import ABC, abstractmethod
 from datetime import time
 from typing import Optional
 
-from core.domain.entities.match import Match, MatchID, MatchResult
-from core.domain.value_objects.team import Team
-from core.domain.value_objects.week import Week
+from src.core.domain.entities.match import Match, MatchID, MatchResult
+from src.core.domain.value_objects.team import Team
+from src.core.domain.value_objects.week import Week
 
 
 class MatchRepository(ABC):

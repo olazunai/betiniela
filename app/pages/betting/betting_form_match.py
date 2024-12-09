@@ -2,9 +2,9 @@ from typing import Optional
 import flet as ft
 
 from app.widgets.dropdown import Dropdown
-from core.domain.dtos.betting_form_match_data import BettingFormMatchData
-from core.domain.entities.match import Match
-from core.domain.entities.response import Response
+from src.core.domain.dtos.betting_form_match_data import BettingFormMatchData
+from src.core.domain.entities.match import Match
+from src.core.domain.entities.response import Response
 
 
 class BettingFormMatch(ft.Container):

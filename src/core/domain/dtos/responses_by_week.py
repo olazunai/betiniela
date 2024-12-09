@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from core.domain.entities.response import Response
+from src.core.domain.entities.response import Response
 
 
 @dataclass

@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from typing import Optional
-from core.domain.interfaces.bbdd_client import BBDDClient
+from src.core.domain.interfaces.bbdd_client import BBDDClient
 from supabase import create_client, Client
 
 

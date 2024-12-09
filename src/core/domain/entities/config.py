@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from datetime import datetime
 
-from core.domain.value_objects.week import Week
+from src.core.domain.value_objects.week import Week
 
 
 @dataclass

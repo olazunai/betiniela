@@ -1,8 +1,8 @@
 import flet as ft
 
 from app.configuration import Configuration
-from core.domain.dtos.data import Data
-from core.domain.entities.user import UserRole
+from src.core.domain.dtos.data import Data
+from src.core.domain.entities.user import UserRole
 
 
 class AppBar(ft.AppBar):

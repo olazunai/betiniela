@@ -1,8 +1,8 @@
 from datetime import datetime
 import flet as ft
 
-from core.application.config.config_updater_service import ConfigUpdaterService
-from core.domain.dtos.data import Data
+from src.core.application.config.config_updater_service import ConfigUpdaterService
+from src.core.domain.dtos.data import Data
 
 
 class Configuration(ft.AlertDialog):

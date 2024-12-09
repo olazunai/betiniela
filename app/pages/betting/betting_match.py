@@ -1,8 +1,8 @@
 import flet as ft
 
 from app.pages.betting.betting_edit_match_modal import BettingEditMatchModal
-from core.domain.entities.match import Match
-from core.domain.entities.response import Response
+from src.core.domain.entities.match import Match
+from src.core.domain.entities.response import Response
 
 
 class BettingMatch(ft.Container):

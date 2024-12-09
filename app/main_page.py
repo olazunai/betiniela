@@ -7,7 +7,7 @@ from app.pages.calendar.calendar import Calendar
 from app.pages.ranking.ranking import Ranking
 from app.pages.responses.responses import Responses
 from app.widgets.loading import Loading
-from core.domain.dtos.data import Data
+from src.core.domain.dtos.data import Data
 
 
 class MainPage(ft.Stack):

@@ -4,8 +4,8 @@ from typing import Optional
 
 from supabase import Client
 
-from core.domain.entities.user import User, UserHasAnswered, UserID, UserName
-from core.domain.repositories.user_repository import UserRepository
+from src.core.domain.entities.user import User, UserHasAnswered, UserID, UserName
+from src.core.domain.repositories.user_repository import UserRepository
 
 
 @dataclass

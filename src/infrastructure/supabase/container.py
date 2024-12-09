@@ -1,24 +1,24 @@
 import os
 from supabase import Client, create_client
 
-from core.domain.repositories.config_repository import ConfigRepository
-from core.domain.repositories.match_repository import MatchRepository
-from core.domain.repositories.ranking_repository import RankingRepository
-from core.domain.repositories.response_repository import ResponseRepository
-from core.domain.repositories.user_repository import UserRepository
-from infrastructure.supabase.repositories.supabase_config_repository import (
+from src.core.domain.repositories.config_repository import ConfigRepository
+from src.core.domain.repositories.match_repository import MatchRepository
+from src.core.domain.repositories.ranking_repository import RankingRepository
+from src.core.domain.repositories.response_repository import ResponseRepository
+from src.core.domain.repositories.user_repository import UserRepository
+from src.infrastructure.supabase.repositories.supabase_config_repository import (
     SupabaseConfigRepository,
 )
-from infrastructure.supabase.repositories.supabase_match_repository import (
+from src.infrastructure.supabase.repositories.supabase_match_repository import (
     SupabaseMatchRepository,
 )
-from infrastructure.supabase.repositories.supabase_ranking_repository import (
+from src.infrastructure.supabase.repositories.supabase_ranking_repository import (
     SupabaseRankingRepository,
 )
-from infrastructure.supabase.repositories.supabase_response_repository import (
+from src.infrastructure.supabase.repositories.supabase_response_repository import (
     SupabaseResponseRepository,
 )
-from infrastructure.supabase.repositories.supabase_user_repository import (
+from src.infrastructure.supabase.repositories.supabase_user_repository import (
     SupabaseUserRepository,
 )
 

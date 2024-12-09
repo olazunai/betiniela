@@ -2,11 +2,11 @@ import flet as ft
 
 from app.pages.betting.betting_form_match import BettingFormMatch
 from app.widgets.snack_bar import SnackBar
-from core.application.response.response_creator_service import ResponseCreatorService
-from core.application.user.user_has_answered_updater_service import (
+from src.core.application.response.response_creator_service import ResponseCreatorService
+from src.core.application.user.user_has_answered_updater_service import (
     UserHasNasweredUpdaterService,
 )
-from core.domain.dtos.data import Data
+from src.core.domain.dtos.data import Data
 
 
 class BettingFormWeek(ft.Container):

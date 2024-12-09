@@ -1,12 +1,12 @@
 from dataclasses import dataclass
 from uuid import UUID
-from core.domain.entities.response import (
+from src.core.domain.entities.response import (
     ResponseID,
     ResponseLosserPoints,
 )
-from core.domain.exceptions import ResponseDoesNotExistException
-from core.domain.repositories.response_repository import ResponseRepository
-from core.domain.value_objects.team import Team
+from src.core.domain.exceptions import ResponseDoesNotExistException
+from src.core.domain.repositories.response_repository import ResponseRepository
+from src.core.domain.value_objects.team import Team
 
 
 @dataclass

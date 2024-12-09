@@ -1,11 +1,11 @@
 from dataclasses import dataclass
 from typing import Optional
 
-from core.domain.dtos.matches_by_week import MatchesByWeek
-from core.domain.dtos.responses_by_week import ResponsesByWeek
-from core.domain.entities.config import Config
-from core.domain.entities.ranking import Ranking
-from core.domain.entities.user import User
+from src.core.domain.dtos.matches_by_week import MatchesByWeek
+from src.core.domain.dtos.responses_by_week import ResponsesByWeek
+from src.core.domain.entities.config import Config
+from src.core.domain.entities.ranking import Ranking
+from src.core.domain.entities.user import User
 
 
 @dataclass

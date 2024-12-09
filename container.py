@@ -1,26 +1,26 @@
 import os
 
-from core.application.app.auth_service import AuthService
-from core.application.app.calculate_points_service import CalculatePointService
-from core.application.app.fetch_data_service import FetchDataService
-from core.application.config.config_retriever_service import ConfigRetrieverService
-from core.application.config.config_updater_service import ConfigUpdaterService
-from core.application.match.match_creator_service import MatchCreatorService
-from core.application.match.match_deleter_service import MatchDeleterService
-from core.application.match.match_list_service import MatchListService
-from core.application.match.match_updater_service import (
+from src.core.application.app.auth_service import AuthService
+from src.core.application.app.calculate_points_service import CalculatePointService
+from src.core.application.app.fetch_data_service import FetchDataService
+from src.core.application.config.config_retriever_service import ConfigRetrieverService
+from src.core.application.config.config_updater_service import ConfigUpdaterService
+from src.core.application.match.match_creator_service import MatchCreatorService
+from src.core.application.match.match_deleter_service import MatchDeleterService
+from src.core.application.match.match_list_service import MatchListService
+from src.core.application.match.match_updater_service import (
     MatchUpdaterService,
 )
-from core.application.ranking.ranking_list_service import RankingListService
-from core.application.response.response_creator_service import ResponseCreatorService
-from core.application.response.response_list_service import ResponseListService
-from core.application.response.response_updater_service import ResponseUpdaterService
-from core.application.user.user_creator_service import UserCreatorService
-from core.application.user.user_has_answered_updater_service import (
+from src.core.application.ranking.ranking_list_service import RankingListService
+from src.core.application.response.response_creator_service import ResponseCreatorService
+from src.core.application.response.response_list_service import ResponseListService
+from src.core.application.response.response_updater_service import ResponseUpdaterService
+from src.core.application.user.user_creator_service import UserCreatorService
+from src.core.application.user.user_has_answered_updater_service import (
     UserHasNasweredUpdaterService,
 )
-from core.application.user.user_login_service import UserLoginService
-from infrastructure.supabase.container import SupabaseContainer
+from src.core.application.user.user_login_service import UserLoginService
+from src.infrastructure.supabase.container import SupabaseContainer
 
 
 class Services:

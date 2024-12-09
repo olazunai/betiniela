@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from datetime import datetime
 from uuid import uuid4
 
-from core.domain.entities.user import (
+from src.core.domain.entities.user import (
     User,
     UserHasAnswered,
     UserID,
@@ -10,8 +10,8 @@ from core.domain.entities.user import (
     UserPassword,
     UserRole,
 )
-from core.domain.exceptions import UserAlreadyExistsException
-from core.domain.repositories.user_repository import UserRepository
+from src.core.domain.exceptions import UserAlreadyExistsException
+from src.core.domain.repositories.user_repository import UserRepository
 
 
 @dataclass

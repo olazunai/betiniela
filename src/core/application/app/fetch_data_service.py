@@ -1,10 +1,10 @@
 from dataclasses import dataclass
 
-from core.application.config.config_retriever_service import ConfigRetrieverService
-from core.application.match.match_list_service import MatchListService
-from core.application.ranking.ranking_list_service import RankingListService
-from core.application.response.response_list_service import ResponseListService
-from core.domain.dtos.data import Data
+from src.core.application.config.config_retriever_service import ConfigRetrieverService
+from src.core.application.match.match_list_service import MatchListService
+from src.core.application.ranking.ranking_list_service import RankingListService
+from src.core.application.response.response_list_service import ResponseListService
+from src.core.domain.dtos.data import Data
 
 
 @dataclass

@@ -1,8 +1,8 @@
 from dataclasses import dataclass
 from uuid import UUID
 
-from core.domain.entities.user import UserHasAnswered, UserID
-from core.domain.repositories.user_repository import UserRepository
+from src.core.domain.entities.user import UserHasAnswered, UserID
+from src.core.domain.repositories.user_repository import UserRepository
 
 
 @dataclass

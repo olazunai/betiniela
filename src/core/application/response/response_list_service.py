@@ -1,10 +1,10 @@
 from dataclasses import dataclass
 from typing import Optional
 
-from core.domain.dtos.responses_by_week import ResponsesByWeek
-from core.domain.entities.response import Response
-from core.domain.repositories.response_repository import ResponseRepository
-from core.domain.value_objects.week import Week
+from src.core.domain.dtos.responses_by_week import ResponsesByWeek
+from src.core.domain.entities.response import Response
+from src.core.domain.repositories.response_repository import ResponseRepository
+from src.core.domain.value_objects.week import Week
 
 
 @dataclass

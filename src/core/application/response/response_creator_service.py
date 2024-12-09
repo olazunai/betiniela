@@ -2,17 +2,17 @@ from dataclasses import dataclass
 from datetime import datetime
 from uuid import UUID, uuid4
 
-from core.domain.entities.match import MatchID
-from core.domain.entities.response import (
+from src.core.domain.entities.match import MatchID
+from src.core.domain.entities.response import (
     Response,
     ResponseID,
     ResponseLosserPoints,
 )
-from core.domain.entities.user import UserID
-from core.domain.exceptions import ResponseAlreadyExistsException
-from core.domain.repositories.response_repository import ResponseRepository
-from core.domain.value_objects.team import Team
-from core.domain.value_objects.week import Week
+from src.core.domain.entities.user import UserID
+from src.core.domain.exceptions import ResponseAlreadyExistsException
+from src.core.domain.repositories.response_repository import ResponseRepository
+from src.core.domain.value_objects.team import Team
+from src.core.domain.value_objects.week import Week
 
 
 @dataclass

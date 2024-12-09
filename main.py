@@ -5,10 +5,10 @@ import flet as ft
 from app.main_page import MainPage
 from app.login import Login
 from container import MainContainer
-from core.application.app.auth_service import AuthService
-from core.application.app.fetch_data_service import FetchDataService
-from core.domain.dtos.data import Data
-from core.domain.entities.user import User
+from src.core.application.app.auth_service import AuthService
+from src.core.application.app.fetch_data_service import FetchDataService
+from src.core.domain.dtos.data import Data
+from src.core.domain.entities.user import User
 
 
 def check_token(page: ft.Page) -> Optional[User]:

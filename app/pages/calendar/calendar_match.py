@@ -4,8 +4,8 @@ import flet as ft
 
 from app.pages.calendar.calendar_delete_match_modal import CalendarDeleteMatchModal
 from app.pages.calendar.calendar_edit_match_modal import CalendarEditMatchModal
-from core.domain.entities.match import Match
-from core.domain.entities.user import User, UserRole
+from src.core.domain.entities.match import Match
+from src.core.domain.entities.user import User, UserRole
 
 
 class CalendarMatch(ft.Container):

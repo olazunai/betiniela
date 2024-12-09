@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 from datetime import datetime
 from typing import Optional
 
-from core.domain.entities.user import User, UserHasAnswered, UserID, UserName
+from src.core.domain.entities.user import User, UserHasAnswered, UserID, UserName
 
 
 class UserRepository(ABC):

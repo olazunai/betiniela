@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from typing import Optional
 
-from core.domain.entities.match import MatchID
+from src.core.domain.entities.match import MatchID
 
 
 @dataclass

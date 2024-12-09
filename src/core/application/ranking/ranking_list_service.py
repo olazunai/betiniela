@@ -1,8 +1,8 @@
 from dataclasses import dataclass
 
-from core.domain.entities.ranking import Ranking
-from core.domain.repositories.ranking_repository import RankingRepository
-from core.domain.value_objects.week import Week
+from src.core.domain.entities.ranking import Ranking
+from src.core.domain.repositories.ranking_repository import RankingRepository
+from src.core.domain.value_objects.week import Week
 
 
 @dataclass

@@ -2,17 +2,17 @@ from dataclasses import dataclass
 from typing import Optional
 from uuid import uuid4
 
-from core.domain.entities.config import Config
-from core.domain.entities.match import Match
-from core.domain.entities.ranking import Ranking, RankingID, RankingPoints
-from core.domain.entities.response import Response
-from core.domain.entities.user import User
-from core.domain.repositories.config_repository import ConfigRepository
-from core.domain.repositories.match_repository import MatchRepository
-from core.domain.repositories.ranking_repository import RankingRepository
-from core.domain.repositories.response_repository import ResponseRepository
-from core.domain.repositories.user_repository import UserRepository
-from core.domain.value_objects.week import Week
+from src.core.domain.entities.config import Config
+from src.core.domain.entities.match import Match
+from src.core.domain.entities.ranking import Ranking, RankingID, RankingPoints
+from src.core.domain.entities.response import Response
+from src.core.domain.entities.user import User
+from src.core.domain.repositories.config_repository import ConfigRepository
+from src.core.domain.repositories.match_repository import MatchRepository
+from src.core.domain.repositories.ranking_repository import RankingRepository
+from src.core.domain.repositories.response_repository import ResponseRepository
+from src.core.domain.repositories.user_repository import UserRepository
+from src.core.domain.value_objects.week import Week
 
 
 @dataclass

@@ -2,9 +2,9 @@ import flet as ft
 
 from app.pages.betting.betting_form_match import BettingFormMatch
 from app.widgets.snack_bar import SnackBar
-from core.application.response.response_updater_service import ResponseUpdaterService
-from core.domain.entities.match import Match
-from core.domain.entities.response import Response
+from src.core.application.response.response_updater_service import ResponseUpdaterService
+from src.core.domain.entities.match import Match
+from src.core.domain.entities.response import Response
 
 
 class BettingEditMatchModal(ft.AlertDialog):
