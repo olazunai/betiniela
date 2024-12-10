@@ -1,10 +1,10 @@
 from dataclasses import dataclass
 from datetime import time
-from threading import local
 from typing import Optional
 
-from supabase import Client
+import requests
 
+from src.infrastructure.supabase.exceptions import SupabaseException
 from src.core.domain.entities.match import Match, MatchID, MatchResult
 from src.core.domain.repositories.match_repository import MatchRepository
 from src.core.domain.value_objects.team import Team
@@ -13,40 +13,64 @@ from src.core.domain.value_objects.week import Week
 
 @dataclass
 class SupabaseMatchRepository(MatchRepository):
-    client: Client
+    base_url: str
+    api_key: str
     table: str = "matches"
 
+    @property
+    def _auth_header(self) -> dict:
+        return {
+            "apikey": self.api_key,
+        }
+
+    @property
+    def _url(self) -> str:
+        return f"{self.base_url}/{self.table}"
+
     def add(self, match: Match) -> None:
-        self.client.table(self.table).insert(match.serialize()).execute()
+        result = requests.post(
+            url=self._url, headers=self._auth_header, data=match.serialize()
+        )
+
+        if result.status_code != 201:
+            raise SupabaseException(result.text)
 
     def get_by_id(self, match_id: MatchID) -> Optional[Match]:
-        result = (
-            self.client.table(self.table)
-            .select("*")
-            .eq("id", str(match_id.value))
-            .execute()
-        )
+        url = f"{self._url}?id=eq.{str(match_id.value)}"
 
-        if not result.data:
+        result = requests.get(url=url, headers=self._auth_header)
+
+        if result.status_code != 200:
+            raise SupabaseException(result.text)
+
+        if not result.json():
             return None
 
-        return Match.deserialize(result.data[0])
+        return Match.deserialize(result.json()[0])
 
     def delete(self, match_id: MatchID) -> None:
-        self.client.table(self.table).delete().eq("id", str(match_id.value)).execute()
+        url = f"{self._url}?id=eq.{str(match_id.value)}"
+
+        result = requests.delete(url=url, headers=self._auth_header)
+
+        if result.status_code != 200:
+            raise SupabaseException(result.text)
 
     def get(self, week: Week = None) -> list[Match]:
-        query = self.client.table(self.table).select("*")
-
+        params = []
         if week is not None:
-            query = query.eq("week", week.serialize())
+            params.append(f"week=eq.{week.serialize()}")
 
-        result = (
-            query.order("match_day", desc=False)
-            .order("match_time", desc=False)
-            .execute()
-        )
-        return [Match.deserialize(data) for data in result.data]
+        params.append("order=match_day.asc,match_time.asc")
+        query_params = '&'.join(params)
+
+        url = f"{self._url}?{query_params}"
+        result = requests.get(url=url, headers=self._auth_header)
+
+        if result.status_code != 200:
+            raise SupabaseException(result.text)
+
+        return [Match.deserialize(data) for data in result.json()]
 
     def update(
         self,
@@ -70,7 +94,12 @@ class SupabaseMatchRepository(MatchRepository):
         if result is not None:
             values["result"] = result.serialize()
 
+        print(values)
+
         if values:
-            self.client.table(self.table).update(values).eq(
-                "id", str(match_id.value)
-            ).execute()
+            url = f"{self._url}?id=eq.{str(match_id.value)}"
+            print(url)
+            result = requests.patch(url=url, headers=self._auth_header, data=values)
+
+            if result.status_code != 204:
+                raise SupabaseException(result.text)

@@ -2,60 +2,102 @@ from dataclasses import dataclass
 from datetime import datetime
 from typing import Optional
 
-from supabase import Client
+import requests
 
+from src.infrastructure.supabase.exceptions import SupabaseException
 from src.core.domain.entities.user import User, UserHasAnswered, UserID, UserName
 from src.core.domain.repositories.user_repository import UserRepository
 
 
 @dataclass
 class SupabaseUserRepository(UserRepository):
-    client: Client
+    base_url: str
+    api_key: str
     table: str = "users"
 
+    @property
+    def _auth_header(self) -> dict:
+        return {
+            "apikey": self.api_key,
+            # "Authorization": f"Bearer {self.api_key}"
+        }
+
+    @property
+    def _url(self) -> str:
+        return f"{self.base_url}/{self.table}"
+
     def add(self, user: User) -> None:
-        self.client.table(self.table).insert(user.serialize()).execute()
+        result = requests.post(
+            url=self._url, headers=self._auth_header, data=user.serialize()
+        )
+
+        if result.status_code != 201:
+            raise SupabaseException(result.text)
 
     def get_by_id(self, user_id: UserID) -> Optional[User]:
-        result = (
-            self.client.table(self.table)
-            .select("*")
-            .eq("id", str(user_id.value))
-            .execute()
-        )
+        url = f"{self._url}?id=eq.{str(user_id.value)}"
 
-        if not result.data:
+        result = requests.get(url=url, headers=self._auth_header)
+
+        if result.status_code != 200:
+            raise SupabaseException(result.text)
+
+        if not result.json():
             return None
 
-        return User.deserialize(result.data[0])
+        return User.deserialize(result.json()[0])
 
     def get_by_name(self, name: UserName) -> Optional[User]:
-        result = (
-            self.client.table(self.table).select("*").eq("name", name.value).execute()
-        )
+        url = f"{self._url}?name=eq.{name.value}"
 
-        if not result.data:
+        result = requests.get(url=url, headers=self._auth_header)
+
+        if result.status_code != 200:
+            raise SupabaseException(result.text)
+
+        if not result.json():
             return None
 
-        return User.deserialize(result.data[0])
+        return User.deserialize(result.json()[0])
 
     def get(self, name: UserName) -> list[User]:
-        query = self.client.table(self.table).select("*")
+        params = []
 
         if name is not None:
-            query = query.eq("name", name.value)
+            params.append(f"name=eq.{name.value}")
 
-        result = query.execute()
-        return [User.deserialize(data) for data in result.data]
+        params.append("order=name.asc")
+        query_params = '&'.join(params)
+
+        url = f"{self._url}?{query_params}"
+
+        result = requests.get(url=url, headers=self._auth_header)
+
+        if result.status_code != 200:
+            raise SupabaseException(result.text)
+
+        return [User.deserialize(data) for data in result.json()]
 
     def update_last_login(self, user_id: UserID, last_login: datetime) -> None:
-        self.client.table(self.table).update({"last_login": last_login.isoformat()}).eq(
-            "id", str(user_id.value)
-        ).execute()
+        url = f"{self._url}?id=eq.{str(user_id.value)}"
+        result = requests.patch(
+            url=url,
+            headers=self._auth_header,
+            data={"last_login": last_login.isoformat()},
+        )
+
+        if result.status_code != 204:
+            raise SupabaseException(result.text)
 
     def update_has_answered(
         self, user_id: UserID, has_answered: UserHasAnswered
     ) -> None:
-        self.client.table(self.table).update({"has_answered": has_answered.value}).eq(
-            "id", str(user_id.value)
-        ).execute()
+        url = f"{self._url}?id=eq.{str(user_id.value)}"
+        result = requests.patch(
+            url=url,
+            headers=self._auth_header,
+            data={"has_answered": has_answered.value},
+        )
+
+        if result.status_code != 204:
+            raise SupabaseException(result.text)

@@ -1,6 +1,7 @@
 from datetime import datetime
 import flet as ft
 
+from app.widgets.snack_bar import SnackBar
 from src.core.application.config.config_updater_service import ConfigUpdaterService
 from src.core.domain.dtos.data import Data
 
@@ -85,26 +86,67 @@ class Configuration(ft.AlertDialog):
         config_updater_service: ConfigUpdaterService = (
             self.page.container.services.config_updater_service
         )
-        config_updater_service(current_week=self.current_week.value)
+
+        try:
+            config_updater_service(current_week=self.current_week.value)
+            success = True
+            text = "Configuración actualizada correctamente"
+        except Exception as e:
+            success = False
+            text = f"Ha ocurrido un error al actualizar la configuración: {e}"
+
+        self.page.overlay.append(SnackBar(text=text, success=success, open=True))
+        self.page.update()
 
     def _change_betting_limit(self, e: ft.ControlEvent) -> None:
         config_updater_service: ConfigUpdaterService = (
             self.page.container.services.config_updater_service
         )
-        config_updater_service(
-            betting_limit=datetime.strptime(
-                self.betting_limit.value, "%Y/%m/%d %H:%M:%S"
+
+        try:
+            config_updater_service(
+                betting_limit=datetime.strptime(
+                    self.betting_limit.value, "%Y/%m/%d %H:%M:%S"
+                )
             )
-        )
+            success = True
+            text = "Configuración actualizada correctamente"
+        except Exception as e:
+            success = False
+            text = f"Ha ocurrido un error al actualizar la configuración: {e}"
+
+        self.page.overlay.append(SnackBar(text=text, success=success, open=True))
+        self.page.update()
 
     def _change_right_winner_points(self, e: ft.ControlEvent) -> None:
         config_updater_service: ConfigUpdaterService = (
             self.page.container.services.config_updater_service
         )
-        config_updater_service(right_winner_points=int(self.right_winner_points.value))
+
+        try:
+            config_updater_service(right_winner_points=int(self.right_winner_points.value))
+            success = True
+            text = "Configuración actualizada correctamente"
+        except Exception as e:
+            success = False
+            text = f"Ha ocurrido un error al actualizar la configuración: {e}"
+
+        self.page.overlay.append(SnackBar(text=text, success=success, open=True))
+        self.page.update()
 
     def _change_right_losser_points(self, e: ft.ControlEvent) -> None:
         config_updater_service: ConfigUpdaterService = (
             self.page.container.services.config_updater_service
         )
-        config_updater_service(right_losser_points=int(self.right_losser_points.value))
+
+        try:
+            config_updater_service(right_losser_points=int(self.right_losser_points.value))
+
+            success = True
+            text = "Configuración actualizada correctamente"
+        except Exception as e:
+            success = False
+            text = f"Ha ocurrido un error al actualizar la configuración: {e}"
+
+        self.page.overlay.append(SnackBar(text=text, success=success, open=True))
+        self.page.update()

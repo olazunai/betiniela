@@ -1,0 +1,2 @@
+class SupabaseException(Exception):
+    pass

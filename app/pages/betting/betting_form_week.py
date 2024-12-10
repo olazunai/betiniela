@@ -86,6 +86,12 @@ class BettingFormWeek(ft.Container):
             self.page.container.services.user_has_answered_updater_service
         )
 
+        for form_match in self.form_matches:
+            if not all([form_match.data.match_id.value, form_match.data.winner, form_match.data.losser]):
+                self.page.overlay.append(SnackBar(text="Tienes que rellenar todos los apartados", success=False, open=True))
+                self.page.update()
+                return
+
         try:
             for form_match in self.form_matches:
                 response_creator_service(
@@ -115,6 +121,7 @@ class BettingFormWeek(ft.Container):
         self.submit_button.visible = False
 
         self.page.overlay.append(SnackBar(text=text, success=success, open=True))
+        self.page.update()
 
     def _form(self, event: ft.ControlEvent):
         self.pending_form.visible = False

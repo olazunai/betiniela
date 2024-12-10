@@ -1,5 +1,4 @@
 import os
-from supabase import Client, create_client
 
 from src.core.domain.repositories.config_repository import ConfigRepository
 from src.core.domain.repositories.match_repository import MatchRepository
@@ -23,44 +22,28 @@ from src.infrastructure.supabase.repositories.supabase_user_repository import (
 )
 
 
-class ConfigureSupabaseClient:
-    @staticmethod
-    def init(url: str, key: str) -> Client:
-        return create_client(
-            supabase_url=url,
-            supabase_key=key,
-        )
-
-    @staticmethod
-    def shutdown(client: Client) -> None:
-        pass
-
-
 class SupabaseContainer:
     def __init__(self):
         self.url = os.getenv("SUPABASE_URL", "")
         self.key = os.getenv("SUPABASE_KEY", "")
 
-        self.client: Client = ConfigureSupabaseClient.init(
-            url=self.url,
-            key=self.key,
-        )
-
         self.user_repository: UserRepository = SupabaseUserRepository(
-            client=self.client,
+            base_url=self.url,
+            api_key=self.key,
         )
         self.match_repository: MatchRepository = SupabaseMatchRepository(
-            client=self.client,
+            base_url=self.url,
+            api_key=self.key,
         )
         self.ranking_repository: RankingRepository = SupabaseRankingRepository(
-            client=self.client,
+            base_url=self.url,
+            api_key=self.key,
         )
         self.response_repository: ResponseRepository = SupabaseResponseRepository(
-            client=self.client,
+            base_url=self.url,
+            api_key=self.key,
         )
         self.config_repository: ConfigRepository = SupabaseConfigRepository(
-            client=self.client,
+            base_url=self.url,
+            api_key=self.key,
         )
-
-    def shutdown(self) -> None:
-        ConfigureSupabaseClient.shutdown(self.client)

@@ -31,7 +31,10 @@ class CalendarDeleteMatchModal(ft.AlertDialog):
             success = False
             text = f"Ha ocurrido un error al eliminar el partido: {e}"
 
+        self.page.close(self)
+
         self.page.overlay.append(SnackBar(text=text, success=success, open=True))
+        self.page.update()
 
     def _close(self, e: ft.ControlEvent):
         self.page.close(self)

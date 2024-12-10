@@ -103,8 +103,8 @@ class CalendarEditMatchModal(ft.AlertDialog):
         match_time = time.fromisoformat(self.match_time.value)
         local_team = self.local_team.value
         visitor_team = self.visitor_team.value
-        local_team_result = self.local_team_result.value
-        visitor_team_result = self.visitor_team_result.value
+        local_team_result = int(self.local_team_result.value)
+        visitor_team_result = int(self.visitor_team_result.value)
 
         match_updater_service: MatchUpdaterService = (
             self.page.container.services.match_updater_service
@@ -124,4 +124,7 @@ class CalendarEditMatchModal(ft.AlertDialog):
             success = False
             text = f"Ha ocurrido un error al editar el partido: {e}"
 
+        self.page.close(self)
+
         self.page.overlay.append(SnackBar(text=text, success=success, open=True))
+        self.page.update()

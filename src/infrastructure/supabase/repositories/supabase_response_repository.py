@@ -2,8 +2,10 @@ from dataclasses import dataclass
 from datetime import datetime
 from typing import Optional
 
-from supabase import Client
+import requests
 
+from src.core.domain.repositories.response_repository import ResponseRepository
+from src.infrastructure.supabase.exceptions import SupabaseException
 from src.core.domain.entities.match import MatchID
 from src.core.domain.entities.response import Response, ResponseID, ResponseLosserPoints
 from src.core.domain.entities.user import UserID
@@ -12,50 +14,79 @@ from src.core.domain.value_objects.week import Week
 
 
 @dataclass
-class SupabaseResponseRepository:
-    client: Client
+class SupabaseResponseRepository(ResponseRepository):
+    base_url: str
+    api_key: str
     table: str = "responses"
 
-    def add(self, response: Response) -> None:
-        self.client.table(self.table).insert(response.serialize()).execute()
+    @property
+    def _auth_header(self) -> dict:
+        return {
+            "apikey": self.api_key,
+        }
 
-    def get_by_id(self, response_id: ResponseID) -> Optional[Response]:
-        result = (
-            self.client.table(self.table)
-            .select("*")
-            .eq("id", str(response_id.value))
-            .execute()
+    @property
+    def _url(self) -> str:
+        return f"{self.base_url}/{self.table}"
+
+    def add(self, response: Response) -> None:
+        result = requests.post(
+            url=self._url, headers=self._auth_header, data=response.serialize()
         )
 
-        if not result.data:
+        if result.status_code != 201:
+            raise SupabaseException(result.text)
+
+    def get_by_id(self, response_id: ResponseID) -> Optional[Response]:
+        url = f"{self._url}?id=eq.{str(response_id.value)}"
+
+        result = requests.get(url=url, headers=self._auth_header)
+
+        if result.status_code != 200:
+            raise SupabaseException(result.text)
+
+        if not result.json():
             return None
 
-        return Response.deserialize(result.data[0])
+        return Response.deserialize(result.json()[0])
 
     def get(
         self, week: Week = None, match_id: MatchID = None, user_id: UserID = None
     ) -> list[Response]:
-        query = self.client.table(self.table).select("*")
+        params = []
 
         if week is not None:
-            query = query.eq("week", week.serialize())
+            params.append(f"week=eq.{week.serialize()}")
 
         if match_id is not None:
-            query = query.eq("match_id", str(match_id.value))
+            params.append(f"match_id=eq.{str(match_id.value)}")
 
         if user_id is not None:
-            query = query.eq("user_id", str(user_id.value))
+            params.append(f"user_id=eq.{str(user_id.value)}")
 
-        result = query.execute()
-        return [Response.deserialize(data) for data in result.data]
+        params.append("order=match_id.desc")
+        query_params = '&'.join(params)
+
+        url = f"{self._url}?{query_params}"
+
+        result = requests.get(url=url, headers=self._auth_header)
+
+        if result.status_code != 200:
+            raise SupabaseException(result.text)
+
+        return [Response.deserialize(data) for data in result.json()]
 
     def update_data(
         self, response_id: ResponseID, winner: Team, losser_points: ResponseLosserPoints
     ) -> None:
-        self.client.table(self.table).update(
-            {
-                "losser_points": losser_points.value,
-                "winner": winner.value,
-                "updated_time": datetime.now().isoformat(),
-            }
-        ).eq("id", str(response_id.value)).execute()
+        values = {
+            "losser_points": losser_points.value,
+            "winner": winner.value,
+            "updated_time": datetime.now().isoformat(),
+        }
+
+        url = f"{self._url}?id=eq.{str(response_id.value)}"
+        result = requests.patch(url=url, headers=self._auth_header, data=values)
+
+        if result.status_code != 204:
+            raise SupabaseException(result.text)

@@ -97,6 +97,3 @@ class MainContainer:
         self.services = Services(
             database_container=self.database_container,
         )
-
-    def shutdown_resources(self):
-        self.database_container.shutdown()

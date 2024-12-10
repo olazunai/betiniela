@@ -75,5 +75,3 @@ if __name__ == "__main__":
     container = MainContainer()
 
     ft.app(partial(main, container=container))
-
-    container.shutdown_resources()

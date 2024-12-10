@@ -93,4 +93,7 @@ class CalendarCreateMatchModal(ft.AlertDialog):
             success = False
             text = f"Ha ocurrido un error al crear el partido: {e}"
 
+        self.page.close(self)
+
         self.page.overlay.append(SnackBar(text=text, success=success, open=True))
+        self.page.update()

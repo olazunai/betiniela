@@ -1,6 +1,10 @@
 from dataclasses import dataclass
 
-from src.core.domain.dtos.matches_by_week import DateMatches, MatchesByDate, MatchesByWeek
+from src.core.domain.dtos.matches_by_week import (
+    DateMatches,
+    MatchesByDate,
+    MatchesByWeek,
+)
 from src.core.domain.entities.match import Match
 from src.core.domain.repositories.match_repository import MatchRepository
 

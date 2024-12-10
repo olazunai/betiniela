@@ -1,5 +1,6 @@
 from datetime import date, time
-from typing import Optional
+import json
+from typing import Optional, Union
 from uuid import UUID
 from dataclasses import dataclass
 
@@ -23,13 +24,17 @@ class MatchResult:
     visitor_team: int
 
     def serialize(self):
-        return {
-            "local_team": self.local_team,
-            "visitor_team": self.visitor_team,
-        }
+        return json.dumps(
+            {
+                "local_team": self.local_team,
+                "visitor_team": self.visitor_team,
+            },
+        )
 
     @classmethod
-    def deserialize(cls, obj: dict) -> "MatchResult":
+    def deserialize(cls, obj: Union[str, dict]) -> "MatchResult":
+        if isinstance(obj, str):
+            obj = json.loads(obj)
         return cls(
             local_team=obj["local_team"],
             visitor_team=obj["visitor_team"],

@@ -50,7 +50,7 @@ class CalendarMatch(ft.Container):
                         value=(
                             self.match.match_time.strftime("%H:%Mh")
                             if self.match.result is None
-                            else f"{self.match.local_team} - {self.match.result.visitor_team}"
+                            else f"{self.match.result.local_team} - {self.match.result.visitor_team}"
                         ),
                         text_align=ft.TextAlign.CENTER,
                         color=ft.colors.BLACK,
