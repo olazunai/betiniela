@@ -9,7 +9,10 @@ from src.core.domain.entities.response import Response
 
 class BettingMatch(ft.Container):
     def __init__(
-        self, match: Match, response: Optional[Response] = None, show_divider: Optional[bool] = True
+        self,
+        match: Match,
+        response: Optional[Response] = None,
+        show_divider: Optional[bool] = True,
     ):
         super().__init__()
 

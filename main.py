@@ -40,7 +40,9 @@ def logout(page: ft.Page):
 
 def get_data(user: User, page: ft.Page) -> Data:
     fetch_data_service: FetchDataService = page.container.services.fetch_data_service
-    user_retriever_service: UserRetrieverService = page.container.services.user_retriever_service
+    user_retriever_service: UserRetrieverService = (
+        page.container.services.user_retriever_service
+    )
 
     data: Data = fetch_data_service()
     page.data = data

@@ -16,12 +16,24 @@ class RankingPoints:
 
 
 @dataclass
+class RankingRightWinner:
+    value: int
+
+
+@dataclass
+class RankingRightLosser:
+    value: int
+
+
+@dataclass
 class Ranking:
     id: RankingID
     user_name: UserName
     week: Week
     points: RankingPoints
     total_points: RankingPoints
+    right_winner: RankingRightWinner
+    right_losser: RankingRightLosser
 
     def serialize(self) -> dict:
         return {
@@ -30,6 +42,8 @@ class Ranking:
             "user_name": self.user_name.value,
             "points": self.points.value,
             "total_points": self.total_points.value,
+            "right_winner": self.right_winner.value,
+            "right_losser": self.right_losser.value,
         }
 
     @classmethod
@@ -40,4 +54,6 @@ class Ranking:
             user_name=UserName(obj["user_name"]),
             points=RankingPoints(obj["points"]),
             total_points=RankingPoints(obj["total_points"]),
+            right_winner=RankingRightWinner(obj["right_winner"]),
+            right_losser=RankingRightLosser(obj["right_losser"]),
         )

@@ -30,16 +30,36 @@ class ResponsesAll(ft.Container):
             width=200,
             label="Selecciona la jornada",
             on_change=self._week_match_changer,
-            value=(self.weeks[self.selected_week] if self.selected_week is not None else None),
+            value=(
+                self.weeks[self.selected_week]
+                if self.selected_week is not None
+                else None
+            ),
         )
 
-        self.matches: list[Match] = [match for date_matches in self.data.matches_by_week.matches[self.week_dropdown.value].matches for match in date_matches.matches]
+        self.matches: list[Match] = [
+            match
+            for date_matches in self.data.matches_by_week.matches[
+                self.week_dropdown.value
+            ].matches
+            for match in date_matches.matches
+        ]
         self.match_dropdown = ft.Dropdown(
-            options=[ft.dropdown.Option(key=match.id.value, text=f"{match.local_team.value} vs {match.visitor_team.value}") for match in self.matches],
+            options=[
+                ft.dropdown.Option(
+                    key=match.id.value,
+                    text=f"{match.local_team.value} vs {match.visitor_team.value}",
+                )
+                for match in self.matches
+            ],
             width=400,
             label="Selecciona el partido",
             on_change=self._week_match_changer,
-            value=(str(self.matches[self.selected_match].id.value) if self.selected_match is not None else None),
+            value=(
+                str(self.matches[self.selected_match].id.value)
+                if self.selected_match is not None
+                else None
+            ),
         )
 
         dropdowns = ft.Container(
@@ -49,7 +69,10 @@ class ResponsesAll(ft.Container):
 
         self.controls = [dropdowns]
 
-        if self.week_dropdown.value is not None and self.match_dropdown.value is not None:
+        if (
+            self.week_dropdown.value is not None
+            and self.match_dropdown.value is not None
+        ):
             self.controls.append(
                 ResponsesAllWeek(
                     week=Week.deserialize(self.week_dropdown.value),
@@ -57,7 +80,7 @@ class ResponsesAll(ft.Container):
                     data=self.data,
                 )
             )
-        
+
         self.content = ft.Column(
             controls=self.controls,
             horizontal_alignment=ft.CrossAxisAlignment.CENTER,
@@ -68,6 +91,8 @@ class ResponsesAll(ft.Container):
             self.selected_week = self.weeks.index(self.week_dropdown.value)
 
         if self.match_dropdown.value is not None:
-            self.selected_match = [str(match.id.value) for match in self.matches].index(self.match_dropdown.value)
+            self.selected_match = [str(match.id.value) for match in self.matches].index(
+                self.match_dropdown.value
+            )
 
         self.update()

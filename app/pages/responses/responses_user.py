@@ -28,7 +28,9 @@ class ResponsesUser(Body):
 
         self.options = self.weeks
         self.views = [
-            ResponsesUserWeek(week=Week.deserialize(option), data=self.data, visible=True)
+            ResponsesUserWeek(
+                week=Week.deserialize(option), data=self.data, visible=True
+            )
             for option in self.options
         ]
 
@@ -42,7 +44,7 @@ class ResponsesUser(Body):
 
         week_dropdown = ft.Container(
             content=self.dropdown,
-            padding=ft.Padding(top=30, left=5, right=5, bottom=10)
+            padding=ft.Padding(top=30, left=5, right=5, bottom=10),
         )
 
         self.controls = [week_dropdown]

@@ -123,7 +123,9 @@ class Configuration(ft.AlertDialog):
         )
 
         try:
-            config_updater_service(right_winner_points=int(self.right_winner_points.value))
+            config_updater_service(
+                right_winner_points=int(self.right_winner_points.value)
+            )
             success = True
             text = "Configuración actualizada correctamente"
         except Exception as e:
@@ -139,7 +141,9 @@ class Configuration(ft.AlertDialog):
         )
 
         try:
-            config_updater_service(right_losser_points=int(self.right_losser_points.value))
+            config_updater_service(
+                right_losser_points=int(self.right_losser_points.value)
+            )
 
             success = True
             text = "Configuración actualizada correctamente"

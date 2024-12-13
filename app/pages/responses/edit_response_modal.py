@@ -1,7 +1,9 @@
 import flet as ft
 
 from app.widgets.snack_bar import SnackBar
-from src.core.application.response.response_updater_service import ResponseUpdaterService
+from src.core.application.response.response_updater_service import (
+    ResponseUpdaterService,
+)
 from src.core.domain.entities.match import Match
 from src.core.domain.entities.response import Response
 

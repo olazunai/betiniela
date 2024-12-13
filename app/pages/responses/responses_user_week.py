@@ -46,7 +46,9 @@ class ResponsesUserWeek(ft.Container):
                     if match.id.value != match_id:
                         continue
 
-                    self.responses.append(ResponsesUserMatch(match=match, response=response))
+                    self.responses.append(
+                        ResponsesUserMatch(match=match, response=response)
+                    )
 
         self.no_response = ft.Container(
             content=ft.Text(

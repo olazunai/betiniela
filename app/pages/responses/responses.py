@@ -8,7 +8,7 @@ from src.core.domain.dtos.data import Data
 class Responses(ft.Container):
     def __init__(self, data: Data):
         super().__init__()
-        
+
         self.data = data
         self.expand = True
 
@@ -32,13 +32,12 @@ class Responses(ft.Container):
                         alignment=ft.alignment.center,
                     ),
                     content=ResponsesAll(data=self.data),
-                )
+                ),
             ],
             expand=True,
             indicator_tab_size=True,
             splash_border_radius=ft.border_radius.all(10),
             label_padding=ft.Padding(top=10, bottom=10, left=30, right=30),
             tab_alignment=ft.TabAlignment.CENTER,
-            
         )
         self.content = self.tabs

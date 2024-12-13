@@ -11,9 +11,13 @@ from src.core.application.match.match_updater_service import (
     MatchUpdaterService,
 )
 from src.core.application.ranking.ranking_list_service import RankingListService
-from src.core.application.response.response_creator_service import ResponseCreatorService
+from src.core.application.response.response_creator_service import (
+    ResponseCreatorService,
+)
 from src.core.application.response.response_list_service import ResponseListService
-from src.core.application.response.response_updater_service import ResponseUpdaterService
+from src.core.application.response.response_updater_service import (
+    ResponseUpdaterService,
+)
 from src.core.application.user.user_creator_service import UserCreatorService
 from src.core.application.user.user_has_answered_updater_service import (
     UserHasNasweredUpdaterService,
@@ -34,7 +38,7 @@ class Services:
         self.user_has_answered_updater_service = UserHasNasweredUpdaterService(
             user_repository=database_container.user_repository,
         )
-        self.user_retriever_service= UserRetrieverService(
+        self.user_retriever_service = UserRetrieverService(
             user_repository=database_container.user_repository,
         )
 

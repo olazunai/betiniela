@@ -37,7 +37,11 @@ class ResponsesAllWeek(ft.Container):
         week_responses: list[Response] = self.data.responses_by_week.responses.get(
             self.week.name(), []
         )
-        match_responses: list[Response] = [response for response in week_responses if response.match_id == self.match_id]
+        match_responses: list[Response] = [
+            response
+            for response in week_responses
+            if response.match_id == self.match_id
+        ]
 
         self.no_response = ft.Container(
             content=ft.Text(
@@ -62,16 +66,28 @@ class ResponsesAllWeek(ft.Container):
                             ft.DataCell(ft.Text(response.winner.value)),
                             ft.DataCell(ft.Text(response.losser_points.value)),
                         ],
-                    ) for response in match_responses
+                    )
+                    for response in match_responses
                 ],
-                data_row_max_height=float("inf")
+                data_row_max_height=float("inf"),
             ),
         )
 
-        first_match: Match = sorted(sorted(self.data.matches_by_week.matches[self.week.name()].matches, key=lambda x: x.day)[0].matches, key=lambda x: x.match_time)[0]
-        if datetime.now() < datetime.combine(first_match.match_day, first_match.match_time):
+        first_match: Match = sorted(
+            sorted(
+                self.data.matches_by_week.matches[self.week.name()].matches,
+                key=lambda x: x.day,
+            )[0].matches,
+            key=lambda x: x.match_time,
+        )[0]
+
+        if datetime.now() < datetime.combine(
+            first_match.match_day, first_match.match_time
+        ):
             self.content = self.no_response
+
         elif match_responses:
             self.content = self.data_table
+
         else:
             self.content = self.no_response

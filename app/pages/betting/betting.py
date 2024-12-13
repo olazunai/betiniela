@@ -19,16 +19,26 @@ class Betting(ft.Container):
         self.no_available = self._is_form_available()
 
     def _is_form_available(self):
-        first_match: Match = sorted(sorted(self.data.matches_by_week.matches[self.week_name].matches, key=lambda x: x.day)[0].matches, key=lambda x: x.match_time)[0]
-        return datetime.now() > datetime.combine(first_match.match_day, first_match.match_time)
+        first_match: Match = sorted(
+            sorted(
+                self.data.matches_by_week.matches[self.week_name].matches,
+                key=lambda x: x.day,
+            )[0].matches,
+            key=lambda x: x.match_time,
+        )[0]
+        return datetime.now() > datetime.combine(
+            first_match.match_day, first_match.match_time
+        )
 
     def build(self):
         self._build_function()
 
     def before_update(self):
         self.no_available = self._is_form_available()
-        
-        user_retriever_service: UserRetrieverService = self.page.container.services.user_retriever_service
+
+        user_retriever_service: UserRetrieverService = (
+            self.page.container.services.user_retriever_service
+        )
 
         self.user = user_retriever_service(self.user.id.value)
         self._build_function()

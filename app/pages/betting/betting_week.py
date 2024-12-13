@@ -2,7 +2,9 @@ import flet as ft
 
 from app.pages.betting.betting_match import BettingMatch
 from app.widgets.snack_bar import SnackBar
-from src.core.application.response.response_creator_service import ResponseCreatorService
+from src.core.application.response.response_creator_service import (
+    ResponseCreatorService,
+)
 from src.core.application.user.user_has_answered_updater_service import (
     UserHasNasweredUpdaterService,
 )
@@ -35,13 +37,20 @@ class BettingWeek(ft.Container):
             for match in matches.matches:
                 self.betting_matches.append(BettingMatch(match=match))
 
-        self.sent_success = SnackBar(text="Quiniela enviada correctamente", success=True, open=False)
-        self.sent_error = SnackBar(text="Ha ocurrido un error enviando la quiniela", success=False, open=False)
-        self.sent_invalid = SnackBar(text="Tienes que rellenar todos los apartados", success=False, open=False)
+        self.sent_success = SnackBar(
+            text="Quiniela enviada correctamente", success=True, open=False
+        )
+        self.sent_error = SnackBar(
+            text="Ha ocurrido un error enviando la quiniela", success=False, open=False
+        )
+        self.sent_invalid = SnackBar(
+            text="Tienes que rellenar todos los apartados", success=False, open=False
+        )
 
         self.submit_button = ft.Container(
             content=ft.ElevatedButton(
-                text="Enviar respuesta", on_click=self._send_response,
+                text="Enviar respuesta",
+                on_click=self._send_response,
             ),
             alignment=ft.alignment.center,
             margin=ft.margin.only(top=30, bottom=30),
@@ -77,7 +86,13 @@ class BettingWeek(ft.Container):
         )
 
         for betting_match in self.betting_matches:
-            if not all([betting_match.data.match_id.value, betting_match.data.winner, betting_match.data.losser]):
+            if not all(
+                [
+                    betting_match.data.match_id.value,
+                    betting_match.data.winner,
+                    betting_match.data.losser,
+                ]
+            ):
                 self.sent_invalid.open = True
                 self.update()
                 return
