@@ -8,7 +8,7 @@ from src.core.domain.entities.response import (
     ResponseID,
     ResponseLosserPoints,
 )
-from src.core.domain.entities.user import UserID
+from src.core.domain.entities.user import UserID, UserName
 from src.core.domain.exceptions import ResponseAlreadyExistsException
 from src.core.domain.repositories.response_repository import ResponseRepository
 from src.core.domain.value_objects.team import Team
@@ -24,6 +24,7 @@ class ResponseCreatorService:
         week_name: str,
         match_id: UUID,
         user_id: UUID,
+        user_name: str,
         winner_team: str,
         losser_points: str,
     ) -> None:
@@ -40,6 +41,7 @@ class ResponseCreatorService:
             week=Week.deserialize(week_name),
             match_id=MatchID(match_id),
             user_id=UserID(user_id),
+            user_name=UserName(user_name),
             winner=Team(winner_team),
             losser_points=ResponseLosserPoints(losser_points),
             response_time=datetime.now(),

@@ -88,6 +88,7 @@ class BettingWeek(ft.Container):
                     week_name=self.week_name,
                     match_id=betting_match.data.match_id.value,
                     user_id=self.data.user.id.value,
+                    user_name=self.data.user.name.value,
                     winner_team=betting_match.data.winner,
                     losser_points=betting_match.data.losser,
                 )
