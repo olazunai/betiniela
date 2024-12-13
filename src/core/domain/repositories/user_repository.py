@@ -19,7 +19,7 @@ class UserRepository(ABC):
         pass
 
     @abstractmethod
-    def get(self, name: UserName) -> list[User]:
+    def get(self, name: UserName = None) -> list[User]:
         pass
 
     @abstractmethod

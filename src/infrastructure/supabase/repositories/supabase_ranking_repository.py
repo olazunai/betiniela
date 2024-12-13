@@ -5,7 +5,7 @@ import requests
 
 from src.infrastructure.supabase.exceptions import SupabaseException
 from src.core.domain.entities.ranking import Ranking, RankingID, RankingPoints
-from src.core.domain.entities.user import UserID
+from src.core.domain.entities.user import UserName
 from src.core.domain.repositories.ranking_repository import RankingRepository
 from src.core.domain.value_objects.week import Week
 
@@ -40,7 +40,7 @@ class SupabaseRankingRepository(RankingRepository):
 
         result = requests.post(url=self._url, headers=headers, data=ranking.serialize())
 
-        if result.status_code != 201:
+        if result.status_code != 200:
             raise SupabaseException(result.text)
 
     def get_by_id(self, ranking_id: RankingID) -> Optional[Ranking]:
@@ -56,14 +56,14 @@ class SupabaseRankingRepository(RankingRepository):
 
         return Ranking.deserialize(result.json()[0])
 
-    def get(self, week: Week = None, user_id: UserID = None) -> list[Ranking]:
+    def get(self, week: Week = None, user_name: UserName = None) -> list[Ranking]:
         params = []
 
         if week is not None:
             params.append(f"week=eq.{week.serialize()}")
 
-        if user_id is not None:
-            params.append(f"user_id=eq.{str(user_id.value)}")
+        if user_name is not None:
+            params.append(f"user_name=eq.{str(user_name.value)}")
 
         params.append("order=points.desc")
         query_params = "&".join(params)

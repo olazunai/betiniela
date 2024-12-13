@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 from typing import Optional
 
 from src.core.domain.entities.ranking import Ranking, RankingID, RankingPoints
-from src.core.domain.entities.user import UserID
+from src.core.domain.entities.user import UserName
 from src.core.domain.value_objects.week import Week
 
 
@@ -20,7 +20,7 @@ class RankingRepository(ABC):
         pass
 
     @abstractmethod
-    def get(self, week: Week = None, user_id: UserID = None) -> list[Ranking]:
+    def get(self, week: Week = None, user_name: UserName = None) -> list[Ranking]:
         pass
 
     @abstractmethod

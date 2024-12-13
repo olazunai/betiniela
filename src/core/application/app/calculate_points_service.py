@@ -4,7 +4,13 @@ from uuid import uuid4
 
 from src.core.domain.entities.config import Config
 from src.core.domain.entities.match import Match
-from src.core.domain.entities.ranking import Ranking, RankingID, RankingPoints
+from src.core.domain.entities.ranking import (
+    Ranking,
+    RankingID,
+    RankingPoints,
+    RankingRightLosser,
+    RankingRightWinner,
+)
 from src.core.domain.entities.response import Response
 from src.core.domain.entities.user import User
 from src.core.domain.repositories.config_repository import ConfigRepository
@@ -25,10 +31,12 @@ class CalculatePointService:
 
     def __call__(self, week_name: str) -> None:
         week = Week.deserialize(week_name)
-        users: list[User] = self.user_respository.get()
+        users: list[User] = self.user_repository.get()
         for user in users:
 
             points = 0
+            right_losser = 0
+            right_winner = 0
 
             responses: list[Response] = self.response_repository.get(
                 user_id=user.id, week=week
@@ -41,15 +49,22 @@ class CalculatePointService:
                 if match is None or match.result is None:
                     continue
 
-                points += self._compute_match_points(match=match, response=response)
+                actual_points, actual_right_winner, actual_right_losser = (
+                    self._compute_match_points(match=match, response=response)
+                )
+                points += actual_points
+                right_winner += actual_right_winner
+                right_losser += actual_right_losser
 
             self._update_or_create_ranking(
                 user=user,
                 week=week,
                 points=points,
+                right_losser=right_losser,
+                right_winner=right_winner,
             )
 
-    def _compute_match_points(self, match: Match, response: Response) -> int:
+    def _compute_match_points(self, match: Match, response: Response):
         config: Config = self.config_repository.get()
 
         match_winner = (
@@ -64,18 +79,25 @@ class CalculatePointService:
         )
 
         points = 0
+        right_winner = 0
+        right_losser = 0
 
         if response.winner.value == match_winner:
             points += config.right_winner_points
+            right_winner += 1
 
             if response.losser_points.contains(match_losser_points):
                 points += config.right_losser_points
+                right_losser += 1
 
-        return points
+        return points, right_winner, right_losser
 
-    def _update_or_create_ranking(self, week: Week, user: User, points: int) -> None:
+    def _update_or_create_ranking(
+        self, week: Week, user: User, points: int, right_winner: int, right_losser: int
+    ) -> None:
         rankings: list[Ranking] = sorted(
-            self.ranking_repository.get(user_id=user.id), key=lambda x: x.total_points
+            self.ranking_repository.get(user_name=user.name),
+            key=lambda x: x.total_points.value,
         )
         if not rankings:
             ranking = Ranking(
@@ -84,6 +106,8 @@ class CalculatePointService:
                 user_name=user.name,
                 points=RankingPoints(points),
                 total_points=RankingPoints(points),
+                right_losser=RankingRightLosser(right_losser),
+                right_winner=RankingRightWinner(right_winner),
             )
         elif rankings[-1].week.name() != week.name():
             ranking = Ranking(
@@ -92,14 +116,18 @@ class CalculatePointService:
                 user_name=user.name,
                 points=RankingPoints(points),
                 total_points=RankingPoints(rankings[-1].total_points.value + points),
+                right_losser=RankingRightLosser(right_losser),
+                right_winner=RankingRightWinner(right_winner),
             )
         else:
             previous_total_points = (
-                rankings[-2].total_points.value if rankings > 1 else 0
+                rankings[-2].total_points.value if len(rankings) > 1 else 0
             )
 
             ranking: Ranking = rankings[-1]
             ranking.points.value = points
             ranking.total_points.value = previous_total_points + points
+            ranking.right_losser.value = right_losser
+            ranking.right_winner.value = right_winner
 
         self.ranking_repository.add_or_update(ranking)

@@ -1,6 +1,8 @@
 import flet as ft
 
 from app.configuration import Configuration
+from app.widgets.snack_bar import SnackBar
+from src.core.application.app.calculate_points_service import CalculatePointService
 from src.core.domain.dtos.data import Data
 from src.core.domain.entities.user import UserRole
 
@@ -47,6 +49,12 @@ class AppBar(ft.AppBar):
             ),
         ]
 
+        if self.data.user.role == UserRole.SUPERUSER:
+            self.actions.insert(
+                0,
+                ft.IconButton(icon=ft.icons.CALCULATE, on_click=self._calculate_points),
+            )
+
     def _logout(self, e: ft.ControlEvent):
         self.page.logout(e)
 
@@ -67,3 +75,22 @@ class AppBar(ft.AppBar):
             if self.page.controls[0].loading is not None:
                 self.page.controls[0].loading.visible = False
                 self.page.controls[0].loading.update()
+
+    def _calculate_points(self, e: ft.ControlEvent):
+        calculate_points_service: CalculatePointService = (
+            self.page.container.services.calculate_points_service
+        )
+
+        try:
+            week_name = self.data.config.current_week.name()
+            calculate_points_service(week_name=week_name)
+
+            success = True
+            text = "Puntos calculados correctamente"
+        except Exception as e:
+            success = False
+            text = f"Ha ocurrido un error calculando los puntos: {e}"
+
+        self.page.overlay.append(SnackBar(text=text, success=success, open=True))
+
+        self.page.update()

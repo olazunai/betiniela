@@ -60,7 +60,7 @@ class SupabaseUserRepository(UserRepository):
 
         return User.deserialize(result.json()[0])
 
-    def get(self, name: UserName) -> list[User]:
+    def get(self, name: UserName = None) -> list[User]:
         params = []
 
         if name is not None:
