@@ -67,7 +67,7 @@ class SupabaseUserRepository(UserRepository):
             params.append(f"name=eq.{name.value}")
 
         params.append("order=name.asc")
-        query_params = '&'.join(params)
+        query_params = "&".join(params)
 
         url = f"{self._url}?{query_params}"
 

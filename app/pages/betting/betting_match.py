@@ -1,81 +1,85 @@
+from typing import Optional
 import flet as ft
 
-from app.pages.betting.betting_edit_match_modal import BettingEditMatchModal
+from app.widgets.dropdown import Dropdown
+from src.core.domain.dtos.betting_form_match_data import BettingFormMatchData
 from src.core.domain.entities.match import Match
 from src.core.domain.entities.response import Response
 
 
 class BettingMatch(ft.Container):
-    def __init__(self, match: Match, response: Response):
+    def __init__(
+        self, match: Match, response: Optional[Response] = None, show_divider: Optional[bool] = True
+    ):
         super().__init__()
 
-        self.response = response
-        self.match = match
-
-    def build(self):
-        self._build_function()
-
-    def _build_function(self):
-        self.header = ft.Row(
-            controls=[
-                ft.Container(content=ft.Divider(thickness=0.5), expand=True),
-                ft.Text(
-                    value=f"{self.match.local_team.value} vs {self.match.visitor_team.value}",
-                    opacity=0.8,
-                ),
-                ft.Container(content=ft.Divider(thickness=0.5), expand=True),
-            ],
-            expand=True,
-        )
-
-        self.result = ft.Column(
-            controls=[
-                ft.Text(value=f"Ganador: {self.response.winner.value}", no_wrap=True),
-                ft.Text(
-                    value=f"Perdedor: {self.response.losser_points.value} tantos",
-                    no_wrap=True,
-                ),
-            ],
-            spacing=30,
-            alignment=ft.MainAxisAlignment.CENTER,
-        )
-
-        self.edit_button = ft.Container(
-            content=ft.IconButton(
-                icon=ft.icons.EDIT,
-                on_click=self._edit_match_modal,
-            ),
-            alignment=ft.alignment.center,
-            padding=ft.padding.only(right=20),
-        )
-
-        self.response_container = ft.Container(
+        self.winner = ft.RadioGroup(
             content=ft.Row(
-                controls=[self.result, self.edit_button],
-                spacing=30,
-                alignment=ft.MainAxisAlignment.SPACE_BETWEEN,
+                controls=[
+                    ft.Text("Ganador:"),
+                    ft.Column(
+                        controls=[
+                            ft.Radio(
+                                value=match.local_team.value,
+                                label=match.local_team.value,
+                                width=180,
+                            ),
+                            ft.Radio(
+                                value=match.visitor_team.value,
+                                label=match.visitor_team.value,
+                                width=180,
+                            ),
+                        ],
+                    ),
+                ],
+                wrap=True,
+                expand=True,
             ),
-            alignment=ft.alignment.center,
-            margin=ft.Margin(
-                left=15,
-                right=5,
-                top=20,
-                bottom=20,
-            ),
-            width=500,
+            on_change=self._winner_changer,
+            value=response.winner.value if response is not None else None,
         )
 
-        self.betting_match = ft.Column(
-            controls=[self.header, self.response_container],
+        options = [
+            "0-6",
+            "7-11",
+            "12-15",
+            "16-18",
+            "19-21",
+        ]
+        self.losser = Dropdown(
+            options=options,
+            label="Tantos del perdedor",
+            label_size=12,
+            on_change=self._losser_changer,
+            text_size=12,
+            width=160,
+            selected_index=(
+                options.index(response.losser_points.value)
+                if response is not None
+                else None
+            ),
+        )
+
+        column_content = [self.winner, self.losser]
+
+        if show_divider:
+            column_content.insert(0, ft.Divider(thickness=2.5))
+
+        self.content = ft.Column(
+            controls=column_content,
+            spacing=20,
             alignment=ft.MainAxisAlignment.CENTER,
             horizontal_alignment=ft.CrossAxisAlignment.CENTER,
         )
 
-        self.edit_match = BettingEditMatchModal(
-            response=self.response, match=self.match
+        self.data = BettingFormMatchData(
+            match_id=match.id,
+            winner=self.winner.value,
+            losser=self.losser.value,
         )
 
-        self.content = self.betting_match
+    def _winner_changer(self, event: ft.ControlEvent):
+        self.data.winner = event.data
 
-    def _edit_match_modal(self, event: ft.ControlEvent):
-        self.page.open(self.edit_match)
+    def _losser_changer(self, event: ft.ControlEvent):
+        self.data.losser = event.data

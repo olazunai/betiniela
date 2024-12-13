@@ -66,7 +66,7 @@ class SupabaseRankingRepository(RankingRepository):
             params.append(f"user_id=eq.{str(user_id.value)}")
 
         params.append("order=points.desc")
-        query_params = '&'.join(params)
+        query_params = "&".join(params)
 
         url = f"{self._url}?{query_params}"
 

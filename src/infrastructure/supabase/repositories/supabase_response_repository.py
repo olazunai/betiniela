@@ -65,7 +65,7 @@ class SupabaseResponseRepository(ResponseRepository):
             params.append(f"user_id=eq.{str(user_id.value)}")
 
         params.append("order=match_id.desc")
-        query_params = '&'.join(params)
+        query_params = "&".join(params)
 
         url = f"{self._url}?{query_params}"
 

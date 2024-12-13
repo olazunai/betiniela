@@ -19,6 +19,7 @@ from src.core.application.user.user_has_answered_updater_service import (
     UserHasNasweredUpdaterService,
 )
 from src.core.application.user.user_login_service import UserLoginService
+from src.core.application.user.user_retriever_service import UserRetrieverService
 from src.infrastructure.supabase.container import SupabaseContainer
 
 
@@ -31,6 +32,9 @@ class Services:
             user_repository=database_container.user_repository,
         )
         self.user_has_answered_updater_service = UserHasNasweredUpdaterService(
+            user_repository=database_container.user_repository,
+        )
+        self.user_retriever_service= UserRetrieverService(
             user_repository=database_container.user_repository,
         )
 

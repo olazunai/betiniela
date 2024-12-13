@@ -62,7 +62,7 @@ class SupabaseMatchRepository(MatchRepository):
             params.append(f"week=eq.{week.serialize()}")
 
         params.append("order=match_day.asc,match_time.asc")
-        query_params = '&'.join(params)
+        query_params = "&".join(params)
 
         url = f"{self._url}?{query_params}"
         result = requests.get(url=url, headers=self._auth_header)
