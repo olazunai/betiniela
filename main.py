@@ -56,6 +56,8 @@ def main(page: ft.Page, container: MainContainer):
     page.vertical_alignment = "center"
     page.horizontal_alignment = "center"
 
+    page.theme_mode = ft.ThemeMode.DARK
+
     page.container = container
     page.logout = lambda x: logout(page=page)
     page.save_token = partial(save_token, page=page)

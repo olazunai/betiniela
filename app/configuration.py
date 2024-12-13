@@ -3,7 +3,6 @@ import flet as ft
 
 from app.widgets.snack_bar import SnackBar
 from src.core.application.config.config_updater_service import ConfigUpdaterService
-from src.core.domain.dtos.data import Data
 
 
 class Configuration(ft.AlertDialog):

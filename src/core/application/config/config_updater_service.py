@@ -2,7 +2,6 @@ from dataclasses import dataclass
 from datetime import datetime
 from typing import Optional
 from src.core.domain.repositories.config_repository import ConfigRepository
-from src.core.domain.value_objects.team import Team
 from src.core.domain.value_objects.week import Week
 
 

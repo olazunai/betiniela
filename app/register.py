@@ -1,6 +1,5 @@
 import flet as ft
 
-from app.main_page import MainPage
 from app.widgets.snack_bar import SnackBar
 from src.core.application.user.user_creator_service import UserCreatorService
 from app.widgets.login_body import LoginBody

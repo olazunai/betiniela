@@ -1,5 +1,4 @@
-import os
-
+from env import SUPABASE_KEY, SUPABASE_URL
 from src.core.application.app.auth_service import AuthService
 from src.core.application.app.calculate_points_service import CalculatePointService
 from src.core.application.app.fetch_data_service import FetchDataService
@@ -25,8 +24,6 @@ from src.infrastructure.supabase.container import SupabaseContainer
 
 class Services:
     def __init__(self, database_container: SupabaseContainer):
-        self.secret_key = os.getenv("SECRET_KEY", "")
-
         self.user_creator_service = UserCreatorService(
             user_repository=database_container.user_repository,
         )
@@ -79,7 +76,6 @@ class Services:
         )
         self.auth_service = AuthService(
             user_login_service=self.user_login_service,
-            secret_key=self.secret_key,
         )
         self.calculate_points_service = CalculatePointService(
             config_repository=database_container.config_repository,
@@ -92,7 +88,7 @@ class Services:
 
 class MainContainer:
     def __init__(self):
-        self.database_container = SupabaseContainer()
+        self.database_container = SupabaseContainer(url=SUPABASE_URL, key=SUPABASE_KEY)
 
         self.services = Services(
             database_container=self.database_container,

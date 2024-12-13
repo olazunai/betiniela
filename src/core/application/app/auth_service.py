@@ -1,8 +1,8 @@
+import base64
 from dataclasses import dataclass
 import json
 from random import random
 from typing import Optional
-from flet.security import encrypt, decrypt
 
 from src.core.application.user.user_login_service import UserLoginService
 from src.core.domain.entities.user import User
@@ -12,11 +12,10 @@ from src.core.domain.exceptions import UserDoesNotExistsException
 @dataclass
 class AuthService:
     user_login_service: UserLoginService
-    secret_key: str
 
     def validate_token(self, token: str) -> Optional[User]:
         try:
-            user_data = json.loads(decrypt(token, self.secret_key))
+            user_data = json.loads(base64.b64decode(token))
         except:
             return None
 
@@ -36,4 +35,4 @@ class AuthService:
             "password": user.password.value,
             "random": random(),
         }
-        return encrypt(json.dumps(user_data), self.secret_key)
+        return base64.b64encode(json.dumps(user_data))

@@ -23,9 +23,9 @@ from src.infrastructure.supabase.repositories.supabase_user_repository import (
 
 
 class SupabaseContainer:
-    def __init__(self):
-        self.url = os.getenv("SUPABASE_URL", "")
-        self.key = os.getenv("SUPABASE_KEY", "")
+    def __init__(self, url: str, key: str):
+        self.url = url
+        self.key = key
 
         self.user_repository: UserRepository = SupabaseUserRepository(
             base_url=self.url,

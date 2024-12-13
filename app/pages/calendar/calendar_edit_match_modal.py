@@ -1,5 +1,4 @@
 from datetime import time
-from typing import Optional
 import flet as ft
 
 from app.widgets.snack_bar import SnackBar

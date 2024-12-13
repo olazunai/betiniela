@@ -1,6 +1,6 @@
 import flet as ft
 
-from typing import Any, Callable
+from typing import Callable
 
 
 class Dropdown(ft.Container):

@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 from uuid import UUID
+
 from src.core.domain.entities.response import (
     ResponseID,
     ResponseLosserPoints,

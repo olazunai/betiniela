@@ -4,7 +4,6 @@ from uuid import UUID
 from src.core.domain.entities.match import MatchID
 from src.core.domain.exceptions import MatchDoesNotExistException
 from src.core.domain.repositories.match_repository import MatchRepository
-from src.core.domain.value_objects.team import Team
 
 
 @dataclass

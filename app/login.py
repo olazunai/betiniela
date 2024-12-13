@@ -91,10 +91,21 @@ class Login(LoginBody):
         user_login_service: UserLoginService = (
             self.page.container.services.user_login_service
         )
+        try:
+            user = user_login_service(
+                user_name=self.user.value, password=self.password.value
+            )
+        except Exception as e:
+            self.page.overlay.append(
+                SnackBar(
+                    text=f"Error al intentar inicar sesión: {e}.",
+                    success=False,
+                    open=True,
+                ),
+            )
+            self.page.update()
+            return
 
-        user = user_login_service(
-            user_name=self.user.value, password=self.password.value
-        )
         if user is not None:
             if self.save_login.value:
                 self.page.save_token(user=user)

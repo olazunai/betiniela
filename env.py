@@ -1,0 +1,2 @@
+SUPABASE_URL = "https://wcyjxnxjwggnsifdidei.supabase.co/rest/v1"
+SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndjeWp4bnhqd2dnbnNpZmRpZGVpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzI5NTg4NTAsImV4cCI6MjA0ODUzNDg1MH0.-kTMBKeRLxowOnpOykiV5iwa13Dft6Sx9VqRfY9w4_o"
