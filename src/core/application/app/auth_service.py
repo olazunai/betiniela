@@ -35,4 +35,4 @@ class AuthService:
             "password": user.password.value,
             "random": random(),
         }
-        return base64.b64encode(json.dumps(user_data))
+        return base64.b64encode(json.dumps(user_data).encode("utf-8")).decode("utf-8")
