@@ -27,11 +27,13 @@ class CalendarEditMatchModal(ft.AlertDialog):
             options=[ft.dropdown.Option(team) for team in teams],
             label="Local",
             value=self.match.local_team.value,
+            width=220,
         )
         self.visitor_team = ft.Dropdown(
             options=[ft.dropdown.Option(team) for team in teams],
             label="Visitante",
             value=self.match.visitor_team.value,
+            width=220,
         )
         self.local_team_result = ft.TextField(
             width=50,
@@ -66,6 +68,7 @@ class CalendarEditMatchModal(ft.AlertDialog):
                                 content=self.local_team_result,
                             ),
                         ],
+                        wrap=True,
                     ),
                     ft.Row(
                         controls=[
@@ -79,6 +82,7 @@ class CalendarEditMatchModal(ft.AlertDialog):
                                 content=self.visitor_team_result,
                             ),
                         ],
+                        wrap=True,
                     ),
                     ft.Container(
                         content=ft.ElevatedButton(
