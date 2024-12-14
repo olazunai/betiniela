@@ -12,7 +12,7 @@ from src.core.domain.entities.ranking import (
     RankingRightWinner,
 )
 from src.core.domain.entities.response import Response
-from src.core.domain.entities.user import User
+from src.core.domain.entities.user import User, UserHasAnswered
 from src.core.domain.repositories.config_repository import ConfigRepository
 from src.core.domain.repositories.match_repository import MatchRepository
 from src.core.domain.repositories.ranking_repository import RankingRepository
@@ -62,6 +62,10 @@ class CalculatePointService:
                 points=points,
                 right_losser=right_losser,
                 right_winner=right_winner,
+            )
+
+            self.user_repository.update_has_answered(
+                user_id=user.id, has_answered=UserHasAnswered(True)
             )
 
     def _compute_match_points(self, match: Match, response: Response):

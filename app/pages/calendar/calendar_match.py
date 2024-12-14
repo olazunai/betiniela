@@ -67,6 +67,16 @@ class CalendarMatch(ft.Container):
                     ),
                     alignment=ft.alignment.center,
                 ),
+                ft.Container(
+                    content=ft.Text(
+                        value=f"({self.match.location.value.capitalize()})",
+                        text_align=ft.TextAlign.CENTER,
+                        color=ft.colors.BLACK,
+                        weight=ft.FontWeight.BOLD,
+                        no_wrap=True,
+                    ),
+                    alignment=ft.alignment.center,
+                ),
             ],
             horizontal_alignment=ft.MainAxisAlignment.CENTER,
             spacing=2,
