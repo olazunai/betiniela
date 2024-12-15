@@ -15,9 +15,9 @@ class Calendar(ft.Container):
 
     def build(self):
         try:
-            self.selected_index = sorted(self.data.matches_by_week.matches.keys()).index(
-                self.data.config.current_week.name()
-            )
+            self.selected_index = sorted(
+                self.data.matches_by_week.matches.keys()
+            ).index(self.data.config.current_week.name())
         except ValueError:
             self.selected_index = None
         self._build_function(self.selected_index)

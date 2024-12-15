@@ -22,7 +22,7 @@ class Ranking(Body):
             )
         except ValueError:
             self.selected_week = None
-        
+
         self._build_function()
 
     def before_update(self):

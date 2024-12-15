@@ -43,14 +43,14 @@ class ResponsesAll(ft.Container):
             bgcolor=SECONDARY_COLOR,
         )
 
-        week_matches_obj = self.data.matches_by_week.matches.get(self.week_dropdown.value)
+        week_matches_obj = self.data.matches_by_week.matches.get(
+            self.week_dropdown.value
+        )
         week_matches = week_matches_obj.matches if week_matches_obj is not None else []
         self.matches: list[Match] = [
-            match
-            for date_matches in week_matches
-            for match in date_matches.matches
+            match for date_matches in week_matches for match in date_matches.matches
         ]
-        
+
         self.match_dropdown = ft.Dropdown(
             options=[
                 ft.dropdown.Option(

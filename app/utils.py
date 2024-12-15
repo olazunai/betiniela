@@ -8,7 +8,7 @@ from src.core.domain.dtos.data import Data
 def is_week_started(data: Data, week_name: str) -> bool:
     if data.user.role == UserRole.SUPERUSER:
         return data.config.started_week
-    
+
     week_matches = data.matches_by_week.matches.get(week_name)
     sorted_week_matches = sorted(
         week_matches.matches if week_matches is not None else [],

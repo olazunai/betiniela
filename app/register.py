@@ -95,7 +95,7 @@ class Register(LoginBody):
                 user_name=self.user.value,
                 password=self.password.value,
             )
-            
+
             self.page.clean()
             self.page.add(self.page.init_main_page(user=user))
             self.page.update()
