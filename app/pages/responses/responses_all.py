@@ -16,9 +16,13 @@ class ResponsesAll(ft.Container):
         self.selected_match = None
 
     def build(self):
-        self.selected_week = sorted(self.data.matches_by_week.matches.keys()).index(
-            self.data.config.current_week.name()
-        )
+        try:
+            self.selected_week = sorted(self.data.matches_by_week.matches.keys()).index(
+                self.data.config.current_week.name()
+            )
+        except ValueError:
+            self.selected_week = None
+
         self._build_function()
 
     def before_update(self):
@@ -39,13 +43,14 @@ class ResponsesAll(ft.Container):
             bgcolor=SECONDARY_COLOR,
         )
 
+        week_matches_obj = self.data.matches_by_week.matches.get(self.week_dropdown.value)
+        week_matches = week_matches_obj.matches if week_matches_obj is not None else []
         self.matches: list[Match] = [
             match
-            for date_matches in self.data.matches_by_week.matches[
-                self.week_dropdown.value
-            ].matches
+            for date_matches in week_matches
             for match in date_matches.matches
         ]
+        
         self.match_dropdown = ft.Dropdown(
             options=[
                 ft.dropdown.Option(

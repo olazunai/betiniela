@@ -15,9 +15,13 @@ class ResponsesUser(Body):
         self.weeks = sorted(data.matches_by_week.matches.keys())
 
     def build(self):
-        self.selected_index = sorted(self.data.matches_by_week.matches.keys()).index(
-            self.data.config.current_week.name()
-        )
+        try:
+            self.selected_index = sorted(self.data.matches_by_week.matches.keys()).index(
+                self.data.config.current_week.name()
+            )
+        except ValueError:
+            self.selected_index = None
+        
         self._build_function(self.selected_index)
 
     def before_update(self):
@@ -49,7 +53,8 @@ class ResponsesUser(Body):
 
         self.controls = [week_dropdown]
 
-        self.controls.append(self.views[selected_index])
+        if self.views:
+            self.controls.append(self.views[selected_index])
 
     def _week_changer(self, event: ft.ControlEvent):
         self.controls = self.controls[:4]

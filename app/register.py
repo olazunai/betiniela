@@ -90,16 +90,24 @@ class Register(LoginBody):
             self.page.container.services.user_creator_service
         )
 
-        user = user_creator_service(
-            user_name=self.user.value,
-            password=self.password.value,
-        )
-
-        self.page.clean()
-
-        self.page.add(self.page.init_main_page(user=user))
-
-        self.page.update()
+        try:
+            user = user_creator_service(
+                user_name=self.user.value,
+                password=self.password.value,
+            )
+            
+            self.page.clean()
+            self.page.add(self.page.init_main_page(user=user))
+            self.page.update()
+        except Exception as e:
+            self.page.overlay.append(
+                SnackBar(
+                    text=f"Error al intentar registrarse. {e}.",
+                    success=False,
+                    open=True,
+                ),
+            )
+            self.page.update()
 
     def _go_login(self, e: ft.ControlEvent):
         self.page.logout(e)

@@ -35,7 +35,10 @@ class BettingWeek(ft.Container):
         self.answered = False
 
         self.betting_matches = []
-        for matches in self.data.matches_by_week.matches[self.week_name].matches:
+
+        week_matches_obj = self.data.matches_by_week.matches.get(self.week_name)
+        week_matches = week_matches_obj.matches if week_matches_obj is not None else []
+        for matches in week_matches:
             for match in matches.matches:
                 self.betting_matches.append(BettingMatch(match=match))
 

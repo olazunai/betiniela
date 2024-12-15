@@ -16,9 +16,13 @@ class Ranking(Body):
         self.weeks = sorted(data.matches_by_week.matches.keys())
 
     def build(self):
-        self.selected_week = sorted(self.data.matches_by_week.matches.keys()).index(
-            self.data.config.current_week.name()
-        )
+        try:
+            self.selected_week = sorted(self.data.matches_by_week.matches.keys()).index(
+                self.data.config.current_week.name()
+            )
+        except ValueError:
+            self.selected_week = None
+        
         self._build_function()
 
     def before_update(self):
