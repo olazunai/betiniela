@@ -2,6 +2,7 @@ import flet as ft
 
 from app.pages.betting.betting_match import BettingMatch
 from app.widgets.snack_bar import SnackBar
+from src.core.domain.entities.user import UserRole
 from src.core.application.response.response_creator_service import (
     ResponseCreatorService,
 )
@@ -77,6 +78,14 @@ class BettingWeek(ft.Container):
             horizontal_alignment=ft.CrossAxisAlignment.CENTER,
         )
 
+        self.user_dropdown = ft.Dropdown(
+            options=[ft.dropdown.Option(key=str(user.id.value), text=user.name.value) for user in self.data.users],
+            label="Selecciona el usuario",
+        )
+
+        if self.data.user.role == UserRole.SUPERUSER:
+            self.content.controls.insert(0, self.user_dropdown)
+
     def _send_response(self, event: ft.ControlEvent):
         response_creator_service: ResponseCreatorService = (
             self.page.container.services.response_creator_service
@@ -98,18 +107,22 @@ class BettingWeek(ft.Container):
                 return
 
         try:
+            user = self.data.user
+            if self.user_dropdown.value is not None:
+                user = [usr for usr in self.data.users if str(usr.id.value) == self.user_dropdown.value][0]
+
             for betting_match in self.betting_matches:
                 response_creator_service(
                     week_name=self.week_name,
                     match_id=betting_match.data.match_id.value,
-                    user_id=self.data.user.id.value,
-                    user_name=self.data.user.name.value,
+                    user_id=user.id.value,
+                    user_name=user.name.value,
                     winner_team=betting_match.data.winner,
                     losser_points=betting_match.data.losser,
                 )
 
             user_has_answered_updater_service(
-                user_id=self.data.user.id.value,
+                user_id=user.id.value,
                 has_answered=True,
             )
 

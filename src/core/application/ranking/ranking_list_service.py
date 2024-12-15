@@ -9,7 +9,7 @@ from src.core.domain.value_objects.week import Week
 class RankingListService:
     ranking_repository: RankingRepository
 
-    def __call__(self, week_name: str) -> list[Ranking]:
-        rankings = self.ranking_repository.get(Week.deserialize(week_name))
+    def __call__(self) -> list[Ranking]:
+        rankings = self.ranking_repository.get()
 
         return rankings

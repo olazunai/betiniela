@@ -24,6 +24,7 @@ from src.core.application.user.user_has_answered_updater_service import (
 )
 from src.core.application.user.user_login_service import UserLoginService
 from src.core.application.user.user_retriever_service import UserRetrieverService
+from src.core.application.user.user_list_service import UserListService
 from src.infrastructure.supabase.container import SupabaseContainer
 
 
@@ -39,6 +40,9 @@ class Services:
             user_repository=database_container.user_repository,
         )
         self.user_retriever_service = UserRetrieverService(
+            user_repository=database_container.user_repository,
+        )
+        self.user_list_service = UserListService(
             user_repository=database_container.user_repository,
         )
 
@@ -81,6 +85,7 @@ class Services:
             ranking_list_service=self.ranking_list_service,
             response_list_service=self.response_list_service,
             config_retriever_service=self.config_retriever_service,
+            user_list_service=self.user_list_service,
         )
         self.auth_service = AuthService(
             user_login_service=self.user_login_service,

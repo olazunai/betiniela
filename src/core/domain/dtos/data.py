@@ -14,4 +14,5 @@ class Data:
     responses_by_week: ResponsesByWeek
     rankings: list[Ranking]
     config: Config
+    users: list[User]
     user: Optional[User] = None
