@@ -2,6 +2,7 @@ import flet as ft
 
 from app.pages.ranking.ranking_week import RankingWeek
 from app.widgets.body import Body
+from constants import SECONDARY_COLOR
 from src.core.domain.value_objects.week import Week
 from src.core.domain.dtos.data import Data
 
@@ -35,6 +36,7 @@ class Ranking(Body):
                 if self.selected_week is not None
                 else None
             ),
+            bgcolor=SECONDARY_COLOR,
         )
 
         self.controls = [

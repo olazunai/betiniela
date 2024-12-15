@@ -20,7 +20,6 @@ class Login(LoginBody):
             border=ft.InputBorder.UNDERLINE,
             icon=ft.Icons.PERSON,
             on_change=self._validate,
-            autofill_hints=ft.AutofillHint.NAME,
         )
         self.password = ft.TextField(
             label="Contraseña",
@@ -29,7 +28,6 @@ class Login(LoginBody):
             password=True,
             can_reveal_password=True,
             on_change=self._validate,
-            autofill_hints=ft.AutofillHint.PASSWORD,
         )
 
         self.save_login = ft.Checkbox(label="Recordar usuario")
@@ -76,6 +74,7 @@ class Login(LoginBody):
                     ),
                 ],
             ),
+            dispose_action=ft.AutofillGroupDisposeAction.CANCEL,
         )
 
     def _validate(self, event: ft.ControlEvent) -> None:

@@ -1,3 +1,4 @@
+from textwrap import wrap
 import flet as ft
 
 from src.core.domain.entities.ranking import Ranking
@@ -27,19 +28,36 @@ class RankingWeek(ft.Container):
         self.data_table = ft.Container(
             content=ft.DataTable(
                 columns=[
-                    ft.DataColumn(ft.Text(" "), numeric=True),
-                    ft.DataColumn(ft.Text(" ")),
-                    ft.DataColumn(ft.Text("Total"), numeric=True),
-                    ft.DataColumn(ft.Text("Jornada"), numeric=True),
-                    ft.DataColumn(ft.Text("Aciertos"), numeric=True),
+                    ft.DataColumn(ft.Text(""), numeric=True),
+                    ft.DataColumn(ft.Text("")),
+                    ft.DataColumn(ft.Text("Tot."), numeric=True),
+                    ft.DataColumn(ft.Text("Jor."), numeric=True),
+                    ft.DataColumn(ft.Text("+"), numeric=True),
+                    ft.DataColumn(
+                        ft.Text("++", tooltip=ft.Tooltip(message="Tanteo acertado")),
+                        numeric=True,
+                    ),
                 ],
                 rows=[
                     ft.DataRow(
                         cells=[
                             ft.DataCell(ft.Text(i)),
-                            ft.DataCell(ft.Text(ranking.user_name.value)),
+                            ft.DataCell(
+                                ft.Container(
+                                    content=ft.Text(
+                                        ranking.user_name.value,
+                                        overflow=ft.TextOverflow.ELLIPSIS,
+                                    ),
+                                    width=120,
+                                )
+                            ),
                             ft.DataCell(ft.Text(ranking.total_points.value)),
                             ft.DataCell(ft.Text(ranking.points.value)),
+                            ft.DataCell(
+                                ft.Text(
+                                    f"{ranking.total_right_winner.value}/{ranking.total_right_losser.value}"
+                                )
+                            ),
                             ft.DataCell(
                                 ft.Text(
                                     f"{ranking.right_winner.value}/{ranking.right_losser.value}"
@@ -50,8 +68,9 @@ class RankingWeek(ft.Container):
                     for i, ranking in enumerate(week_rankings, start=1)
                 ],
                 data_row_max_height=float("inf"),
-                column_spacing=10,
+                column_spacing=15,
             ),
+            padding=ft.padding.only(top=50),
         )
 
         self.no_data = ft.Container(

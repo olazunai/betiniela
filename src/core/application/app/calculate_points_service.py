@@ -10,6 +10,8 @@ from src.core.domain.entities.ranking import (
     RankingPoints,
     RankingRightLosser,
     RankingRightWinner,
+    RankingTotalRightLosser,
+    RankingTotalRightWinner,
 )
 from src.core.domain.entities.response import Response
 from src.core.domain.entities.user import User, UserHasAnswered
@@ -112,6 +114,8 @@ class CalculatePointService:
                 total_points=RankingPoints(points),
                 right_losser=RankingRightLosser(right_losser),
                 right_winner=RankingRightWinner(right_winner),
+                total_right_losser=RankingTotalRightLosser(right_losser),
+                total_right_winner=RankingTotalRightWinner(right_winner),
             )
         elif rankings[-1].week.name() != week.name():
             ranking = Ranking(
@@ -122,10 +126,22 @@ class CalculatePointService:
                 total_points=RankingPoints(rankings[-1].total_points.value + points),
                 right_losser=RankingRightLosser(right_losser),
                 right_winner=RankingRightWinner(right_winner),
+                total_right_losser=RankingTotalRightLosser(
+                    rankings[-1].total_right_losser.value + right_losser
+                ),
+                total_right_winner=RankingTotalRightWinner(
+                    rankings[-1].total_right_winner.value + right_winner
+                ),
             )
         else:
             previous_total_points = (
                 rankings[-2].total_points.value if len(rankings) > 1 else 0
+            )
+            previous_total_right_losser = (
+                rankings[-2].total_right_losser.value if len(rankings) > 1 else 0
+            )
+            previous_total_right_winner = (
+                rankings[-2].total_right_winner.value if len(rankings) > 1 else 0
             )
 
             ranking: Ranking = rankings[-1]
@@ -133,5 +149,11 @@ class CalculatePointService:
             ranking.total_points.value = previous_total_points + points
             ranking.right_losser.value = right_losser
             ranking.right_winner.value = right_winner
+            ranking.total_right_losser.value = (
+                previous_total_right_losser + right_losser
+            )
+            ranking.total_right_winner.value = (
+                previous_total_right_winner + right_winner
+            )
 
         self.ranking_repository.add_or_update(ranking)

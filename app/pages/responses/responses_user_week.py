@@ -47,7 +47,9 @@ class ResponsesUserWeek(ft.Container):
                         continue
 
                     self.responses.append(
-                        ResponsesUserMatch(match=match, response=response, data=self.data)
+                        ResponsesUserMatch(
+                            match=match, response=response, data=self.data
+                        )
                     )
 
         self.no_response = ft.Container(

@@ -19,14 +19,15 @@ class BettingWeek(ft.Container):
         self.week_name = week_name
         self.data: Data = data
         self.visible = visible
+        self.expand = True
 
     def build(self):
         self._build_function()
 
     def _build_function(self):
         self.padding = ft.Padding(
-            left=50,
-            right=50,
+            left=5,
+            right=5,
             top=5,
             bottom=5,
         )

@@ -1,8 +1,9 @@
-from datetime import datetime
 from uuid import UUID
 import flet as ft
 
-from src.core.domain.entities.match import Match, MatchID
+from app.utils import is_week_started
+from constants import SECONDARY_COLOR
+from src.core.domain.entities.match import MatchID
 from src.core.application.response.response_list_service import ResponseListService
 from src.core.domain.dtos.data import Data
 from src.core.domain.entities.response import Response
@@ -52,42 +53,64 @@ class ResponsesAllWeek(ft.Container):
             padding=ft.padding.only(top=20),
         )
 
-        self.data_table = ft.Container(
+        divided_responses = self._divide_responses(match_responses)
+
+        self.expansions = []
+
+        for winner, responses in divided_responses.items():
+            self.expansions.append(
+                ft.ExpansionTile(
+                    title=ft.Text(winner),
+                    maintain_state=True,
+                    initially_expanded=True,
+                    bgcolor=SECONDARY_COLOR,
+                    controls=[self._create_data_table(responses)],
+                    expanded_alignment=ft.alignment.center,
+                    expanded_cross_axis_alignment=ft.CrossAxisAlignment.CENTER,
+                )
+            )
+
+        if is_week_started(data=self.data, week_name=self.week.name()):
+            self.content = self.no_response
+
+        elif match_responses:
+            self.content = ft.Column(controls=self.expansions)
+
+        else:
+            self.content = self.no_response
+
+    def _create_data_table(self, responses: list[Response]) -> ft.Container:
+        return ft.Container(
             content=ft.DataTable(
                 columns=[
                     ft.DataColumn(ft.Text(" ")),
-                    ft.DataColumn(ft.Text("Ganador")),
-                    ft.DataColumn(ft.Text("Tantos perdedor")),
+                    ft.DataColumn(ft.Text("Tanteo perdedor")),
                 ],
                 rows=[
                     ft.DataRow(
                         cells=[
-                            ft.DataCell(ft.Text(response.user_name.value)),
-                            ft.DataCell(ft.Text(response.winner.value)),
+                            ft.DataCell(
+                                ft.Container(
+                                    content=ft.Text(
+                                        response.user_name.value,
+                                        overflow=ft.TextOverflow.ELLIPSIS,
+                                    ),
+                                    width=120,
+                                )
+                            ),
                             ft.DataCell(ft.Text(response.losser_points.value)),
                         ],
                     )
-                    for response in match_responses
+                    for response in responses
                 ],
                 data_row_max_height=float("inf"),
             ),
         )
 
-        first_match: Match = sorted(
-            sorted(
-                self.data.matches_by_week.matches[self.week.name()].matches,
-                key=lambda x: x.day,
-            )[0].matches,
-            key=lambda x: x.match_time,
-        )[0]
+    def _divide_responses(self, responses: list[Response]) -> dict[str, list[Response]]:
+        divided = {}
+        for response in responses:
+            winner = response.winner.value
+            divided[winner] = divided.get(winner, []) + [response]
 
-        if datetime.now() < datetime.combine(
-            first_match.match_day, first_match.match_time
-        ):
-            self.content = self.no_response
-
-        elif match_responses:
-            self.content = self.data_table
-
-        else:
-            self.content = self.no_response
+        return divided

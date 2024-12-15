@@ -1,6 +1,7 @@
 import flet as ft
 
 from app.pages.responses.responses_all_week import ResponsesAllWeek
+from constants import SECONDARY_COLOR
 from src.core.domain.entities.match import Match
 from src.core.domain.dtos.data import Data
 from src.core.domain.value_objects.week import Week
@@ -35,6 +36,7 @@ class ResponsesAll(ft.Container):
                 if self.selected_week is not None
                 else None
             ),
+            bgcolor=SECONDARY_COLOR,
         )
 
         self.matches: list[Match] = [
@@ -60,6 +62,7 @@ class ResponsesAll(ft.Container):
                 if self.selected_match is not None
                 else None
             ),
+            bgcolor=SECONDARY_COLOR,
         )
 
         dropdowns = ft.Container(
@@ -67,7 +70,7 @@ class ResponsesAll(ft.Container):
             padding=ft.Padding(top=50, left=5, right=5, bottom=10),
         )
 
-        self.controls = [dropdowns]
+        self.controls = [dropdowns, ft.Divider(thickness=2.5)]
 
         if (
             self.week_dropdown.value is not None

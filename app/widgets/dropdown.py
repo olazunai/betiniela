@@ -2,6 +2,8 @@ import flet as ft
 
 from typing import Callable
 
+from constants import SECONDARY_COLOR
+
 
 class Dropdown(ft.Container):
     def __init__(
@@ -24,6 +26,7 @@ class Dropdown(ft.Container):
             value=(options[selected_index] if selected_index is not None else None),
             text_size=text_size,
             label_style=ft.TextStyle(size=label_size),
+            bgcolor=SECONDARY_COLOR,
         )
 
         self.content = ft.Row(

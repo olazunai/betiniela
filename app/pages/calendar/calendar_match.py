@@ -2,6 +2,7 @@ import flet as ft
 
 from app.pages.calendar.calendar_delete_match_modal import CalendarDeleteMatchModal
 from app.pages.calendar.calendar_edit_match_modal import CalendarEditMatchModal
+from constants import THIRD_COLOR
 from src.core.domain.entities.match import Match
 from src.core.domain.entities.user import User, UserRole
 
@@ -25,7 +26,7 @@ class CalendarMatch(ft.Container):
             bottom=5,
         )
         self.border_radius = ft.border_radius.all(5)
-        self.bgcolor = ft.Colors.WHITE
+        self.bgcolor = THIRD_COLOR
         self.shape = ft.BoxShape.RECTANGLE
         self.width = 300
         self.alignment = ft.alignment.center

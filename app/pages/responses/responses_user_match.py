@@ -33,9 +33,11 @@ class ResponsesUserMatch(ft.Container):
 
         self.result = ft.Column(
             controls=[
-                ft.Text(value=f"Ganador: {self.response.winner.value}", no_wrap=True),
                 ft.Text(
-                    value=f"Perdedor: {self.response.losser_points.value} tantos",
+                    value=f"Ganador:    {self.response.winner.value}", no_wrap=True
+                ),
+                ft.Text(
+                    value=f"Perdedor:    {self.response.losser_points.value} tantos",
                     no_wrap=True,
                 ),
             ],

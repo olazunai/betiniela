@@ -2,6 +2,7 @@ import flet as ft
 
 from app.configuration import Configuration
 from app.widgets.snack_bar import SnackBar
+from constants import BAR_COLOR
 from src.core.application.app.calculate_points_service import CalculatePointService
 from src.core.domain.dtos.data import Data
 from src.core.domain.entities.user import UserRole
@@ -13,10 +14,9 @@ class AppBar(ft.AppBar):
 
         self.data: Data = data
 
-        self.leading = ft.Icon(ft.Icons.PALETTE)
-        self.leading_width = 40
         self.title = ft.Text("Betiniela")
         self.center_title = True
+        self.bgcolor = BAR_COLOR
 
     def build(self):
         self._build_function()

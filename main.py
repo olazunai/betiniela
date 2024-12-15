@@ -4,6 +4,7 @@ import flet as ft
 
 from app.main_page import MainPage
 from app.login import Login
+from constants import PRIMARY_COLOR
 from container import MainContainer
 from src.core.application.user.user_retriever_service import UserRetrieverService
 from src.core.application.app.auth_service import AuthService
@@ -61,6 +62,7 @@ def main(page: ft.Page, container: MainContainer):
     page.horizontal_alignment = "center"
 
     page.theme_mode = ft.ThemeMode.DARK
+    page.bgcolor = PRIMARY_COLOR
 
     page.container = container
     page.logout = lambda x: logout(page=page)
@@ -80,4 +82,4 @@ def main(page: ft.Page, container: MainContainer):
 if __name__ == "__main__":
     container = MainContainer()
 
-    ft.app(partial(main, container=container))
+    ft.app(partial(main, container=container), assets_dir="assets")

@@ -34,12 +34,8 @@ class Betting(ft.Container):
         self._build_function()
 
     def _build_function(self):
-        self.padding = ft.Padding(
-            left=50,
-            right=50,
-            top=5,
-            bottom=5,
-        )
+        self.expand = True
+
         self.has_answered = self.user.has_answered.value
 
         self.answered_form = ft.Container(

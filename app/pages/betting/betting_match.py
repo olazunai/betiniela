@@ -16,26 +16,23 @@ class BettingMatch(ft.Container):
     ):
         super().__init__()
 
+        self.expand = True
+
         self.winner = ft.RadioGroup(
-            content=ft.Row(
+            content=ft.Column(
                 controls=[
                     ft.Text("Ganador:"),
-                    ft.Column(
-                        controls=[
-                            ft.Radio(
-                                value=match.local_team.value,
-                                label=match.local_team.value,
-                                width=180,
-                            ),
-                            ft.Radio(
-                                value=match.visitor_team.value,
-                                label=match.visitor_team.value,
-                                width=180,
-                            ),
-                        ],
+                    ft.Radio(
+                        value=match.local_team.value,
+                        label=match.local_team.value,
+                        width=180,
+                    ),
+                    ft.Radio(
+                        value=match.visitor_team.value,
+                        label=match.visitor_team.value,
+                        width=180,
                     ),
                 ],
-                wrap=True,
                 expand=True,
             ),
             on_change=self._winner_changer,
