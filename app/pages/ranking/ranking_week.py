@@ -25,6 +25,16 @@ class RankingWeek(ft.Container):
             ranking for ranking in self.data.rankings if ranking.week == self.week
         ]
 
+        self.info = ft.Container(
+            content=ft.Column(
+                controls=[
+                    ft.Text("+: Acertar partidos (jornada / total)"),
+                    ft.Text("++: Acertar tanteo (jornada / total)"),
+                ]
+            ),
+            padding=ft.padding.only(top=40, left=10),
+        )
+
         self.data_table = ft.Container(
             content=ft.DataTable(
                 columns=[
@@ -70,7 +80,7 @@ class RankingWeek(ft.Container):
                 data_row_max_height=float("inf"),
                 column_spacing=15,
             ),
-            padding=ft.padding.only(top=50),
+            padding=ft.padding.only(top=10),
         )
 
         self.no_data = ft.Container(
@@ -83,7 +93,7 @@ class RankingWeek(ft.Container):
         )
 
         if week_rankings:
-            self.content = self.data_table
+            self.content = ft.Column(controls=[self.info, self.data_table])
 
         else:
             self.content = self.no_data
