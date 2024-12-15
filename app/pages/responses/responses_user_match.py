@@ -42,7 +42,7 @@ class ResponsesUserMatch(ft.Container):
 
         self.edit_button = ft.Container(
             content=ft.IconButton(
-                icon=ft.icons.EDIT,
+                icon=ft.Icons.EDIT,
                 on_click=self._edit_response_modal,
             ),
             alignment=ft.alignment.center,

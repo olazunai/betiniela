@@ -16,13 +16,13 @@ class Register(LoginBody):
         self.user = ft.TextField(
             label="Usuario",
             border=ft.InputBorder.UNDERLINE,
-            icon=ft.icons.PERSON,
+            icon=ft.Icons.PERSON,
             on_change=self._validate,
         )
         self.password = ft.TextField(
             label="Contraseña",
             border=ft.InputBorder.UNDERLINE,
-            icon=ft.icons.LOCK,
+            icon=ft.Icons.LOCK,
             password=True,
             on_change=self._validate,
         )
@@ -41,7 +41,7 @@ class Register(LoginBody):
             controls=[
                 ft.Container(
                     content=ft.IconButton(
-                        icon=ft.icons.ARROW_BACK, on_click=self._go_login
+                        icon=ft.Icons.ARROW_BACK, on_click=self._go_login
                     ),
                 ),
                 ft.Container(

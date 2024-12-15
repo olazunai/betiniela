@@ -25,7 +25,7 @@ class CalendarMatch(ft.Container):
             bottom=5,
         )
         self.border_radius = ft.border_radius.all(5)
-        self.bgcolor = ft.colors.WHITE
+        self.bgcolor = ft.Colors.WHITE
         self.shape = ft.BoxShape.RECTANGLE
         self.width = 300
         self.alignment = ft.alignment.center
@@ -37,7 +37,7 @@ class CalendarMatch(ft.Container):
                     content=ft.Text(
                         value=self.match.local_team.value,
                         text_align=ft.TextAlign.CENTER,
-                        color=ft.colors.BLACK,
+                        color=ft.Colors.BLACK,
                         weight=ft.FontWeight.BOLD,
                         no_wrap=True,
                     ),
@@ -51,7 +51,7 @@ class CalendarMatch(ft.Container):
                             else f"{self.match.result.local_team} - {self.match.result.visitor_team}"
                         ),
                         text_align=ft.TextAlign.CENTER,
-                        color=ft.colors.BLACK,
+                        color=ft.Colors.BLACK,
                         weight=ft.FontWeight.BOLD,
                         no_wrap=True,
                     ),
@@ -61,7 +61,7 @@ class CalendarMatch(ft.Container):
                     content=ft.Text(
                         value=self.match.visitor_team.value,
                         text_align=ft.TextAlign.CENTER,
-                        color=ft.colors.BLACK,
+                        color=ft.Colors.BLACK,
                         weight=ft.FontWeight.BOLD,
                         no_wrap=True,
                     ),
@@ -71,7 +71,7 @@ class CalendarMatch(ft.Container):
                     content=ft.Text(
                         value=f"({self.match.location.value.capitalize()})",
                         text_align=ft.TextAlign.CENTER,
-                        color=ft.colors.BLACK,
+                        color=ft.Colors.BLACK,
                         weight=ft.FontWeight.BOLD,
                         no_wrap=True,
                     ),
@@ -95,8 +95,8 @@ class CalendarMatch(ft.Container):
             self.content.controls.append(
                 ft.Container(
                     content=ft.IconButton(
-                        icon=ft.icons.EDIT,
-                        icon_color=ft.colors.BLACK,
+                        icon=ft.Icons.EDIT,
+                        icon_color=ft.Colors.BLACK,
                         on_click=self._update_match_modal,
                     )
                 )
@@ -106,8 +106,8 @@ class CalendarMatch(ft.Container):
             self.content.controls.append(
                 ft.Container(
                     content=ft.IconButton(
-                        icon=ft.icons.DELETE,
-                        icon_color=ft.colors.BLACK,
+                        icon=ft.Icons.DELETE,
+                        icon_color=ft.Colors.BLACK,
                         on_click=self._delete_match_modal,
                     )
                 )

@@ -13,7 +13,7 @@ class SnackBar(ft.SnackBar):
         self._build_function()
 
     def _build_function(self):
-        self.bgcolor = ft.colors.GREEN if self.success else ft.colors.RED
+        self.bgcolor = ft.Colors.GREEN if self.success else ft.Colors.RED
         self.behavior = ft.SnackBarBehavior.FLOATING
         self.duration = 2500
 

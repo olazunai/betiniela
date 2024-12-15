@@ -18,14 +18,14 @@ class Login(LoginBody):
         self.user = ft.TextField(
             label=f"Usuario",
             border=ft.InputBorder.UNDERLINE,
-            icon=ft.icons.PERSON,
+            icon=ft.Icons.PERSON,
             on_change=self._validate,
             autofill_hints=ft.AutofillHint.NAME,
         )
         self.password = ft.TextField(
             label="Contraseña",
             border=ft.InputBorder.UNDERLINE,
-            icon=ft.icons.LOCK,
+            icon=ft.Icons.LOCK,
             password=True,
             can_reveal_password=True,
             on_change=self._validate,
@@ -36,7 +36,7 @@ class Login(LoginBody):
 
         self.log_in_button = ft.ElevatedButton(
             text="Iniciar sesión",
-            icon=ft.icons.LOGIN,
+            icon=ft.Icons.LOGIN,
             on_click=self._log_in,
             disabled=True,
         )

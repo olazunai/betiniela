@@ -13,7 +13,7 @@ class AppBar(ft.AppBar):
 
         self.data: Data = data
 
-        self.leading = ft.Icon(ft.icons.PALETTE)
+        self.leading = ft.Icon(ft.Icons.PALETTE)
         self.leading_width = 40
         self.title = ft.Text("Betiniela")
         self.center_title = True
@@ -27,7 +27,7 @@ class AppBar(ft.AppBar):
             items.append(
                 ft.PopupMenuItem(
                     text="Configuración",
-                    icon=ft.icons.SETTINGS,
+                    icon=ft.Icons.SETTINGS,
                     on_click=self._settings,
                 )
             )
@@ -36,13 +36,13 @@ class AppBar(ft.AppBar):
         items.append(
             ft.PopupMenuItem(
                 text="Cerrar sesión",
-                icon=ft.icons.LOGOUT,
+                icon=ft.Icons.LOGOUT,
                 on_click=self._logout,
             )
         )
 
         self.actions = [
-            ft.IconButton(icon=ft.icons.REFRESH, on_click=self._refresh),
+            ft.IconButton(icon=ft.Icons.REFRESH, on_click=self._refresh),
             ft.PopupMenuButton(
                 items=items,
                 menu_position=ft.PopupMenuPosition.UNDER,
@@ -52,7 +52,7 @@ class AppBar(ft.AppBar):
         if self.data.user.role == UserRole.SUPERUSER:
             self.actions.insert(
                 0,
-                ft.IconButton(icon=ft.icons.CALCULATE, on_click=self._calculate_points),
+                ft.IconButton(icon=ft.Icons.CALCULATE, on_click=self._calculate_points),
             )
 
     def _logout(self, e: ft.ControlEvent):

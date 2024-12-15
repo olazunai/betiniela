@@ -36,7 +36,7 @@ class Calendar(ft.Container):
                     tab_content=ft.Container(
                         content=ft.Text(option[0].capitalize() + option.split()[-1]),
                         shape=ft.BoxShape.CIRCLE,
-                        bgcolor=ft.colors.BLACK54,
+                        bgcolor=ft.Colors.BLACK54,
                         width=50,
                         height=50,
                         alignment=ft.alignment.center,
@@ -62,7 +62,7 @@ class Calendar(ft.Container):
             self.content.controls.append(
                 ft.Container(
                     ft.FloatingActionButton(
-                        icon=ft.icons.ADD,
+                        icon=ft.Icons.ADD,
                         on_click=self._create_match_modal,
                     ),
                     alignment=ft.alignment.bottom_right,
