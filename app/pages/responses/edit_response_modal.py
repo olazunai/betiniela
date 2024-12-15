@@ -1,5 +1,6 @@
 import flet as ft
 
+from app.pages.betting.betting_match import BettingMatch
 from app.widgets.snack_bar import SnackBar
 from src.core.application.response.response_updater_service import (
     ResponseUpdaterService,
@@ -21,7 +22,7 @@ class EditResponseModal(ft.AlertDialog):
     def _build_function(self):
         self.modal = False
 
-        self.form_match = BettingFormMatch(
+        self.form_match = BettingMatch(
             match=self.match, response=self.response, show_divider=False
         )
 

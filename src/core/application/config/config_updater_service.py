@@ -15,10 +15,12 @@ class ConfigUpdaterService:
         betting_limit: Optional[datetime] = None,
         right_winner_points: Optional[int] = None,
         right_losser_points: Optional[int] = None,
+        started_week: Optional[bool] = None,
     ) -> None:
         self.config_repository.update(
             current_week=Week.deserialize(current_week) if current_week else None,
             betting_limit=betting_limit,
             right_winner_points=right_winner_points,
             right_losser_points=right_losser_points,
+            started_week=started_week,
         )

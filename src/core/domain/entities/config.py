@@ -10,6 +10,7 @@ class Config:
     betting_limit: datetime
     right_winner_points: int
     right_losser_points: int
+    started_week: bool
 
     def serialize(self) -> dict:
         return {
@@ -17,6 +18,7 @@ class Config:
             "betting_limit": self.betting_limit.isoformat(),
             "right_winner_points": self.right_winner_points,
             "right_losser_points": self.right_losser_points,
+            "started_week": self.started_week,
         }
 
     @classmethod
@@ -26,4 +28,5 @@ class Config:
             betting_limit=datetime.fromisoformat(obj["betting_limit"]),
             right_winner_points=int(obj["right_winner_points"]),
             right_losser_points=int(obj["right_losser_points"]),
+            started_week=obj["started_week"],
         )

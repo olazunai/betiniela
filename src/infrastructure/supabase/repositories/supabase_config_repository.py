@@ -40,6 +40,7 @@ class SupabaseConfigRepository(ConfigRepository):
         betting_limit: Optional[datetime] = None,
         right_winner_points: Optional[int] = None,
         right_losser_points: Optional[int] = None,
+        started_week: Optional[bool] = None,
     ) -> None:
         url = f"{self._url}?select=id"
         result = requests.get(url=url, headers=self._auth_header)
@@ -59,6 +60,9 @@ class SupabaseConfigRepository(ConfigRepository):
 
         if right_losser_points is not None:
             values["right_losser_points"] = right_losser_points
+
+        if started_week is not None:
+            values["started_week"] = started_week
 
         if values:
             url = f"{self._url}?id=eq.{config_id}"

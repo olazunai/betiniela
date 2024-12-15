@@ -1,16 +1,19 @@
 import flet as ft
 
 from app.pages.responses.edit_response_modal import EditResponseModal
+from app.utils import is_week_started
+from src.core.domain.dtos.data import Data
 from src.core.domain.entities.match import Match
 from src.core.domain.entities.response import Response
 
 
 class ResponsesUserMatch(ft.Container):
-    def __init__(self, match: Match, response: Response):
+    def __init__(self, data: Data, match: Match, response: Response):
         super().__init__()
 
         self.response = response
         self.match = match
+        self.data: Data = data
 
     def build(self):
         self._build_function()
@@ -51,7 +54,7 @@ class ResponsesUserMatch(ft.Container):
 
         self.response_container = ft.Container(
             content=ft.Row(
-                controls=[self.result, self.edit_button],
+                controls=[self.result],
                 spacing=30,
                 alignment=ft.MainAxisAlignment.SPACE_BETWEEN,
             ),
@@ -64,6 +67,9 @@ class ResponsesUserMatch(ft.Container):
             ),
             width=500,
         )
+
+        if not is_week_started(data=self.data, week_name=self.match.week.name()):
+            self.response_container.content.controls.append(self.edit_button)
 
         self.betting_match = ft.Column(
             controls=[self.header, self.response_container],

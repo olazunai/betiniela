@@ -25,6 +25,7 @@ class Configuration(ft.AlertDialog):
         self.right_losser_points = ft.TextField(
             label="Puntos extra por resultado aceptado", expand=True
         )
+        self.started_week = ft.Checkbox(label="Jornada empezada", expand=True)
 
         editables = ft.Column(
             controls=[
@@ -64,6 +65,16 @@ class Configuration(ft.AlertDialog):
                         ft.ElevatedButton(
                             "Editar",
                             on_click=self._change_right_losser_points,
+                        ),
+                    ],
+                    expand=True,
+                ),
+                ft.Row(
+                    controls=[
+                        self.started_week,
+                        ft.ElevatedButton(
+                            "Editar",
+                            on_click=self._change_started_week,
                         ),
                     ],
                     expand=True,
@@ -143,6 +154,25 @@ class Configuration(ft.AlertDialog):
         try:
             config_updater_service(
                 right_losser_points=int(self.right_losser_points.value)
+            )
+
+            success = True
+            text = "Configuración actualizada correctamente"
+        except Exception as e:
+            success = False
+            text = f"Ha ocurrido un error al actualizar la configuración: {e}"
+
+        self.page.overlay.append(SnackBar(text=text, success=success, open=True))
+        self.page.update()
+
+    def _change_started_week(self, e: ft.ControlEvent) -> None:
+        config_updater_service: ConfigUpdaterService = (
+            self.page.container.services.config_updater_service
+        )
+
+        try:
+            config_updater_service(
+                started_week=self.started_week.value,
             )
 
             success = True

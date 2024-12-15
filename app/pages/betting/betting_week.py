@@ -79,7 +79,10 @@ class BettingWeek(ft.Container):
         )
 
         self.user_dropdown = ft.Dropdown(
-            options=[ft.dropdown.Option(key=str(user.id.value), text=user.name.value) for user in self.data.users],
+            options=[
+                ft.dropdown.Option(key=str(user.id.value), text=user.name.value)
+                for user in self.data.users
+            ],
             label="Selecciona el usuario",
         )
 
@@ -109,7 +112,11 @@ class BettingWeek(ft.Container):
         try:
             user = self.data.user
             if self.user_dropdown.value is not None:
-                user = [usr for usr in self.data.users if str(usr.id.value) == self.user_dropdown.value][0]
+                user = [
+                    usr
+                    for usr in self.data.users
+                    if str(usr.id.value) == self.user_dropdown.value
+                ][0]
 
             for betting_match in self.betting_matches:
                 response_creator_service(

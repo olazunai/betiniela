@@ -2,8 +2,9 @@ from datetime import datetime
 import flet as ft
 
 from app.pages.betting.betting_week import BettingWeek
+from app.utils import is_week_started
 from src.core.application.user.user_retriever_service import UserRetrieverService
-from src.core.domain.entities.user import User
+from src.core.domain.entities.user import User, UserRole
 from src.core.domain.entities.match import Match
 from src.core.domain.dtos.data import Data
 
@@ -16,31 +17,20 @@ class Betting(ft.Container):
         self.week_name = self.data.config.current_week.name()
 
         self.user: User = self.data.user
-        self.no_available = self._is_form_available()
-
-    def _is_form_available(self):
-        first_match: Match = sorted(
-            sorted(
-                self.data.matches_by_week.matches[self.week_name].matches,
-                key=lambda x: x.day,
-            )[0].matches,
-            key=lambda x: x.match_time,
-        )[0]
-        return datetime.now() > datetime.combine(
-            first_match.match_day, first_match.match_time
-        )
+        self.no_available = is_week_started(data=self.data, week_name=self.week_name)
 
     def build(self):
         self._build_function()
 
     def before_update(self):
-        self.no_available = self._is_form_available()
-
         user_retriever_service: UserRetrieverService = (
             self.page.container.services.user_retriever_service
         )
 
         self.user = user_retriever_service(self.user.id.value)
+        self.data.user = self.user
+
+        self.no_available = is_week_started(data=self.data, week_name=self.week_name)
         self._build_function()
 
     def _build_function(self):

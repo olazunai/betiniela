@@ -18,5 +18,6 @@ class ConfigRepository(ABC):
         betting_limit: Optional[datetime] = None,
         right_winner_points: Optional[int] = None,
         right_losser_points: Optional[int] = None,
+        started_week: Optional[bool] = None,
     ) -> None:
         pass
