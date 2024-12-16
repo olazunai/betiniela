@@ -65,12 +65,12 @@ class RankingWeek(ft.Container):
                             ft.DataCell(ft.Text(ranking.points.value)),
                             ft.DataCell(
                                 ft.Text(
-                                    f"{ranking.total_right_winner.value}/{ranking.total_right_losser.value}"
+                                    f"{ranking.right_winner.value}/{ranking.total_right_winner.value}"
                                 )
                             ),
                             ft.DataCell(
                                 ft.Text(
-                                    f"{ranking.right_winner.value}/{ranking.right_losser.value}"
+                                    f"{ranking.right_losser.value}/{ranking.total_right_losser.value}"
                                 )
                             ),
                         ],

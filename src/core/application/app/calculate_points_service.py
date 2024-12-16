@@ -14,7 +14,7 @@ from src.core.domain.entities.ranking import (
     RankingTotalRightWinner,
 )
 from src.core.domain.entities.response import Response
-from src.core.domain.entities.user import User, UserHasAnswered
+from src.core.domain.entities.user import User, UserHasAnswered, UserRole
 from src.core.domain.repositories.config_repository import ConfigRepository
 from src.core.domain.repositories.match_repository import MatchRepository
 from src.core.domain.repositories.ranking_repository import RankingRepository
@@ -35,6 +35,9 @@ class CalculatePointService:
         week = Week.deserialize(week_name)
         users: list[User] = self.user_repository.get()
         for user in users:
+
+            if user.role == UserRole.SUPERUSER:
+                continue
 
             points = 0
             right_losser = 0
@@ -67,7 +70,7 @@ class CalculatePointService:
             )
 
             self.user_repository.update_has_answered(
-                user_id=user.id, has_answered=UserHasAnswered(True)
+                user_id=user.id, has_answered=UserHasAnswered(False)
             )
 
     def _compute_match_points(self, match: Match, response: Response):

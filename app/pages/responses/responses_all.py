@@ -95,7 +95,7 @@ class ResponsesAll(ft.Container):
         )
 
     def _week_match_changer(self, event: ft.ControlEvent):
-        if self.selected_week is not None:
+        if self.week_dropdown.value is not None:
             self.selected_week = self.weeks.index(self.week_dropdown.value)
 
         if self.match_dropdown.value is not None:

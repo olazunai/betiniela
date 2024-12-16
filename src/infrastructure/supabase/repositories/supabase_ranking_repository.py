@@ -40,7 +40,8 @@ class SupabaseRankingRepository(RankingRepository):
 
         result = requests.post(url=self._url, headers=headers, data=ranking.serialize())
 
-        if result.status_code != 200:
+        if result.status_code not in [200, 201]:
+            print(result.status_code)
             raise SupabaseException(result.text)
 
     def get_by_id(self, ranking_id: RankingID) -> Optional[Ranking]:

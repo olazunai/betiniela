@@ -1,5 +1,4 @@
 from dataclasses import dataclass
-from datetime import datetime
 from typing import Optional
 
 import requests
@@ -37,7 +36,6 @@ class SupabaseConfigRepository(ConfigRepository):
     def update(
         self,
         current_week: Optional[Week] = None,
-        betting_limit: Optional[datetime] = None,
         right_winner_points: Optional[int] = None,
         right_losser_points: Optional[int] = None,
         started_week: Optional[bool] = None,
@@ -51,9 +49,6 @@ class SupabaseConfigRepository(ConfigRepository):
 
         if current_week is not None:
             values["current_week"] = current_week.serialize()
-
-        if betting_limit is not None:
-            values["betting_limit"] = betting_limit.isoformat()
 
         if right_winner_points is not None:
             values["right_winner_points"] = right_winner_points

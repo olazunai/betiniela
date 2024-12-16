@@ -16,9 +16,6 @@ class Configuration(ft.AlertDialog):
 
     def _build_function(self):
         self.current_week = ft.TextField(label="Jornada actual", expand=True)
-        self.betting_limit = ft.TextField(
-            label="Fecha y hora ('yyyy/mm/dd HH:MM:SS')", expand=True
-        )
         self.right_winner_points = ft.TextField(
             label="Puntos por partido acertado", expand=True
         )
@@ -35,16 +32,6 @@ class Configuration(ft.AlertDialog):
                         ft.ElevatedButton(
                             "Editar",
                             on_click=self._change_current_week,
-                        ),
-                    ],
-                    expand=True,
-                ),
-                ft.Row(
-                    controls=[
-                        self.betting_limit,
-                        ft.ElevatedButton(
-                            "Editar",
-                            on_click=self._change_betting_limit,
                         ),
                     ],
                     expand=True,
@@ -99,26 +86,6 @@ class Configuration(ft.AlertDialog):
 
         try:
             config_updater_service(current_week=self.current_week.value)
-            success = True
-            text = "Configuración actualizada correctamente"
-        except Exception as e:
-            success = False
-            text = f"Ha ocurrido un error al actualizar la configuración: {e}"
-
-        self.page.overlay.append(SnackBar(text=text, success=success, open=True))
-        self.page.update()
-
-    def _change_betting_limit(self, e: ft.ControlEvent) -> None:
-        config_updater_service: ConfigUpdaterService = (
-            self.page.container.services.config_updater_service
-        )
-
-        try:
-            config_updater_service(
-                betting_limit=datetime.strptime(
-                    self.betting_limit.value, "%Y/%m/%d %H:%M:%S"
-                )
-            )
             success = True
             text = "Configuración actualizada correctamente"
         except Exception as e:
