@@ -53,11 +53,11 @@ class ResponsesAll(ft.Container):
             options=[
                 ft.dropdown.Option(
                     key=match.id.value,
-                    text=f"{match.local_team.value} vs {match.visitor_team.value}",
+                    content=ft.Container(content=ft.Text(f"{match.local_team.value} vs {match.visitor_team.value}", overflow=ft.TextOverflow.ELLIPSIS), width=300),
                 )
                 for match in self.matches
             ],
-            width=400,
+            width=320,
             label="Selecciona el partido",
             on_change=self._match_changer,
             value=default_match_value,

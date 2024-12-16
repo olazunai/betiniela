@@ -47,7 +47,7 @@ class RankingTable(ft.Container):
                                     ranking.user_name.value,
                                     overflow=ft.TextOverflow.ELLIPSIS,
                                 ),
-                                width=120,
+                                width=100,
                             )
                         ),
                         ft.DataCell(ft.Text(ranking.points.value)),
@@ -67,7 +67,7 @@ class RankingTable(ft.Container):
                 for i, ranking in enumerate(self.rankings, start=1)
             ],
             data_row_max_height=float("inf"),
-            column_spacing=15,
+            column_spacing=10,
         )
 
         self.content = self.data_table

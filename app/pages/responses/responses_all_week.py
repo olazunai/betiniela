@@ -74,7 +74,7 @@ class ResponsesAllWeek(ft.Container):
             self.content = self.no_response
 
         elif match_responses:
-            self.content = ft.Column(controls=self.expansions)
+            self.content = ft.Column(controls=self.expansions, scroll=ft.ScrollMode.ALWAYS)
 
         else:
             self.content = self.no_response
