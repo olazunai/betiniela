@@ -1,6 +1,6 @@
-from textwrap import wrap
 import flet as ft
 
+from app.pages.ranking.ranking_table import RankingTable
 from src.core.domain.entities.ranking import Ranking
 from src.core.domain.value_objects.week import Week
 from src.core.domain.dtos.data import Data
@@ -28,59 +28,11 @@ class RankingWeek(ft.Container):
         self.info = ft.Container(
             content=ft.Column(
                 controls=[
-                    ft.Text("+: Acertar partidos (jornada / total)"),
-                    ft.Text("++: Acertar tanteo (jornada / total)"),
+                    ft.Text("+: Aciertos jornada (partido / tanteo)"),
+                    ft.Text("++: Total aciertos (partido / tanteo)"),
                 ]
             ),
             padding=ft.padding.only(top=40, left=10),
-        )
-
-        self.data_table = ft.Container(
-            content=ft.DataTable(
-                columns=[
-                    ft.DataColumn(ft.Text(""), numeric=True),
-                    ft.DataColumn(ft.Text("")),
-                    ft.DataColumn(ft.Text("Tot."), numeric=True),
-                    ft.DataColumn(ft.Text("Jor."), numeric=True),
-                    ft.DataColumn(ft.Text("+"), numeric=True),
-                    ft.DataColumn(
-                        ft.Text("++", tooltip=ft.Tooltip(message="Tanteo acertado")),
-                        numeric=True,
-                    ),
-                ],
-                rows=[
-                    ft.DataRow(
-                        cells=[
-                            ft.DataCell(ft.Text(i)),
-                            ft.DataCell(
-                                ft.Container(
-                                    content=ft.Text(
-                                        ranking.user_name.value,
-                                        overflow=ft.TextOverflow.ELLIPSIS,
-                                    ),
-                                    width=120,
-                                )
-                            ),
-                            ft.DataCell(ft.Text(ranking.total_points.value)),
-                            ft.DataCell(ft.Text(ranking.points.value)),
-                            ft.DataCell(
-                                ft.Text(
-                                    f"{ranking.right_winner.value}/{ranking.total_right_winner.value}"
-                                )
-                            ),
-                            ft.DataCell(
-                                ft.Text(
-                                    f"{ranking.right_losser.value}/{ranking.total_right_losser.value}"
-                                )
-                            ),
-                        ],
-                    )
-                    for i, ranking in enumerate(week_rankings, start=1)
-                ],
-                data_row_max_height=float("inf"),
-                column_spacing=15,
-            ),
-            padding=ft.padding.only(top=10),
         )
 
         self.no_data = ft.Container(
@@ -89,11 +41,11 @@ class RankingWeek(ft.Container):
                 text_align=ft.TextAlign.CENTER,
             ),
             alignment=ft.alignment.center,
-            padding=ft.padding.only(top=20),
+            padding=ft.padding.only(top=80),
         )
 
         if week_rankings:
-            self.content = ft.Column(controls=[self.info, self.data_table])
+            self.content = ft.Column(controls=[self.info, RankingTable(rankings=week_rankings)])
 
         else:
             self.content = self.no_data

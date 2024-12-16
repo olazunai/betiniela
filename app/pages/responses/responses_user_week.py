@@ -40,6 +40,9 @@ class ResponsesUserWeek(ft.Container):
 
         self.responses = []
         for response in self.week_responses:
+            if response.user_id.value != self.user_id.value:
+                continue
+            
             match_id = response.match_id.value
             for date_matches in self.week_matches.matches:
                 for match in date_matches.matches:

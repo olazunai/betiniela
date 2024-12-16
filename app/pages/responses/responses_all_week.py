@@ -70,7 +70,7 @@ class ResponsesAllWeek(ft.Container):
                 )
             )
 
-        if is_week_started(data=self.data, week_name=self.week.name()):
+        if not is_week_started(data=self.data, week_name=self.week.name()):
             self.content = self.no_response
 
         elif match_responses:

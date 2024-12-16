@@ -40,7 +40,7 @@ class SupabaseMatchRepository(MatchRepository):
 
         result = requests.get(url=url, headers=self._auth_header)
 
-        if result.status_code != 200:
+        if result.status_code != 204:
             raise SupabaseException(result.text)
 
         if not result.json():
@@ -54,6 +54,7 @@ class SupabaseMatchRepository(MatchRepository):
         result = requests.delete(url=url, headers=self._auth_header)
 
         if result.status_code != 200:
+            print(result.status_code)
             raise SupabaseException(result.text)
 
     def get(self, week: Week = None) -> list[Match]:
@@ -93,8 +94,6 @@ class SupabaseMatchRepository(MatchRepository):
 
         if result is not None:
             values["result"] = result.serialize()
-
-        print(values)
 
         if values:
             url = f"{self._url}?id=eq.{str(match_id.value)}"

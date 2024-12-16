@@ -1,6 +1,7 @@
 import flet as ft
 
 from app.pages.ranking.ranking_week import RankingWeek
+from app.utils import is_week_started
 from app.widgets.body import Body
 from constants import SECONDARY_COLOR
 from src.core.domain.value_objects.week import Week
@@ -20,6 +21,13 @@ class Ranking(Body):
             self.selected_week = sorted(self.data.matches_by_week.matches.keys()).index(
                 self.data.config.current_week.name()
             )
+            if (
+                is_week_started(
+                    week_name=self.data.config.current_week.name(), data=self.data
+                )
+                and self.selected_week > 0
+            ):
+                self.selected_week -= 1
         except ValueError:
             self.selected_week = None
 
