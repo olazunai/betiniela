@@ -25,10 +25,10 @@ class ResponsesUserWeek(ft.Container):
             self.page.container.services.response_list_service
         )
 
-        responses = response_list_service(week=self.week, user_id=self.user_id.value)
+        responses = response_list_service(week=self.week)
         self.data.responses_by_week.responses.update(responses.responses)
 
-        self.build()
+        self._build_function()
 
     def _build_function(self):
         self.week_responses: list[Response] = self.data.responses_by_week.responses.get(
@@ -42,7 +42,7 @@ class ResponsesUserWeek(ft.Container):
         for response in self.week_responses:
             if response.user_id.value != self.user_id.value:
                 continue
-            
+
             match_id = response.match_id.value
             for date_matches in self.week_matches.matches:
                 for match in date_matches.matches:

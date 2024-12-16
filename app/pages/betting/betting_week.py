@@ -97,9 +97,6 @@ class BettingWeek(ft.Container):
         response_creator_service: ResponseCreatorService = (
             self.page.container.services.response_creator_service
         )
-        user_has_answered_updater_service: UserHasNasweredUpdaterService = (
-            self.page.container.services.user_has_answered_updater_service
-        )
 
         for betting_match in self.betting_matches:
             if not all(
@@ -131,11 +128,6 @@ class BettingWeek(ft.Container):
                     winner_team=betting_match.data.winner,
                     losser_points=betting_match.data.losser,
                 )
-
-            user_has_answered_updater_service(
-                user_id=user.id.value,
-                has_answered=True,
-            )
 
             self.sent_success.open = True
         except Exception as e:

@@ -25,8 +25,12 @@ class RankingTable(ft.Container):
             columns=[
                 ft.DataColumn(ft.Text(""), numeric=True),
                 ft.DataColumn(ft.Text("")),
-                ft.DataColumn(ft.Text("Jor."), numeric=True, on_sort=self._sort_table_by_jor),
-                ft.DataColumn(ft.Text("Tot."), numeric=True, on_sort=self._sort_table_by_tot),
+                ft.DataColumn(
+                    ft.Text("Jor."), numeric=True, on_sort=self._sort_table_by_jor
+                ),
+                ft.DataColumn(
+                    ft.Text("Tot."), numeric=True, on_sort=self._sort_table_by_tot
+                ),
                 ft.DataColumn(ft.Text("+"), numeric=True),
                 ft.DataColumn(
                     ft.Text("++", tooltip=ft.Tooltip(message="Tanteo acertado")),
@@ -66,17 +70,20 @@ class RankingTable(ft.Container):
             column_spacing=15,
         )
 
-
         self.content = self.data_table
 
     def _sort_table_by_jor(self, e: ft.DataColumnSortEvent):
-        self.rankings = sorted(self.rankings, reverse=not e.ascending, key=lambda x: x.points.value)
+        self.rankings = sorted(
+            self.rankings, reverse=not e.ascending, key=lambda x: x.points.value
+        )
         self.sort_column_index = 2
         self.sort_ascending = e.ascending
         self.update()
 
     def _sort_table_by_tot(self, e: ft.DataColumnSortEvent):
-        self.rankings = sorted(self.rankings, reverse=not e.ascending, key=lambda x: x.total_points.value)
+        self.rankings = sorted(
+            self.rankings, reverse=not e.ascending, key=lambda x: x.total_points.value
+        )
         self.sort_column_index = 3
         self.sort_ascending = e.ascending
         self.update()

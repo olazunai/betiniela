@@ -45,7 +45,9 @@ class RankingWeek(ft.Container):
         )
 
         if week_rankings:
-            self.content = ft.Column(controls=[self.info, RankingTable(rankings=week_rankings)])
+            self.content = ft.Column(
+                controls=[self.info, RankingTable(rankings=week_rankings)]
+            )
 
         else:
             self.content = self.no_data

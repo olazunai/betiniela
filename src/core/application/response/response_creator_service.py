@@ -47,4 +47,4 @@ class ResponseCreatorService:
             response_time=datetime.now(),
         )
 
-        self.response_repository.add(response)
+        self.response_repository.add_or_update(response)

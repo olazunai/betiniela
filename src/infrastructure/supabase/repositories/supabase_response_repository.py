@@ -37,6 +37,18 @@ class SupabaseResponseRepository(ResponseRepository):
         if result.status_code != 201:
             raise SupabaseException(result.text)
 
+    def add_or_update(self, response: Response) -> None:
+        headers = self._auth_header
+        headers["Prefer"] = "resolution=merge-duplicates"
+
+        result = requests.post(
+            url=self._url, headers=headers, data=response.serialize()
+        )
+
+        if result.status_code not in [200, 201]:
+            print(result.status_code)
+            raise SupabaseException(result.text)
+
     def get_by_id(self, response_id: ResponseID) -> Optional[Response]:
         url = f"{self._url}?id=eq.{str(response_id.value)}"
 

@@ -20,6 +20,7 @@ class Calendar(ft.Container):
             ).index(self.data.config.current_week.name())
         except ValueError:
             self.selected_index = None
+
         self._build_function(self.selected_index)
 
     def did_mount(self):

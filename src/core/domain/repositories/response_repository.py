@@ -14,6 +14,10 @@ class ResponseRepository(ABC):
         pass
 
     @abstractmethod
+    def add_or_update(self, response: Response) -> None:
+        pass
+
+    @abstractmethod
     def get_by_id(self, response_id: ResponseID) -> Optional[Response]:
         pass
 
