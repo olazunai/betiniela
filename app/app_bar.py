@@ -2,7 +2,7 @@ import flet as ft
 
 from app.configuration import Configuration
 from app.widgets.snack_bar import SnackBar
-from constants import BAR_COLOR
+from constants import BAR_COLOR, SECONDARY_COLOR
 from src.core.application.app.calculate_points_service import CalculatePointService
 from src.core.domain.dtos.data import Data
 from src.core.domain.entities.user import UserRole
@@ -52,7 +52,7 @@ class AppBar(ft.AppBar):
         if self.data.user.role == UserRole.SUPERUSER:
             self.actions.insert(
                 0,
-                ft.IconButton(icon=ft.Icons.CALCULATE, on_click=self._calculate_points),
+                ft.IconButton(icon=ft.Icons.CALCULATE, on_click=self._calculate_points_modal),
             )
 
     def _logout(self, e: ft.ControlEvent):
@@ -76,14 +76,30 @@ class AppBar(ft.AppBar):
                 self.page.controls[0].loading.visible = False
                 self.page.controls[0].loading.update()
 
+    def _calculate_points_modal(self, e: ft.ControlEvent):
+        self.week_dropdown = ft.Dropdown(
+            options=[ft.dropdown.Option(option) for option in sorted(self.data.matches_by_week.matches.keys())],
+            width=200,
+            label="Selecciona la jornada",
+            bgcolor=SECONDARY_COLOR,
+        )
+
+        button = ft.ElevatedButton("Compute", on_click=self._calculate_points)
+
+        modal = ft.AlertDialog(
+            content=self.week_dropdown,
+            actions=[button]
+        )
+
+        self.page.open(modal)
+
     def _calculate_points(self, e: ft.ControlEvent):
         calculate_points_service: CalculatePointService = (
             self.page.container.services.calculate_points_service
         )
 
         try:
-            week_name = self.data.config.current_week.name()
-            calculate_points_service(week_name=week_name)
+            calculate_points_service(week_name=self.week_dropdown.value)
 
             success = True
             text = "Puntos calculados correctamente"
@@ -94,3 +110,5 @@ class AppBar(ft.AppBar):
         self.page.overlay.append(SnackBar(text=text, success=success, open=True))
 
         self.page.update()
+
+        
