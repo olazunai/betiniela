@@ -1,6 +1,7 @@
 import flet as ft
 
 from app.widgets.snack_bar import SnackBar
+from src.core.domain.exceptions import UserAlreadyExistsException
 from src.core.application.user.user_creator_service import UserCreatorService
 from app.widgets.login_body import LoginBody
 
@@ -99,6 +100,17 @@ class Register(LoginBody):
             self.page.clean()
             self.page.add(self.page.init_main_page(user=user))
             self.page.update()
+
+        except UserAlreadyExistsException:
+            self.page.overlay.append(
+                SnackBar(
+                    text=f"Este nombre de usuario ya existe.",
+                    success=False,
+                    open=True,
+                ),
+            )
+            self.page.update()
+
         except Exception as e:
             self.page.overlay.append(
                 SnackBar(

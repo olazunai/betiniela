@@ -79,7 +79,7 @@ class ResponsesUserMatch(ft.Container):
             horizontal_alignment=ft.CrossAxisAlignment.CENTER,
         )
 
-        self.edit_response = EditResponseModal(response=self.response, match=self.match)
+        self.edit_response = EditResponseModal(response=self.response, match=self.match, data=self.data)
 
         self.content = self.betting_match
 

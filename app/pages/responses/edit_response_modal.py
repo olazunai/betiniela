@@ -2,6 +2,8 @@ import flet as ft
 
 from app.pages.betting.betting_match import BettingMatch
 from app.widgets.snack_bar import SnackBar
+from app.utils import is_week_started
+from src.core.domain.dtos.data import Data
 from src.core.application.response.response_updater_service import (
     ResponseUpdaterService,
 )
@@ -10,11 +12,12 @@ from src.core.domain.entities.response import Response
 
 
 class EditResponseModal(ft.AlertDialog):
-    def __init__(self, match: Match, response: Response):
+    def __init__(self, match: Match, response: Response, data: Data):
         super().__init__()
 
         self.response = response
         self.match = match
+        self.data = data
 
     def build(self):
         self._build_function()
@@ -40,6 +43,20 @@ class EditResponseModal(ft.AlertDialog):
         response_updater_service: ResponseUpdaterService = (
             self.page.container.services.response_updater_service
         )
+        
+        if is_week_started(
+            data=self.data, week_name=self.match.week.name()
+        ):
+            self.page.close(self)
+            self.page.overlay.append(
+                SnackBar(
+                    text="La jornada ya ha empezado y no se pueden editar respuestas.",
+                    success=False,
+                    open=True,
+                ),
+            )
+            self.page.update()
+            return
 
         try:
             response_updater_service(

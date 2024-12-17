@@ -2,12 +2,10 @@ import flet as ft
 
 from app.pages.betting.betting_match import BettingMatch
 from app.widgets.snack_bar import SnackBar
+from app.utils import is_week_started
 from src.core.domain.entities.user import UserRole
 from src.core.application.response.response_creator_service import (
     ResponseCreatorService,
-)
-from src.core.application.user.user_has_answered_updater_service import (
-    UserHasNasweredUpdaterService,
 )
 from src.core.domain.dtos.data import Data
 
@@ -97,6 +95,19 @@ class BettingWeek(ft.Container):
         response_creator_service: ResponseCreatorService = (
             self.page.container.services.response_creator_service
         )
+
+        if is_week_started(
+            data=self.data, week_name=self.week_name
+        ):
+            self.page.overlay.append(
+                SnackBar(
+                    text="La jornada ya ha empezado y no se pueden enviar respuestas",
+                    success=False,
+                    open=True,
+                ),
+            )
+            self.page.update()
+            return
 
         for betting_match in self.betting_matches:
             if not all(
